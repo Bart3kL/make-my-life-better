@@ -1,17 +1,15 @@
-"use client";
-import React from "react";
+import { FormEvent } from "react";
 import Link from "next/link";
 
 import { AuthLabel } from "@/components/shared/AuthLabel";
 import { AuthInput } from "@/components/shared/AuthInput";
 import { FormProps } from "./types";
 import { cn } from "@/lib/utils";
+import { useForm } from "./hooks"; // Importujemy nasz nowy hook
 
 export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		console.log("Form submitted");
-	};
+	const { state, handleChange, handleSubmit } = useForm({ isSignInPage, isResetPasswordPage });
+
 	return (
 		<div className="shadow-input mx-auto w-full max-w-md rounded-2xl bg-white p-4 md:p-8 dark:bg-black">
 			<form className="my-8" onSubmit={handleSubmit}>
@@ -19,34 +17,76 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 					<div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
 						<LabelInputContainer>
 							<AuthLabel htmlFor="firstname">First name</AuthLabel>
-							<AuthInput id="firstname" placeholder="Tyler" type="text" />
+							<AuthInput
+								id="firstname"
+								placeholder="Tyler"
+								type="text"
+								value={state.firstname}
+								onChange={handleChange}
+							/>
+							{state.errors.firstname && (
+								<span className="text-red-500">{state.errors.firstname}</span>
+							)}
 						</LabelInputContainer>
 						<LabelInputContainer>
 							<AuthLabel htmlFor="lastname">Last name</AuthLabel>
-							<AuthInput id="lastname" placeholder="Durden" type="text" />
+							<AuthInput
+								id="lastname"
+								placeholder="Durden"
+								type="text"
+								value={state.lastname}
+								onChange={handleChange}
+							/>
+							{state.errors.lastname && (
+								<span className="text-red-500">{state.errors.lastname}</span>
+							)}
 						</LabelInputContainer>
 					</div>
 				)}
 				<LabelInputContainer className="mb-4">
 					<AuthLabel htmlFor="email">Email Address</AuthLabel>
-					<AuthInput id="email" placeholder="projectmayhem@fc.com" type="email" />
+					<AuthInput
+						id="email"
+						placeholder="projectmayhem@fc.com"
+						type="email"
+						value={state.email}
+						onChange={handleChange}
+					/>
+					{state.errors.email && <span className="text-red-500">{state.errors.email}</span>}
 				</LabelInputContainer>
 				{!isResetPasswordPage && (
 					<LabelInputContainer className="mb-4">
 						<AuthLabel htmlFor="password">Password</AuthLabel>
-						<AuthInput id="password" placeholder="••••••••" type="password" />
+						<AuthInput
+							id="password"
+							placeholder="••••••••"
+							type="password"
+							value={state.password}
+							onChange={handleChange}
+						/>
+						{state.errors.password && <span className="text-red-500">{state.errors.password}</span>}
 					</LabelInputContainer>
 				)}
 				{!isSignInPage && !isResetPasswordPage && (
 					<LabelInputContainer className="mb-8">
 						<AuthLabel htmlFor="repeatPassword">Repeat password</AuthLabel>
-						<AuthInput id="repeatPassword" placeholder="••••••••" type="repeatPassword" />
+						<AuthInput
+							id="repeatPassword"
+							placeholder="••••••••"
+							type="password"
+							value={state.repeatPassword}
+							onChange={handleChange}
+						/>
+						{state.errors.repeatPassword && (
+							<span className="text-red-500">{state.errors.repeatPassword}</span>
+						)}
 					</LabelInputContainer>
 				)}
 
 				<button
 					className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
 					type="submit"
+					disabled={state.isSubmitting}
 				>
 					{isSignInPage ? "Sign in " : isResetPasswordPage ? "Reset password " : "Sign up "} &rarr;
 					<BottomGradient />
@@ -72,36 +112,6 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 							</p>
 						)}
 					</p>
-					{/* <button
-            className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="submit"
-          >
-            <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-              GitHub
-            </span>
-            <BottomGradient />
-          </button>
-          <button
-            className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="submit"
-          >
-            <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-              Google
-            </span>
-            <BottomGradient />
-          </button>
-          <button
-            className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="submit"
-          >
-            <IconBrandOnlyfans className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-              OnlyFans
-            </span>
-            <BottomGradient />
-          </button> */}
 				</div>
 			</form>
 		</div>
