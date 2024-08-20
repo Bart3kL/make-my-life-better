@@ -1,8 +1,10 @@
-import { Link } from "./Link";
+import Link from "next/link";
 
-import { links, headingWords } from "./constants";
+import { SocialLink } from "./SocialLink";
 import { TypewriterEffectSmooth } from "@/components/shared/TypewriterEffectSmooth";
 import { Sparkles } from "@/components/shared/Sparkles";
+
+import { links, headingWords } from "./constants";
 
 export function Hero() {
 	return (
@@ -16,10 +18,14 @@ export function Hero() {
 					</p>
 					<div className="flex flex-col space-x-0 space-y-4 md:flex-row md:space-x-4 md:space-y-0">
 						<button className="h-10 w-40 rounded-xl border border-transparent bg-black text-sm text-white dark:border-white">
-							Join now
+							<Link href="/signup" className="flex h-full w-full items-center justify-center">
+								Join now
+							</Link>
 						</button>
 						<button className="h-10 w-40 rounded-xl border border-black bg-white text-sm text-black">
-							Sign in
+							<Link href="/signin" className="flex h-full w-full items-center justify-center">
+								Sign in
+							</Link>
 						</button>
 					</div>
 				</div>
@@ -27,7 +33,7 @@ export function Hero() {
 
 			<div className="absolute bottom-0 left-1/2 z-10 flex w-full translate-x-[-50%] transform flex-wrap justify-center gap-8 p-12 pt-5 sm:flex-row">
 				{links.map((link) => (
-					<Link key={link.title} {...link} />
+					<SocialLink key={link.title} {...link} />
 				))}
 			</div>
 
