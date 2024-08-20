@@ -1,18 +1,19 @@
-import { FormEvent } from "react";
 import Link from "next/link";
-
 import { AuthLabel } from "@/components/shared/AuthLabel";
 import { AuthInput } from "@/components/shared/AuthInput";
 import { FormProps } from "./types";
 import { cn } from "@/lib/utils";
-import { useForm } from "./hooks"; // Importujemy nasz nowy hook
+import { useForm } from "./hooks";
 
 export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 	const { state, handleChange, handleSubmit } = useForm({ isSignInPage, isResetPasswordPage });
 
 	return (
-		<div className="shadow-input mx-auto w-full max-w-md rounded-2xl bg-white p-4 md:p-8 dark:bg-black">
+		<div className="mx-auto w-full max-w-md rounded-2xl bg-white p-4 shadow-input md:p-8 dark:bg-black">
 			<form className="my-8" onSubmit={handleSubmit}>
+				{state.errors.form && (
+					<p className="mb-4 text-red-600 dark:text-red-500">{state.errors.form}</p>
+				)}
 				{!isSignInPage && !isResetPasswordPage && (
 					<div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
 						<LabelInputContainer>
@@ -23,10 +24,8 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 								type="text"
 								value={state.firstname}
 								onChange={handleChange}
+								error={state.errors.firstname}
 							/>
-							{state.errors.firstname && (
-								<span className="text-red-500">{state.errors.firstname}</span>
-							)}
 						</LabelInputContainer>
 						<LabelInputContainer>
 							<AuthLabel htmlFor="lastname">Last name</AuthLabel>
@@ -36,10 +35,8 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 								type="text"
 								value={state.lastname}
 								onChange={handleChange}
+								error={state.errors.lastname}
 							/>
-							{state.errors.lastname && (
-								<span className="text-red-500">{state.errors.lastname}</span>
-							)}
 						</LabelInputContainer>
 					</div>
 				)}
@@ -51,8 +48,8 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 						type="email"
 						value={state.email}
 						onChange={handleChange}
+						error={state.errors.email}
 					/>
-					{state.errors.email && <span className="text-red-500">{state.errors.email}</span>}
 				</LabelInputContainer>
 				{!isResetPasswordPage && (
 					<LabelInputContainer className="mb-4">
@@ -63,8 +60,8 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 							type="password"
 							value={state.password}
 							onChange={handleChange}
+							error={state.errors.password}
 						/>
-						{state.errors.password && <span className="text-red-500">{state.errors.password}</span>}
 					</LabelInputContainer>
 				)}
 				{!isSignInPage && !isResetPasswordPage && (
@@ -76,10 +73,8 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 							type="password"
 							value={state.repeatPassword}
 							onChange={handleChange}
+							error={state.errors.repeatPassword}
 						/>
-						{state.errors.repeatPassword && (
-							<span className="text-red-500">{state.errors.repeatPassword}</span>
-						)}
 					</LabelInputContainer>
 				)}
 
@@ -89,7 +84,8 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 					disabled={state.isSubmitting}
 				>
 					{isSignInPage ? "Sign in " : isResetPasswordPage ? "Reset password " : "Sign up "} &rarr;
-					<BottomGradient />
+					<span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
+					<span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
 				</button>
 
 				<div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
@@ -117,15 +113,6 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 		</div>
 	);
 }
-
-const BottomGradient = () => {
-	return (
-		<>
-			<span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
-			<span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
-		</>
-	);
-};
 
 const LabelInputContainer = ({
 	children,

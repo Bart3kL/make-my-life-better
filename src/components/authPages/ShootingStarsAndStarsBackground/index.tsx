@@ -1,18 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { ShootingStars } from "./ShootingStars";
-import { StarsBackground } from "./StarsBackground";
 import Link from "next/link";
 
-export function ShootingStarsAndStarsBackgroundDemo({
+import { ShootingStars } from "./ShootingStars";
+import { StarsBackground } from "./StarsBackground";
+
+import { ShootingStarsAndStarsBackgroundProps } from "./types";
+import { cn } from "@/lib/utils";
+
+export function ShootingStarsAndStarsBackground({
 	children,
 	className,
-}: {
-	children: React.ReactNode;
-	className?: string;
-}) {
+}: ShootingStarsAndStarsBackgroundProps) {
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
 
 	useEffect(() => {
@@ -69,9 +70,9 @@ export function ShootingStarsAndStarsBackgroundDemo({
 						<div className="absolute bottom-0 right-0 z-20 h-[100%] w-40 bg-slate-950 [mask-image:linear-gradient(to_left,white,transparent)]" />
 						<div className="absolute bottom-0 right-0 z-20 h-40 w-[100%] bg-slate-950 [mask-image:linear-gradient(to_top,white,transparent)]" />
 					</motion.div>
-					<div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-slate-950 blur-2xl"></div>
-					<div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
-					<div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-cyan-500 opacity-50 blur-3xl"></div>
+					<div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-slate-950 blur-2xl" />
+					<div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md" />
+					<div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-cyan-500 opacity-50 blur-3xl" />
 					<motion.div
 						initial={{ width: isMobile ? "4rem" : "8rem" }}
 						whileInView={{ width: isMobile ? "8rem" : "16rem" }}
@@ -81,7 +82,7 @@ export function ShootingStarsAndStarsBackgroundDemo({
 							ease: "easeInOut",
 						}}
 						className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-cyan-400 blur-2xl"
-					></motion.div>
+					/>
 					<motion.div
 						initial={{ width: isMobile ? "7.5rem" : "15rem" }}
 						whileInView={{ width: isMobile ? "15rem" : "30rem" }}
@@ -91,9 +92,9 @@ export function ShootingStarsAndStarsBackgroundDemo({
 							ease: "easeInOut",
 						}}
 						className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-cyan-400"
-					></motion.div>
+					/>
 
-					<div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950"></div>
+					<div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950" />
 				</div>
 
 				<div className="relative z-50 mx-auto flex w-full max-w-md -translate-y-80 flex-col items-center px-5">

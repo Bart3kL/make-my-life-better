@@ -10,6 +10,7 @@ export interface FormState {
 		email?: string;
 		password?: string;
 		repeatPassword?: string;
+		form?: string;
 	};
 	isSubmitting: boolean;
 }

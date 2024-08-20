@@ -1,12 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
 
-import { ShootingStarsAndStarsBackgroundDemo } from "@/components/authPages/ShootingStarsAndStarsBackground";
+import { ShootingStarsAndStarsBackground } from "@/components/authPages/ShootingStarsAndStarsBackground";
 import { Form } from "@/components/authPages/Form";
 
 export default function SignUpPage() {
 	return (
-		<ShootingStarsAndStarsBackgroundDemo>
+		<ShootingStarsAndStarsBackground>
 			<motion.div
 				initial={{ opacity: 0.5, y: 100 }}
 				whileInView={{ opacity: 1, y: 0 }}
@@ -22,6 +22,6 @@ export default function SignUpPage() {
 				</h1>
 				<Form />
 			</motion.div>
-		</ShootingStarsAndStarsBackgroundDemo>
+		</ShootingStarsAndStarsBackground>
 	);
 }

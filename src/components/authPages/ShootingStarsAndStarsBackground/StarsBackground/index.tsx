@@ -2,31 +2,16 @@
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect, useRef, RefObject, useCallback } from "react";
 
-interface StarProps {
-	x: number;
-	y: number;
-	radius: number;
-	opacity: number;
-	twinkleSpeed: number | null;
-}
+import { StarsBackgroundProps, StarProps } from "./types";
 
-interface StarBackgroundProps {
-	starDensity?: number;
-	allStarsTwinkle?: boolean;
-	twinkleProbability?: number;
-	minTwinkleSpeed?: number;
-	maxTwinkleSpeed?: number;
-	className?: string;
-}
-
-export const StarsBackground: React.FC<StarBackgroundProps> = ({
+export const StarsBackground = ({
 	starDensity = 0.00015,
 	allStarsTwinkle = true,
 	twinkleProbability = 0.7,
 	minTwinkleSpeed = 0.5,
 	maxTwinkleSpeed = 1,
 	className,
-}) => {
+}: StarsBackgroundProps) => {
 	const [stars, setStars] = useState<StarProps[]>([]);
 	const canvasRef: RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
 

@@ -1,0 +1,30 @@
+import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { sql } from "@vercel/postgres";
+
+export async function POST(request: NextRequest) {
+	const { email, password } = await request.json();
+
+	if (!email || !password) {
+		return NextResponse.json({ message: "Email and password are required" }, { status: 400 });
+	}
+
+	const userResult = await sql`SELECT * FROM users WHERE email = ${email}`;
+
+	if (userResult.rows.length === 0) {
+		return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
+	}
+
+	const user = userResult.rows[0];
+
+	const isMatch = await bcrypt.compare(password, user.password);
+
+	if (!isMatch) {
+		return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
+	}
+
+	const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+
+	return NextResponse.json({ message: "Signed in successfully", token }, { status: 200 });
+}
