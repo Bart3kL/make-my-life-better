@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ShootingStars } from "./ShootingStars";
 import { StarsBackground } from "./StarsBackground";
+import Link from "next/link";
 
 export function ShootingStarsAndStarsBackgroundDemo({
 	children,
@@ -32,6 +33,13 @@ export function ShootingStarsAndStarsBackgroundDemo({
 
 	return (
 		<div className="relative flex h-full min-h-screen w-full flex-col items-center justify-center overflow-auto rounded-md">
+			<Link
+				href="/"
+				className="hover:border-width absolute left-[50%] top-5 z-30 translate-x-[-50%] rounded-full border border-neutral-200 px-4 py-2 text-sm font-medium text-white md:left-5 md:translate-x-0 dark:border-white/[0.3]"
+			>
+				<span>Home Page</span>
+				<span className="absolute inset-x-0 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+			</Link>
 			<div
 				className={cn(
 					"relative z-0 flex min-h-80 w-full flex-col items-center justify-center overflow-hidden rounded-md bg-slate-950",
@@ -40,7 +48,7 @@ export function ShootingStarsAndStarsBackgroundDemo({
 			>
 				<ShootingStars />
 				<StarsBackground />
-				<div className="relative isolate z-0 mt-44 flex w-full flex-1 scale-y-125 items-center justify-center">
+				<div className="relative isolate z-0 mt-56 flex w-full flex-1 scale-y-125 items-center justify-center md:mt-44">
 					<motion.div
 						{...getMotionDivProps(isMobile ? "7.5rem" : "15rem", isMobile ? "15rem" : "30rem")}
 						style={{
@@ -88,7 +96,7 @@ export function ShootingStarsAndStarsBackgroundDemo({
 					<div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950"></div>
 				</div>
 
-				<div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
+				<div className="relative z-50 mx-auto flex w-full max-w-md -translate-y-80 flex-col items-center px-5">
 					{children}
 				</div>
 			</div>

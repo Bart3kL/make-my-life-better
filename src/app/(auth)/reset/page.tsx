@@ -2,9 +2,10 @@
 import { motion } from "framer-motion";
 
 import { ShootingStarsAndStarsBackgroundDemo } from "@/components/authPages/ShootingStarsAndStarsBackground";
+
 import { Form } from "@/components/authPages/Form";
 
-export default function SignUpPage() {
+export default function SignIn() {
 	return (
 		<ShootingStarsAndStarsBackgroundDemo>
 			<motion.div
@@ -18,9 +19,9 @@ export default function SignUpPage() {
 				className="w-full"
 			>
 				<h1 className="mb-24 mt-80 bg-gradient-to-br from-slate-300 to-slate-500 bg-clip-text py-4 text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
-					Sign Up
+					Reset your password
 				</h1>
-				<Form />
+				<Form isResetPasswordPage />
 			</motion.div>
 		</ShootingStarsAndStarsBackgroundDemo>
 	);
