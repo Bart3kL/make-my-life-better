@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { ShootingStarsAndStarsBackground } from "@/components/authPages/ShootingStarsAndStarsBackground";
 
 import { Form } from "@/components/authPages/Form";
+import { Suspense } from "react";
+import { Spinner } from "@/components/shared/Spinner";
 
 export default function SignIn() {
 	return (
@@ -21,7 +23,9 @@ export default function SignIn() {
 				<h1 className="mb-24 mt-80 bg-gradient-to-br from-slate-300 to-slate-500 bg-clip-text py-4 text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
 					Sign in
 				</h1>
-				<Form isSignInPage />
+				<Suspense fallback={<Spinner />}>
+					<Form isSignInPage />
+				</Suspense>
 			</motion.div>
 		</ShootingStarsAndStarsBackground>
 	);
