@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { sql } from "@vercel/postgres";
-import mailgun from "mailgun-js";
+import sgMail from "@sendgrid/mail";
 
-const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY!, domain: process.env.MAILGUN_DOMAIN! });
+// Ustawienie klucza API SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 export async function POST(request: NextRequest) {
 	const { email } = await request.json();
@@ -12,27 +13,33 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ message: "Email is required" }, { status: 400 });
 	}
 
-	const user = await sql`SELECT * FROM users WHERE email = ${email}`;
+	const user = await sql`
+    SELECT * FROM users WHERE email = ${email}`;
+
 	if (user.rows.length === 0) {
 		return NextResponse.json({ message: "User not found" }, { status: 404 });
 	}
 
 	const resetToken = jwt.sign({ email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
-	await sql`UPDATE users SET reset_token = ${resetToken} WHERE email = ${email}`;
+	await sql`
+    UPDATE users SET reset_token = ${resetToken} WHERE email = ${email}`;
 
 	const msg = {
-		from: `YourApp <no-reply@${process.env.MAILGUN_DOMAIN}>`,
 		to: email,
-		subject: "Password Reset",
+		from: "bartosz.lewandowski@asttero.dev", // Zastąp "yourdomain.com" własną domeną
+		subject: "Password Reset - Make Your Life Better",
 		text: `You requested a password reset. Click the link to reset your password: ${process.env.NEXT_PUBLIC_FRONTEND_URL}/reset-password?token=${resetToken}`,
 		html: `<strong>You requested a password reset. Click the link to reset your password:</strong> <a href="${process.env.NEXT_PUBLIC_FRONTEND_URL}/reset-password?token=${resetToken}">Reset Password</a>`,
 	};
 
-	mg.messages().send(msg, function (error, body) {
-		if (error) {
-			return NextResponse.json({ message: "Error sending email", error }, { status: 500 });
-		}
-	});
-
-	return NextResponse.json({ message: "Password reset email sent" }, { status: 200 });
+	try {
+		await sgMail.send(msg);
+		return NextResponse.json({ message: "Password reset email sent" }, { status: 200 });
+	} catch (error: any) {
+		console.error("Error sending email:", error.message);
+		return NextResponse.json(
+			{ message: "Error sending email", error: error.message },
+			{ status: 500 },
+		);
+	}
 }

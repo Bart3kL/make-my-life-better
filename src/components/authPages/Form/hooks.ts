@@ -1,52 +1,77 @@
-import { useReducer, FormEvent } from "react";
+import { useReducer, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { FormState, FormProps } from "./types";
 import { initialState, formReducer } from "./actions";
 
-export function useForm({ isSignInPage, isResetPasswordPage }: FormProps) {
+export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage }: FormProps) {
 	const [state, dispatch] = useReducer(formReducer, initialState);
+	const searchParams = useSearchParams();
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch({ type: "SET_FIELD", field: e.target.id, value: e.target.value });
 	};
 
+	useEffect(() => {
+		if (isEnterNewPasswordPage) {
+			const token = searchParams.get("token");
+			if (token) {
+				dispatch({ type: "SET_FIELD", field: "token", value: token });
+			}
+		}
+	}, [isEnterNewPasswordPage, searchParams]);
+
 	const validate = (): Partial<FormState["errors"]> => {
 		const errors: Partial<FormState["errors"]> = {};
 
-		if (!state.email) {
-			errors.email = "Email is required";
-		} else if (!/\S+@\S+\.\S+/.test(state.email)) {
-			errors.email = "Email address is invalid";
-		}
+		if (isEnterNewPasswordPage) {
+			if (!state.newPassword) {
+				errors.newPassword = "New password is required";
+			} else if (state.newPassword.length < 6) {
+				errors.newPassword = "Password must be at least 6 characters";
+			}
+			if (state.newPassword !== state.repeatNewPassword) {
+				errors.repeatNewPassword = "Passwords don't match";
+			}
+			if (!state.repeatNewPassword) {
+				errors.repeatNewPassword = "Repeat new password is required";
+			}
+		} else {
+			if (!state.email) {
+				errors.email = "Email is required";
+			} else if (!/\S+@\S+\.\S+/.test(state.email)) {
+				errors.email = "Email address is invalid";
+			}
 
-		if (!isSignInPage && !isResetPasswordPage) {
-			if (!state.firstname) {
-				errors.firstname = "First name is required";
+			if (!isSignInPage && !isResetPasswordPage) {
+				if (!state.firstname) {
+					errors.firstname = "First name is required";
+				}
+				if (!state.lastname) {
+					errors.lastname = "Last name is required";
+				}
+				if (!state.password) {
+					errors.password = "Password is required";
+				} else if (state.password.length < 6) {
+					errors.password = "Password must be at least 6 characters";
+				}
+
+				if (state.password !== state.repeatPassword) {
+					errors.repeatPassword = "Passwords don't match";
+				}
+				if (!state.repeatPassword) {
+					errors.repeatPassword = "Repeat password is required";
+				}
 			}
-			if (!state.lastname) {
-				errors.lastname = "Last name is required";
-			}
-			if (!state.password) {
+
+			if (isSignInPage && !state.password) {
 				errors.password = "Password is required";
-			} else if (state.password.length < 6) {
-				errors.password = "Password must be at least 6 characters";
 			}
-
-			if (state.password !== state.repeatPassword) {
-				errors.repeatPassword = "Passwords don't match";
-			}
-			if (!state.repeatPassword) {
-				errors.repeatPassword = "Repeat password is required";
-			}
-		}
-
-		if (isSignInPage && !state.password) {
-			errors.password = "Password is required";
 		}
 
 		return errors;
 	};
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const errors = validate();
@@ -81,6 +106,18 @@ export function useForm({ isSignInPage, isResetPasswordPage }: FormProps) {
 					},
 					body: JSON.stringify({
 						email: state.email,
+					}),
+				});
+			} else if (isEnterNewPasswordPage) {
+				// Set new password
+				response = await fetch("/api/auth/reset", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						token: state.token,
+						newPassword: state.newPassword,
 					}),
 				});
 			} else {

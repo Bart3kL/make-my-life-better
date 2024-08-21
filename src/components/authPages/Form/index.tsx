@@ -5,8 +5,12 @@ import { FormProps } from "./types";
 import { cn } from "@/lib/utils";
 import { useForm } from "./hooks";
 
-export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
-	const { state, handleChange, handleSubmit } = useForm({ isSignInPage, isResetPasswordPage });
+export function Form({ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage }: FormProps) {
+	const { state, handleChange, handleSubmit } = useForm({
+		isSignInPage,
+		isResetPasswordPage,
+		isEnterNewPasswordPage,
+	});
 
 	return (
 		<div className="mx-auto w-full max-w-md rounded-2xl bg-white p-4 shadow-input md:p-8 dark:bg-black">
@@ -14,68 +18,97 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 				{state.errors.form && (
 					<p className="mb-4 text-red-600 dark:text-red-500">{state.errors.form}</p>
 				)}
-				{!isSignInPage && !isResetPasswordPage && (
-					<div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
-						<LabelInputContainer>
-							<AuthLabel htmlFor="firstname">First name</AuthLabel>
+				{isEnterNewPasswordPage ? (
+					<>
+						<LabelInputContainer className="mb-4">
+							<AuthLabel htmlFor="newPassword">Enter new password</AuthLabel>
 							<AuthInput
-								id="firstname"
-								placeholder="Tyler"
-								type="text"
-								value={state.firstname}
+								id="newPassword"
+								placeholder="••••••••"
+								type="password"
+								value={state.newPassword}
 								onChange={handleChange}
-								error={state.errors.firstname}
+								error={state.errors.newPassword}
 							/>
 						</LabelInputContainer>
-						<LabelInputContainer>
-							<AuthLabel htmlFor="lastname">Last name</AuthLabel>
+						<LabelInputContainer className="mb-4">
+							<AuthLabel htmlFor="repeatNewPassword">Repeat new password</AuthLabel>
 							<AuthInput
-								id="lastname"
-								placeholder="Durden"
-								type="text"
-								value={state.lastname}
+								id="repeatNewPassword"
+								placeholder="••••••••"
+								type="password"
+								value={state.repeatNewPassword}
 								onChange={handleChange}
-								error={state.errors.lastname}
+								error={state.errors.repeatNewPassword}
 							/>
 						</LabelInputContainer>
-					</div>
-				)}
-				<LabelInputContainer className="mb-4">
-					<AuthLabel htmlFor="email">Email Address</AuthLabel>
-					<AuthInput
-						id="email"
-						placeholder="projectmayhem@fc.com"
-						type="email"
-						value={state.email}
-						onChange={handleChange}
-						error={state.errors.email}
-					/>
-				</LabelInputContainer>
-				{!isResetPasswordPage && (
-					<LabelInputContainer className="mb-4">
-						<AuthLabel htmlFor="password">Password</AuthLabel>
-						<AuthInput
-							id="password"
-							placeholder="••••••••"
-							type="password"
-							value={state.password}
-							onChange={handleChange}
-							error={state.errors.password}
-						/>
-					</LabelInputContainer>
-				)}
-				{!isSignInPage && !isResetPasswordPage && (
-					<LabelInputContainer className="mb-8">
-						<AuthLabel htmlFor="repeatPassword">Repeat password</AuthLabel>
-						<AuthInput
-							id="repeatPassword"
-							placeholder="••••••••"
-							type="password"
-							value={state.repeatPassword}
-							onChange={handleChange}
-							error={state.errors.repeatPassword}
-						/>
-					</LabelInputContainer>
+					</>
+				) : (
+					<>
+						{!isSignInPage && !isResetPasswordPage && (
+							<div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
+								<LabelInputContainer>
+									<AuthLabel htmlFor="firstname">First name</AuthLabel>
+									<AuthInput
+										id="firstname"
+										placeholder="Tyler"
+										type="text"
+										value={state.firstname}
+										onChange={handleChange}
+										error={state.errors.firstname}
+									/>
+								</LabelInputContainer>
+								<LabelInputContainer>
+									<AuthLabel htmlFor="lastname">Last name</AuthLabel>
+									<AuthInput
+										id="lastname"
+										placeholder="Durden"
+										type="text"
+										value={state.lastname}
+										onChange={handleChange}
+										error={state.errors.lastname}
+									/>
+								</LabelInputContainer>
+							</div>
+						)}
+						<LabelInputContainer className="mb-4">
+							<AuthLabel htmlFor="email">Email Address</AuthLabel>
+							<AuthInput
+								id="email"
+								placeholder="projectmayhem@fc.com"
+								type="email"
+								value={state.email}
+								onChange={handleChange}
+								error={state.errors.email}
+							/>
+						</LabelInputContainer>
+						{!isResetPasswordPage && !isEnterNewPasswordPage && (
+							<LabelInputContainer className="mb-4">
+								<AuthLabel htmlFor="password">Password</AuthLabel>
+								<AuthInput
+									id="password"
+									placeholder="••••••••"
+									type="password"
+									value={state.password}
+									onChange={handleChange}
+									error={state.errors.password}
+								/>
+							</LabelInputContainer>
+						)}
+						{!isSignInPage && !isResetPasswordPage && (
+							<LabelInputContainer className="mb-8">
+								<AuthLabel htmlFor="repeatPassword">Repeat password</AuthLabel>
+								<AuthInput
+									id="repeatPassword"
+									placeholder="••••••••"
+									type="password"
+									value={state.repeatPassword}
+									onChange={handleChange}
+									error={state.errors.repeatPassword}
+								/>
+							</LabelInputContainer>
+						)}
+					</>
 				)}
 
 				<button
@@ -83,32 +116,17 @@ export function Form({ isSignInPage, isResetPasswordPage }: FormProps) {
 					type="submit"
 					disabled={state.isSubmitting}
 				>
-					{isSignInPage ? "Sign in " : isResetPasswordPage ? "Reset password " : "Sign up "} &rarr;
+					{isSignInPage
+						? "Sign in "
+						: isResetPasswordPage
+							? "Reset password "
+							: isEnterNewPasswordPage
+								? "Set new password "
+								: "Sign up "}{" "}
+					&rarr;
 					<span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
 					<span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
 				</button>
-
-				<div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
-
-				<div className="flex flex-col space-y-4">
-					<p>
-						{isSignInPage ? "Don't have an account?" : "Already have an account?"}{" "}
-						<Link
-							href={isSignInPage ? "/signup" : "/signin"}
-							className="text-neutral-700 underline dark:text-neutral-300"
-						>
-							{isSignInPage ? "Sign up" : "Sign in"}
-						</Link>
-						{isSignInPage && (
-							<p>
-								Forgot your password?{" "}
-								<Link href="/reset" className="text-neutral-700 underline dark:text-neutral-300">
-									Reset it
-								</Link>{" "}
-							</p>
-						)}
-					</p>
-				</div>
 			</form>
 		</div>
 	);

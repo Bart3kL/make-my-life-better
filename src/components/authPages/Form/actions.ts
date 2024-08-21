@@ -6,6 +6,9 @@ export const initialState: FormState = {
 	email: "",
 	password: "",
 	repeatPassword: "",
+	newPassword: "",
+	repeatNewPassword: "",
+	token: "",
 	errors: {},
 	isSubmitting: false,
 };

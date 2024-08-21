@@ -4,20 +4,26 @@ export interface FormState {
 	email: string;
 	password: string;
 	repeatPassword: string;
-	errors: {
-		firstname?: string;
-		lastname?: string;
-		email?: string;
-		password?: string;
-		repeatPassword?: string;
-		form?: string;
-	};
+	newPassword: string;
+	repeatNewPassword: string;
+	token: string;
+	errors: Partial<{
+		form: string;
+		firstname: string;
+		lastname: string;
+		email: string;
+		password: string;
+		repeatPassword: string;
+		newPassword: string;
+		repeatNewPassword: string;
+	}>;
 	isSubmitting: boolean;
 }
 
 export interface FormProps {
 	isSignInPage?: boolean;
 	isResetPasswordPage?: boolean;
+	isEnterNewPasswordPage?: boolean;
 }
 
 export type FormAction =
