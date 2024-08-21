@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
 export interface NextRequestWithUser extends NextRequest {
 	user?: any;
@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
 	console.log(`Incoming request for path: ${path}`);
 
-	const publicPages = ["/", "/signup", "/signin", "/reset"];
+	const publicPages = ["/", "/signup", "/signin", "/reset", "/reset-password"];
 
 	if (publicPages.includes(path) || PUBLIC_FILE.test(path)) {
 		return NextResponse.next();
@@ -29,8 +29,11 @@ export async function middleware(request: NextRequest) {
 		if (!secret) {
 			throw new Error("JWT_SECRET is not defined");
 		}
-		const decoded = jwt.verify(token, secret);
-		(request as NextRequestWithUser).user = decoded;
+
+		const secretKey = new TextEncoder().encode(secret);
+		const { payload } = await jwtVerify(token, secretKey);
+		(request as NextRequestWithUser).user = payload;
+
 		return NextResponse.next();
 	} catch (error) {
 		console.error("Token verification failed:", error);

@@ -26,5 +26,14 @@ export async function POST(request: NextRequest) {
 
 	const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
 
-	return NextResponse.json({ message: "Signed in successfully", token }, { status: 200 });
+	const response = NextResponse.json({ message: "Signed in successfully", token }, { status: 200 });
+
+	const options = {
+		httpOnly: true,
+		secure: true,
+		expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+	};
+	response.cookies.set("auth-token", token, options);
+
+	return response;
 }

@@ -34,7 +34,11 @@ export async function POST(request: NextRequest) {
 
 	try {
 		await sgMail.send(msg);
-		return NextResponse.json({ message: "Password reset email sent" }, { status: 200 });
+		const response = NextResponse.json({ message: "Password reset email sent" }, { status: 200 });
+
+		response.cookies.set("auth-token", "", { httpOnly: true, secure: true, expires: new Date(0) });
+
+		return response;
 	} catch (error: any) {
 		console.error("Error sending email:", error.message);
 		return NextResponse.json(

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { ReduxProvider } from "../components/shared/ReduxProvider";
+import { Providers } from "../components/shared/Providers";
 
 import "./globals.css";
 
@@ -18,10 +18,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ReduxProvider>
+		<Providers>
 			<html lang="en">
-				<body className={inter.className}>{children}</body>
+				<body className={inter.className}>{children} </body>
 			</html>
-		</ReduxProvider>
+		</Providers>
 	);
 }

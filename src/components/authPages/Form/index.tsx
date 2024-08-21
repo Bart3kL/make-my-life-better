@@ -7,7 +7,7 @@ import { useForm } from "./hooks";
 import { Links } from "@/components/authPages/Form/Links";
 
 export function Form({ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage }: FormProps) {
-	const { state, handleChange, handleSubmit } = useForm({
+	const { state, handleChange, handleSubmit, passwordResetLinkMessage } = useForm({
 		isSignInPage,
 		isResetPasswordPage,
 		isEnterNewPasswordPage,
@@ -35,7 +35,12 @@ export function Form({ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage
 						{state.errors.form}
 					</p>
 				)}
-				<Links {...{ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage }} />
+				<Links
+					isSignInPage={isSignInPage}
+					isResetPasswordPage={isResetPasswordPage}
+					isEnterNewPasswordPage={isEnterNewPasswordPage}
+					passwordResetLinkMessage={passwordResetLinkMessage}
+				/>
 			</form>
 		</div>
 	);

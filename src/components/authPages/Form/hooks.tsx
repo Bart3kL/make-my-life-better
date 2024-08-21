@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -9,6 +9,7 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 	const [state, dispatch] = useReducer(formReducer, initialState);
 	const searchParams = useSearchParams();
 	const router = useRouter();
+	const [passwordResetLinkMessage, setPasswordResetLinkMessage] = useState<string | null>(null);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch({ type: "SET_FIELD", field: event.target.id, value: event.target.value });
@@ -82,6 +83,9 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({ email: state.email, password: state.password }),
 					});
+					if (response.ok) {
+						router.push("/dashboard");
+					}
 					break;
 
 				case isResetPasswordPage:
@@ -90,6 +94,9 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({ email: state.email }),
 					});
+					if (response.ok) {
+						setPasswordResetLinkMessage("Password reset link has been sent to your email.");
+					}
 					break;
 
 				case isEnterNewPasswordPage:
@@ -98,6 +105,9 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({ token: state.token, newPassword: state.newPassword }),
 					});
+					if (response.ok) {
+						router.push("/signin");
+					}
 					break;
 
 				default:
@@ -111,7 +121,9 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 							password: state.password,
 						}),
 					});
-					router.push("/signin");
+					if (response.ok) {
+						router.push("/signin");
+					}
 			}
 
 			const data = await response.json();
@@ -119,7 +131,7 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 			if (!response.ok) {
 				dispatch({ type: "SET_ERRORS", errors: { form: data.message } });
 			} else {
-				console.log("Form submitted successfully", data);
+				console.log("Form submission successful", data);
 				dispatch({ type: "RESET_FORM" });
 			}
 		} catch (error) {
@@ -130,5 +142,5 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 		}
 	};
 
-	return { state, handleChange, handleSubmit };
+	return { state, handleChange, handleSubmit, passwordResetLinkMessage };
 }
