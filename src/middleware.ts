@@ -9,6 +9,7 @@ const PUBLIC_FILE = /\.(.*)$/;
 
 export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
+	console.log(`Incoming request for path: ${path}`);
 
 	const publicPages = ["/", "/signup", "/signin", "/reset"];
 
@@ -19,23 +20,27 @@ export async function middleware(request: NextRequest) {
 	const token = request.cookies.get("auth-token")?.value;
 
 	if (!token) {
+		console.log("No token found, redirecting to /signin");
 		return NextResponse.redirect(new URL("/signin", request.url));
 	}
 
 	try {
-		const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+		const secret = process.env.JWT_SECRET;
+		if (!secret) {
+			throw new Error("JWT_SECRET is not defined");
+		}
+		const decoded = jwt.verify(token, secret);
 		(request as NextRequestWithUser).user = decoded;
 		return NextResponse.next();
 	} catch (error) {
+		console.error("Token verification failed:", error);
 		return NextResponse.redirect(new URL("/signin", request.url));
 	}
 }
 
 export const config = {
 	matcher: [
-		/*
-		 * Match all request paths except for the ones defined here
-		 */
+		// Match all request paths except for the ones defined here
 		"/((?!api|_next/static|_next/image|favicon.ico).*)",
 	],
 };

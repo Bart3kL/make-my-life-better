@@ -1,14 +1,17 @@
 import { useReducer, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 import { FormState, FormProps } from "./types";
 import { initialState, formReducer } from "./actions";
 
 export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage }: FormProps) {
 	const [state, dispatch] = useReducer(formReducer, initialState);
 	const searchParams = useSearchParams();
+	const router = useRouter();
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch({ type: "SET_FIELD", field: e.target.id, value: e.target.value });
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch({ type: "SET_FIELD", field: event.target.id, value: event.target.value });
 	};
 
 	useEffect(() => {
@@ -23,56 +26,43 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 	const validate = (): Partial<FormState["errors"]> => {
 		const errors: Partial<FormState["errors"]> = {};
 
-		if (isEnterNewPasswordPage) {
-			if (!state.newPassword) {
-				errors.newPassword = "New password is required";
-			} else if (state.newPassword.length < 6) {
-				errors.newPassword = "Password must be at least 6 characters";
-			}
-			if (state.newPassword !== state.repeatNewPassword) {
-				errors.repeatNewPassword = "Passwords don't match";
-			}
-			if (!state.repeatNewPassword) {
-				errors.repeatNewPassword = "Repeat new password is required";
-			}
-		} else {
-			if (!state.email) {
-				errors.email = "Email is required";
-			} else if (!/\S+@\S+\.\S+/.test(state.email)) {
-				errors.email = "Email address is invalid";
-			}
+		switch (true) {
+			case isEnterNewPasswordPage:
+				if (!state.newPassword) errors.newPassword = "New password is required";
+				else if (state.newPassword.length < 6)
+					errors.newPassword = "Password must be at least 6 characters";
 
-			if (!isSignInPage && !isResetPasswordPage) {
-				if (!state.firstname) {
-					errors.firstname = "First name is required";
-				}
-				if (!state.lastname) {
-					errors.lastname = "Last name is required";
-				}
-				if (!state.password) {
-					errors.password = "Password is required";
-				} else if (state.password.length < 6) {
-					errors.password = "Password must be at least 6 characters";
+				if (state.newPassword !== state.repeatNewPassword)
+					errors.repeatNewPassword = "Passwords don't match";
+				if (!state.repeatNewPassword) errors.repeatNewPassword = "Repeat new password is required";
+				break;
+
+			default:
+				if (!state.email) errors.email = "Email is required";
+				else if (!/\S+@\S+\.\S+/.test(state.email)) errors.email = "Email address is invalid";
+
+				if (!isSignInPage && !isResetPasswordPage) {
+					if (!state.firstname) errors.firstname = "First name is required";
+					if (!state.lastname) errors.lastname = "Last name is required";
+
+					if (!state.password) errors.password = "Password is required";
+					else if (state.password.length < 6)
+						errors.password = "Password must be at least 6 characters";
+
+					if (state.password !== state.repeatPassword)
+						errors.repeatPassword = "Passwords don't match";
+					if (!state.repeatPassword) errors.repeatPassword = "Repeat password is required";
 				}
 
-				if (state.password !== state.repeatPassword) {
-					errors.repeatPassword = "Passwords don't match";
-				}
-				if (!state.repeatPassword) {
-					errors.repeatPassword = "Repeat password is required";
-				}
-			}
-
-			if (isSignInPage && !state.password) {
-				errors.password = "Password is required";
-			}
+				if (isSignInPage && !state.password) errors.password = "Password is required";
+				break;
 		}
 
 		return errors;
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 
 		const errors = validate();
 		if (Object.keys(errors).length > 0) {
@@ -85,55 +75,43 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 		try {
 			let response;
 
-			if (isSignInPage) {
-				// Sign in
-				response = await fetch("/api/auth/signin", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						email: state.email,
-						password: state.password,
-					}),
-				});
-			} else if (isResetPasswordPage) {
-				// Request reset password
-				response = await fetch("/api/auth/request-reset", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						email: state.email,
-					}),
-				});
-			} else if (isEnterNewPasswordPage) {
-				// Set new password
-				response = await fetch("/api/auth/reset", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						token: state.token,
-						newPassword: state.newPassword,
-					}),
-				});
-			} else {
-				// Sign up
-				response = await fetch("/api/auth/signup", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						firstname: state.firstname,
-						lastname: state.lastname,
-						email: state.email,
-						password: state.password,
-					}),
-				});
+			switch (true) {
+				case isSignInPage:
+					response = await fetch("/api/auth/signin", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ email: state.email, password: state.password }),
+					});
+					break;
+
+				case isResetPasswordPage:
+					response = await fetch("/api/auth/request-reset", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ email: state.email }),
+					});
+					break;
+
+				case isEnterNewPasswordPage:
+					response = await fetch("/api/auth/reset", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ token: state.token, newPassword: state.newPassword }),
+					});
+					break;
+
+				default:
+					response = await fetch("/api/auth/signup", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							firstname: state.firstname,
+							lastname: state.lastname,
+							email: state.email,
+							password: state.password,
+						}),
+					});
+					router.push("/signin");
 			}
 
 			const data = await response.json();
@@ -152,9 +130,5 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 		}
 	};
 
-	return {
-		state,
-		handleChange,
-		handleSubmit,
-	};
+	return { state, handleChange, handleSubmit };
 }
