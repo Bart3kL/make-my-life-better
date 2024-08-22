@@ -17,8 +17,8 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 	return (
 		<div
 			className={cn(
-				"border-paleLavender bg-white-2 flex w-full flex-1 flex-col overflow-hidden md:flex-row",
-				"h-screen",
+				"flex w-full flex-1 flex-col overflow-hidden border-paleLavender bg-white-2 md:flex-row",
+				"h-full min-h-screen",
 			)}
 		>
 			<SidebarProvider open={open} setOpen={setOpen}>
@@ -38,7 +38,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 								label: "Bartosz Lewandowski",
 								href: "/dashboard/profile",
 								icon: (
-									<TbUserCircle className="text-midnight h-8 w-8 flex-shrink-0" />
+									<TbUserCircle className="h-8 w-8 flex-shrink-0 text-midnight" />
 									// <Image
 									// 	src="https://assets.aceternity.com/manu.png"
 									// 	className="h-7 w-7 flex-shrink-0 rounded-full"
@@ -52,13 +52,11 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 					</div>
 				</SidebarBody>
 			</SidebarProvider>
-			<div className="flex flex-1">
-				<div className="text-midnight m-2 flex w-full flex-1 flex-col gap-2 rounded-2xl border border-neutral-200 bg-white p-2 md:m-0 md:p-10">
+			<div className="flex h-full min-h-screen flex-1">
+				<div className="m-2 flex h-full min-h-screen w-full flex-1 flex-col gap-2 rounded-2xl border border-neutral-200 bg-white-2 p-2 text-midnight md:m-0 md:p-10">
 					{children}
 				</div>
 			</div>
 		</div>
 	);
 }
-
-// Dummy dashboard component with content
