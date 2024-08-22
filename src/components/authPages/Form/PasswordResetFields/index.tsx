@@ -1,5 +1,5 @@
-import { AuthInput } from "@/components/shared/AuthInput";
-import { AuthLabel } from "@/components/shared/AuthLabel";
+import { AuthInput } from "@/components/shared/Input";
+import { AuthLabel } from "@/components/shared/Label";
 import { LabelInputContainer } from "@/components/shared/LabelInputContainer";
 
 import { PasswordResetFieldsProps } from "./types";

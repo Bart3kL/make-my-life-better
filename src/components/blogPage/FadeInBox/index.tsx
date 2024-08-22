@@ -4,11 +4,9 @@ import { Tab } from "../types";
 import { cn } from "@/lib/utils";
 
 export const FadeInBox = ({
-	className,
 	tabs,
 	hovering,
 }: {
-	className?: string;
 	key?: string;
 	tabs: Tab[];
 	active: Tab;
@@ -18,7 +16,7 @@ export const FadeInBox = ({
 		return tab.value === tabs[0].value;
 	};
 	return (
-		<div className="relative h-96 w-full">
+		<div className="relative w-full">
 			{tabs.map((tab, idx) => (
 				<motion.div
 					key={tab.value}
@@ -32,7 +30,7 @@ export const FadeInBox = ({
 					animate={{
 						y: isActive(tab) ? [0, 40, 0] : 0,
 					}}
-					className={cn("absolute left-0 top-0 mt-32 h-full w-full", className)}
+					className={"absolute left-0 top-0 mt-32 h-full w-full"}
 				>
 					{tab.content}
 				</motion.div>

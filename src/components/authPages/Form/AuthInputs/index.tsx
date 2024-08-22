@@ -1,5 +1,5 @@
-import { AuthInput } from "@/components/shared/AuthInput";
-import { AuthLabel } from "@/components/shared/AuthLabel";
+import { Input } from "@/components/shared/Input";
+import { Label } from "@/components/shared/Label";
 import { LabelInputContainer } from "@/components/shared/LabelInputContainer";
 
 import { AuthInputsProps } from "./types";
@@ -12,8 +12,8 @@ export const AuthInputs = ({ state, handleChange, config }: AuthInputsProps) => 
 			{!(isSignInPage || isResetPasswordPage) && (
 				<div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
 					<LabelInputContainer>
-						<AuthLabel htmlFor="firstname">First name</AuthLabel>
-						<AuthInput
+						<Label htmlFor="firstname">First name</Label>
+						<Input
 							id="firstname"
 							placeholder="Tyler"
 							type="text"
@@ -23,8 +23,8 @@ export const AuthInputs = ({ state, handleChange, config }: AuthInputsProps) => 
 						/>
 					</LabelInputContainer>
 					<LabelInputContainer>
-						<AuthLabel htmlFor="lastname">Last name</AuthLabel>
-						<AuthInput
+						<Label htmlFor="lastname">Last name</Label>
+						<Input
 							id="lastname"
 							placeholder="Durden"
 							type="text"
@@ -36,8 +36,8 @@ export const AuthInputs = ({ state, handleChange, config }: AuthInputsProps) => 
 				</div>
 			)}
 			<LabelInputContainer className="mb-4">
-				<AuthLabel htmlFor="email">Email Address</AuthLabel>
-				<AuthInput
+				<Label htmlFor="email">Email Address</Label>
+				<Input
 					id="email"
 					placeholder="projectmayhem@fc.com"
 					type="email"
@@ -48,8 +48,8 @@ export const AuthInputs = ({ state, handleChange, config }: AuthInputsProps) => 
 			</LabelInputContainer>
 			{!(isResetPasswordPage || isEnterNewPasswordPage) && (
 				<LabelInputContainer className="mb-4">
-					<AuthLabel htmlFor="password">Password</AuthLabel>
-					<AuthInput
+					<Label htmlFor="password">Password</Label>
+					<Input
 						id="password"
 						placeholder="••••••••"
 						type="password"
@@ -61,8 +61,8 @@ export const AuthInputs = ({ state, handleChange, config }: AuthInputsProps) => 
 			)}
 			{!(isSignInPage || isResetPasswordPage) && (
 				<LabelInputContainer className="mb-8">
-					<AuthLabel htmlFor="repeatPassword">Repeat password</AuthLabel>
-					<AuthInput
+					<Label htmlFor="repeatPassword">Repeat password</Label>
+					<Input
 						id="repeatPassword"
 						placeholder="••••••••"
 						type="password"
