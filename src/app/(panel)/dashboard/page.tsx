@@ -7,5 +7,5 @@ import { Form } from "@/components/authPages/Form";
 import { Spinner } from "@/components/shared/Spinner";
 
 export default function DashboardPage() {
-	return <div>Dashboad</div>;
+	return <div>Dashboad1</div>;
 }
