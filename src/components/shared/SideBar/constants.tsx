@@ -6,21 +6,21 @@ export const links = [
 	{
 		label: "Dashboard",
 		href: "/dashboard",
-		icon: <MdOutlineSpaceDashboard className="text-midnight h-8 w-8 flex-shrink-0" />,
+		icon: <MdOutlineSpaceDashboard className="h-8 w-8 flex-shrink-0" />,
 	},
 	{
-		label: "Profile",
+		label: "Blog",
 		href: "/dashboard/blog",
-		icon: <IoNewspaperOutline className="text-midnight h-8 w-8 flex-shrink-0" />,
+		icon: <IoNewspaperOutline className="h-8 w-8 flex-shrink-0" />,
 	},
 	{
 		label: "Linkedin",
 		href: "/dashboard/linkedin",
-		icon: <CiLinkedin className="text-midnight h-8 w-8 flex-shrink-0" />,
+		icon: <CiLinkedin className="h-8 w-8 flex-shrink-0" />,
 	},
 	{
 		label: "Logout",
 		href: "/",
-		icon: <CiLogout className="text-midnight h-8 w-8 flex-shrink-0" />,
+		icon: <CiLogout className="h-8 w-8 flex-shrink-0" />,
 	},
 ];
