@@ -1,4 +1,6 @@
 import { useReducer, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { BlogState, BlogAction } from "./types";
 import { initialState, blogReducer } from "./actions";
 
@@ -7,6 +9,8 @@ export function useBlogReducer() {
 		blogReducer,
 		initialState,
 	);
+
+	const router = useRouter();
 
 	const [loading, setLoading] = useState<boolean>(false);
 
@@ -116,6 +120,8 @@ export function useBlogReducer() {
 				const resultNewPost = await responseNewPost.json();
 
 				console.log(resultStructure.blogStructure, resultNewPost);
+
+				router.push(`/dashboard/blog/structure?blogPostId=${resultNewPost.blogPost.id}`);
 			} catch (error) {
 				console.error("Error during data processing:", error);
 				setLoading(false);

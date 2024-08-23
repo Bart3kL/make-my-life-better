@@ -8,8 +8,8 @@ export const createSections = (moveSelectedTabToTop: (idx: number) => void) => [
 	},
 
 	{
-		title: "Structure",
-		value: "1",
+		title: "Blog post structure",
+		value: "/structure",
 		content: <BlogStructure moveSelectedTabToTop={moveSelectedTabToTop} />,
 	},
 

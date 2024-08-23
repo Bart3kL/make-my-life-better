@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { FadeInBox } from "@/components/blogPage/FadeInBox";
 import { createSections } from "./constants";
+import Link from "next/link";
 
 export function TabsContainer() {
 	const tabs = createSections(moveSelectedTabToTop);
@@ -27,9 +28,9 @@ export function TabsContainer() {
 				{tabs.map((tab, idx) => {
 					const isActiveTab = active.value === tab.value;
 					return (
-						<button
+						<Link
 							key={tab.title}
-							onClick={() => moveSelectedTabToTop(idx)}
+							href={tab.value}
 							onMouseEnter={() => setHovering(true)}
 							onMouseLeave={() => setHovering(false)}
 							className={"relative rounded-full px-4 py-2"}
@@ -48,7 +49,7 @@ export function TabsContainer() {
 							<span className={cn("relative block text-midnight", isActiveTab && "text-white")}>
 								{tab.title}
 							</span>
-						</button>
+						</Link>
 					);
 				})}
 			</div>
