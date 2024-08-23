@@ -60,21 +60,21 @@ export function useBlogReducer() {
 			return false;
 		}
 
-		setLoading(true);
-
 		if (state.step === 1) {
 			dispatch({ type: "SET_STEP", payload: 2 });
 		} else {
+			setLoading(true);
 			let processedData: any = {};
 
 			try {
 				if (state.knowledgeUrls) {
 					const urls = state.knowledgeUrls.split(",").map((url) => url.trim());
-					const urlContents = await fetch("/api/blog/additionalknowledge/fetchContentFromUrls", {
+					const urlContents = await fetch("/api/blog/getContentFromUrls", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
 						},
+						cache: "no-cache",
 						body: JSON.stringify({ urls }),
 					}).then((res) => res.json());
 					processedData["urlsContent"] = urlContents.contents;
@@ -90,16 +90,32 @@ export function useBlogReducer() {
 					processedData["textEmbeddings"] = state.knowledgeText;
 				}
 
-				const response = await fetch("/api/blog/additionalknowledge/generateBlogPostStructure", {
+				const responseStructure = await fetch("/api/blog/generateBlogPostStructure", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
+					cache: "no-cache",
 					body: JSON.stringify({ titleBlogPost: state.titleBlogPost, processedData }),
 				});
-				const result = await response.json();
+				const resultStructure = await responseStructure.json();
 
-				console.log(result.blogStructure); // Log or use the generated blog structure as needed
+				const responseNewPost = await fetch("/api/blog/addBlogPostStructure", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					cache: "no-cache",
+					body: JSON.stringify({
+						userEmail: "blewandowski.2221@gmail.com",
+						title: state.titleBlogPost,
+						status: "onlyStructure",
+						structure: resultStructure.blogStructure,
+					}),
+				});
+				const resultNewPost = await responseNewPost.json();
+
+				console.log(resultStructure.blogStructure, resultNewPost);
 			} catch (error) {
 				console.error("Error during data processing:", error);
 				setLoading(false);
@@ -107,7 +123,9 @@ export function useBlogReducer() {
 			}
 		}
 
-		setLoading(false);
+		setTimeout(() => {
+			setLoading(false);
+		}, 2000);
 		return true;
 	};
 

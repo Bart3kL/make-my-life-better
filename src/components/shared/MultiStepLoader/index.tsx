@@ -1,4 +1,5 @@
 "use client";
+import ReactDOM from "react-dom";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -13,7 +14,7 @@ const CheckIcon = ({ className }: { className?: string }) => {
 			stroke="currentColor"
 			className={cn("h-6 w-6", className)}
 		>
-			<path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+			<path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
 		</svg>
 	);
 };
@@ -47,10 +48,10 @@ const LoaderCore = ({
 	value?: number;
 }) => {
 	return (
-		<div className="relative mx-auto mt-40 flex max-w-xl flex-col justify-start">
+		<div className="relative mx-auto mt-20 flex max-w-xl flex-col justify-start">
 			{loadingStates.map((loadingState, index) => {
 				const distance = Math.abs(index - value);
-				const opacity = Math.max(1 - distance * 0.2, 0); // Minimum opacity is 0, keep it 0.2 if you're sane.
+				const opacity = Math.max(1 - distance * 0.2, 0);
 
 				return (
 					<motion.div
@@ -58,7 +59,7 @@ const LoaderCore = ({
 						className={cn("mb-4 flex gap-2 text-left")}
 						initial={{ opacity: 0, y: -(value * 40) }}
 						animate={{ opacity: opacity, y: -(value * 40) }}
-						transition={{ duration: 0.5 }}
+						transition={{ duration: 0.2 }}
 					>
 						<div>
 							{index > value && <CheckIcon className="text-black dark:text-white" />}
@@ -89,7 +90,7 @@ const LoaderCore = ({
 export const MultiStepLoader = ({
 	loadingStates,
 	loading,
-	duration = 2000,
+	duration = 200 /* adjusted duration for faster step change */,
 	loop = true,
 }: {
 	loadingStates: LoadingState[];
@@ -116,7 +117,14 @@ export const MultiStepLoader = ({
 
 		return () => clearTimeout(timeout);
 	}, [currentState, loading, loop, loadingStates.length, duration]);
-	return (
+
+	if (typeof window === "undefined") return null;
+
+	const portalRoot = document.getElementById("portal-root");
+
+	if (!portalRoot) return null;
+
+	return ReactDOM.createPortal(
 		<AnimatePresence mode="wait">
 			{loading && (
 				<motion.div
@@ -126,18 +134,16 @@ export const MultiStepLoader = ({
 					animate={{
 						opacity: 1,
 					}}
-					exit={{
-						opacity: 0,
-					}}
-					className="fixed inset-0 z-[100] flex h-full w-full items-center justify-center backdrop-blur-2xl"
+					className="fixed top-0 z-[100] flex h-full w-full items-center justify-center bg-black"
 				>
-					<div className="relative h-96">
+					<div className="relative flex h-96 items-center justify-center">
 						<LoaderCore value={currentState} loadingStates={loadingStates} />
 					</div>
 
-					<div className="absolute inset-x-0 bottom-0 z-20 h-full bg-white bg-gradient-to-t [mask-image:radial-gradient(900px_at_center,transparent_30%,white)] dark:bg-black" />
+					<div className="absolute z-20 bg-black bg-gradient-to-t opacity-80" />
 				</motion.div>
 			)}
-		</AnimatePresence>
+		</AnimatePresence>,
+		portalRoot,
 	);
 };
