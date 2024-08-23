@@ -37,23 +37,14 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 							link={{
 								label: "Bartosz Lewandowski",
 								href: "/dashboard/profile",
-								icon: (
-									<TbUserCircle className="h-8 w-8 flex-shrink-0 text-midnight" />
-									// <Image
-									// 	src="https://assets.aceternity.com/manu.png"
-									// 	className="h-7 w-7 flex-shrink-0 rounded-full"
-									// 	width={50}
-									// 	height={50}
-									// 	alt="Avatar"
-									// />
-								),
+								icon: <TbUserCircle className="h-8 w-8 flex-shrink-0 text-midnight" />,
 							}}
 						/>
 					</div>
 				</SidebarBody>
 			</SidebarProvider>
-			<div className="flex h-full min-h-screen flex-1">
-				<div className="m-2 flex h-full min-h-screen w-full flex-1 flex-col gap-2 rounded-2xl border border-neutral-200 bg-white-2 p-2 text-midnight md:m-0 md:p-10">
+			<div className="flex h-full flex-1">
+				<div className="m-2 flex h-full w-full flex-1 flex-col gap-2 overflow-auto rounded-2xl border border-neutral-200 bg-white-2 p-2 text-midnight md:m-0 md:p-10">
 					{children}
 				</div>
 			</div>

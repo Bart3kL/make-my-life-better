@@ -1,19 +1,21 @@
 import { BlogStructure } from "./BlogStructure";
 
-export const sections = [
+export const createSections = (moveSelectedTabToTop: (idx: number) => void) => [
 	{
-		title: "Blog structure",
+		title: "Basic informations",
 		value: "product",
-		content: <BlogStructure />,
+		content: <BlogStructure moveSelectedTabToTop={moveSelectedTabToTop} />,
 	},
-	// {
-	// 	title: "Services",
-	// 	value: "services",
-	// 	content: <BlogStructure />,
-	// },
-	// {
-	// 	title: "Playground",
-	// 	value: "playground",
-	// 	content: <BlogStructure />,
-	// },
+
+	{
+		title: "Structure",
+		value: "1",
+		content: <BlogStructure moveSelectedTabToTop={moveSelectedTabToTop} />,
+	},
+
+	{
+		title: "Content",
+		value: "2",
+		content: <BlogStructure moveSelectedTabToTop={moveSelectedTabToTop} />,
+	},
 ];

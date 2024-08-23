@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
-import { AiOutlineUpload } from "react-icons/ai";
+import { AiOutlineUpload, AiOutlineDelete } from "react-icons/ai";
 import { useDropzone } from "react-dropzone";
 
 const mainVariant = {
@@ -25,25 +25,39 @@ const secondaryVariant = {
 	},
 };
 
-export const FileUpload = ({ onChange }: { onChange?: (files: File[]) => void }) => {
-	const [files, setFiles] = useState<File[]>([]);
+export const FileUpload = ({
+	onChange,
+	onDelete,
+	files,
+}: {
+	onChange?: (newFiles: File[]) => void;
+	onDelete?: (fileToDelete: File) => void;
+	files: File[];
+}) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleFileChange = (newFiles: File[]) => {
-		setFiles((prevFiles) => [...prevFiles, ...newFiles]);
 		onChange && onChange(newFiles);
+	};
+
+	const handleDelete = (e: React.MouseEvent, fileToDelete: File) => {
+		e.stopPropagation();
+		onDelete && onDelete(fileToDelete);
 	};
 
 	const handleClick = () => {
 		fileInputRef.current?.click();
 	};
 
-	const { getRootProps, isDragActive } = useDropzone({
-		multiple: false,
+	const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
+		multiple: true,
 		noClick: true,
 		onDrop: handleFileChange,
-		onDropRejected: (error) => {
-			console.log(error);
+		onDropRejected: (fileRejections) => {
+			console.log("Rejected files:", fileRejections);
+		},
+		accept: {
+			"text/plain": [".txt"],
 		},
 	});
 
@@ -52,19 +66,20 @@ export const FileUpload = ({ onChange }: { onChange?: (files: File[]) => void })
 			<motion.div
 				onClick={handleClick}
 				whileHover="animate"
-				className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg p-10"
+				className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg pb-10 pt-10"
 			>
 				<input
-					ref={fileInputRef}
+					{...getInputProps()}
 					id="file-upload-handle"
 					type="file"
+					ref={fileInputRef}
 					onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
 					className="hidden"
+					multiple
 				/>
-
 				<div className="flex flex-col items-center justify-center">
 					<p className="relative z-20 font-sans text-base font-bold text-neutral-700 dark:text-neutral-300">
-						Upload file
+						Upload file (only .txt)
 					</p>
 					<p className="relative z-20 mt-2 font-sans text-base font-normal text-neutral-400 dark:text-neutral-400">
 						Drag or drop your files here or click to upload
@@ -76,7 +91,7 @@ export const FileUpload = ({ onChange }: { onChange?: (files: File[]) => void })
 									key={"file" + idx}
 									layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
 									className={cn(
-										"relative z-40 mx-auto mt-4 flex w-full flex-col items-start justify-start overflow-hidden rounded-md bg-white p-4 md:h-24 dark:bg-neutral-900",
+										"relative z-40 mx-auto mt-4 flex w-full flex-col items-start justify-start overflow-hidden rounded-md bg-white p-4 dark:bg-neutral-900",
 										"shadow-sm",
 									)}
 								>
@@ -113,6 +128,12 @@ export const FileUpload = ({ onChange }: { onChange?: (files: File[]) => void })
 											modified {new Date(file.lastModified).toLocaleDateString()}
 										</motion.p>
 									</div>
+									<button
+										className="mt-2 rounded bg-red-500 p-1 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-500"
+										onClick={(e) => handleDelete(e, file)}
+									>
+										<AiOutlineDelete />
+									</button>
 								</motion.div>
 							))}
 						{!files.length && (
@@ -142,6 +163,24 @@ export const FileUpload = ({ onChange }: { onChange?: (files: File[]) => void })
 									<AiOutlineUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-300" />
 								)}
 							</motion.div>
+						)}
+
+						{fileRejections.length > 0 && (
+							<div>
+								<h4>Rejected files:</h4>
+								{fileRejections.map(({ file, errors }) => (
+									<div key={file.name}>
+										<p>
+											{file.name} - {file.size} bytes
+										</p>
+										<ul>
+											{errors.map((e) => (
+												<li key={e.code}>{e.message}</li>
+											))}
+										</ul>
+									</div>
+								))}
+							</div>
 						)}
 
 						{!files.length && (

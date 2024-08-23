@@ -85,7 +85,7 @@ export const useCanvasDraw = (
 		}));
 	}, [value]);
 
-	const animate = (start: number) => {
+	const animate = (start: number, callback?: () => void) => {
 		const animateFrame = (pos: number = 0) => {
 			requestAnimationFrame(() => {
 				const newArr = [];
@@ -124,13 +124,16 @@ export const useCanvasDraw = (
 				} else {
 					setValue("");
 					setAnimating(false);
+					if (callback) {
+						callback(); // Call the callback once the animation is complete
+					}
 				}
 			});
 		};
 		animateFrame(start);
 	};
 
-	const vanishAndSubmit = () => {
+	const vanishAndSubmit = (callback: () => void) => {
 		setAnimating(true);
 		draw();
 
@@ -140,7 +143,7 @@ export const useCanvasDraw = (
 				(prev, current) => (current.x > prev ? current.x : prev),
 				0,
 			);
-			animate(maxX);
+			animate(maxX, callback);
 		}
 	};
 

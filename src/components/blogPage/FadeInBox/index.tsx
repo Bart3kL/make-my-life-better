@@ -30,7 +30,7 @@ export const FadeInBox = ({
 					animate={{
 						y: isActive(tab) ? [0, 40, 0] : 0,
 					}}
-					className={"absolute left-0 top-0 mt-32 h-full w-full"}
+					className={"absolute left-0 top-0 mt-32 h-fit w-full"}
 				>
 					{tab.content}
 				</motion.div>
