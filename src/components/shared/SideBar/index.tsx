@@ -17,6 +17,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 	const { user } = useAppSelector((state: any) => state.auth);
 
 	const me = user?.user;
+
 	return (
 		<div
 			className={

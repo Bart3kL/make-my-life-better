@@ -2,9 +2,8 @@ import { createContext, useContext } from "react";
 
 import { SidebarContextProps } from "./types";
 
-// Domyślne wartości
 const defaultValues = {
-	open: true, // Domyślne ustawienie jako otwarty
+	open: true,
 	setOpen: () => {},
 	animate: true,
 	setAnimate: () => {},

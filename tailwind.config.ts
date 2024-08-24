@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
-const colors = require("tailwindcss/colors");
+
 const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
-const defaultTheme = require("tailwindcss/defaultTheme");
 
 const config: Config = {
 	content: [
@@ -26,7 +25,7 @@ const config: Config = {
 			},
 		},
 	},
-	plugins: [addVariablesForColors],
+	plugins: [addVariablesForColors, require("@tailwindcss/typography")],
 };
 export default config;
 

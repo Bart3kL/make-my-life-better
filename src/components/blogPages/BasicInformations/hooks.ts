@@ -1,5 +1,6 @@
 import { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/store";
 
 import { BlogState, BlogAction } from "./types";
 import { initialState, blogReducer } from "./actions";
@@ -9,10 +10,12 @@ export function useBlogReducer() {
 		blogReducer,
 		initialState,
 	);
-
 	const router = useRouter();
-
 	const [loading, setLoading] = useState<boolean>(false);
+
+	const { user } = useAppSelector((state: any) => state.auth);
+
+	const me = user?.user;
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		dispatch({ type: "SET_FIELD", field: event.target.id, value: event.target.value });
@@ -112,7 +115,7 @@ export function useBlogReducer() {
 					},
 					cache: "no-cache",
 					body: JSON.stringify({
-						userEmail: "blewandowski.2221@gmail.com",
+						userEmail: me.email,
 						title: state.titleBlogPost,
 						status: "onlyStructure",
 						structure: resultStructure.blogStructure,

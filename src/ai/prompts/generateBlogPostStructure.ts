@@ -13,7 +13,7 @@ export const generateBlogPostStructure = ({
 
   **Correct response format:**
   [
-      "<h1>Blogowanie dla początkujących</h1>",
+      "<h2>Blogowanie dla początkujących</h2>",
       "<h2>Wprowadzenie</h2>",
       "<h2>Dlaczego warto prowadzić bloga?</h2>",
       "<h2>Jak zacząć?</h2>",

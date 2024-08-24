@@ -42,3 +42,6 @@ body {
 .no-visible-scrollbar::-webkit-scrollbar {
 	display: none;
 }
+.ce-popover-item[data-item-name="paragraph"] {
+	display: none;
+}
