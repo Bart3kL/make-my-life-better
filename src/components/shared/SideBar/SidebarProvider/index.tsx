@@ -1,20 +1,15 @@
-"use client";
-
 import { useState } from "react";
 
 import { SidebarContext } from "../SidebarBody/hooks";
+
+import { SidebarProviderProps } from "./types";
 
 export const SidebarProvider = ({
 	children,
 	open: openProp,
 	setOpen: setOpenProp,
 	animate = true,
-}: {
-	children: React.ReactNode;
-	open?: boolean;
-	setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-	animate?: boolean;
-}) => {
+}: SidebarProviderProps) => {
 	const [openState, setOpenState] = useState(false);
 
 	const open = openProp !== undefined ? openProp : openState;

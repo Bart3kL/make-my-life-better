@@ -1,41 +1,13 @@
-import React from "react";
+"use client";
 
 import { BlogPostTitle } from "./BlogPostTitle";
 import { AdditionalKnowledge } from "./AdditionalKnowledge";
 import { MultiStepLoader as Loader } from "@/components/shared/MultiStepLoader";
 
-import { blogTitlePlaceholders } from "./constants";
+import { blogTitlePlaceholders, loadingStates } from "./constants";
 import { useBlogReducer } from "./hooks";
 
-const loadingStates = [
-	{
-		text: "Generating h1",
-	},
-	{
-		text: "Generating h2",
-	},
-	{
-		text: "Generating h2",
-	},
-	{
-		text: "Generating h2",
-	},
-	{
-		text: "Generating h2",
-	},
-	{
-		text: "Generating h2",
-	},
-	{
-		text: "Generating h2",
-	},
-];
-
-export const BlogStructure = ({
-	moveSelectedTabToTop,
-}: {
-	moveSelectedTabToTop: (idx: number) => void;
-}) => {
+export const BasicInformations = () => {
 	const { state, handleChange, handleSubmit, loading, handleFileUpload, handleFileDelete } =
 		useBlogReducer();
 

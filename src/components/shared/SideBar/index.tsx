@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-
 import { TbUserCircle } from "react-icons/tb";
+import Skeleton from "@mui/material/Skeleton";
 
 import { SidebarProvider } from "./SidebarProvider";
 import { SidebarBody } from "./SidebarBody";
@@ -9,17 +9,19 @@ import { SidebarLink } from "./SidebarBody/SlidebarLink";
 import { Logo } from "./SidebarBody/Logo";
 import { LogoIcon } from "./SidebarBody/LogoIcon";
 
-import { cn } from "@/lib/utils";
 import { links } from "./constants";
+import { useAppSelector } from "@/redux/store";
 
 export function Sidebar({ children }: { children: React.ReactNode }) {
 	const [open, setOpen] = useState(false);
+	const { user } = useAppSelector((state: any) => state.auth);
+
+	const me = user?.user;
 	return (
 		<div
-			className={cn(
-				"flex w-full flex-1 flex-col overflow-hidden border-paleLavender bg-white-2 md:flex-row",
-				"h-full min-h-screen",
-			)}
+			className={
+				"flex h-full min-h-screen w-full flex-1 flex-col overflow-hidden border-paleLavender bg-white-2 md:flex-row"
+			}
 		>
 			<SidebarProvider open={open} setOpen={setOpen}>
 				<SidebarBody className="justify-between gap-10">
@@ -33,9 +35,10 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 					</div>
 					<div>
 						<SidebarLink
+							loading={!me}
 							className="[&>span]:text-lg"
 							link={{
-								label: "Bartosz Lewandowski",
+								label: `${me?.firstname} ${me?.lastname}`,
 								href: "/dashboard/profile",
 								icon: <TbUserCircle className="h-8 w-8 flex-shrink-0 text-midnight" />,
 							}}

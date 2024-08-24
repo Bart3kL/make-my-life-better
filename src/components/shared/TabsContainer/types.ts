@@ -1,3 +1,4 @@
+import { TabsContainer } from "@/components/shared/TabsContainer";
 export type Tab = {
 	title: string;
 	value: string;
@@ -10,4 +11,9 @@ export interface AnimatedTabsProps {
 	activeTabClassName?: string;
 	tabClassName?: string;
 	contentClassName?: string;
+}
+
+export interface TabsContainerProps {
+	sections: Tab[];
+	currentTab: number;
 }

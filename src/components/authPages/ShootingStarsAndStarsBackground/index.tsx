@@ -39,7 +39,7 @@ export function ShootingStarsAndStarsBackground({
 	});
 
 	return (
-		<div className="relative flex h-full min-h-screen w-full flex-col items-center justify-center overflow-auto rounded-md">
+		<div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-auto rounded-md">
 			<Link
 				href="/"
 				className="hover:border-width absolute left-[50%] top-5 z-30 translate-x-[-50%] rounded-full border border-neutral-200 px-4 py-2 text-sm font-medium text-white md:left-5 md:translate-x-0 dark:border-white/[0.3]"

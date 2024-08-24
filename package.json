@@ -9,6 +9,8 @@
 		"lint": "next lint --fix --dir src"
 	},
 	"dependencies": {
+		"@emotion/react": "^11.13.3",
+		"@emotion/styled": "^11.13.0",
 		"@mui/base": "5.0.0-beta.40",
 		"@mui/material": "^5.16.7",
 		"@radix-ui/react-hover-card": "^1.1.1",

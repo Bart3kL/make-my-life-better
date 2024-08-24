@@ -1,17 +1,9 @@
 import { motion } from "framer-motion";
 
 import { Tab } from "../types";
-import { cn } from "@/lib/utils";
+import { FadeInBoxProps } from "./types";
 
-export const FadeInBox = ({
-	tabs,
-	hovering,
-}: {
-	key?: string;
-	tabs: Tab[];
-	active: Tab;
-	hovering?: boolean;
-}) => {
+export const FadeInBox = ({ tabs, hovering }: FadeInBoxProps) => {
 	const isActive = (tab: Tab) => {
 		return tab.value === tabs[0].value;
 	};

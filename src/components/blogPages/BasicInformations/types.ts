@@ -7,7 +7,7 @@ export interface BlogState {
 	errors: Partial<{
 		form: string;
 		titleBlogPost: string;
-		knowledgeError: string; // Jeden stan błędu dla wszystkich trzech pól
+		knowledgeError: string;
 	}>;
 	isSubmitting: boolean;
 }

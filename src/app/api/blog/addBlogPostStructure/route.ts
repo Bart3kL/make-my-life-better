@@ -4,8 +4,6 @@ import { sql } from "@vercel/postgres";
 export async function POST(request: NextRequest) {
 	const { userEmail, structure, status, title } = await request.json();
 
-	console.log("Received structure:", structure);
-
 	if (!userEmail || !structure || !status || !title) {
 		return NextResponse.json({ message: "All fields are required" }, { status: 400 });
 	}

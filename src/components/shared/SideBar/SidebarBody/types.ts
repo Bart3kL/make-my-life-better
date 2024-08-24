@@ -1,5 +1,6 @@
 export interface SidebarContextProps {
 	open: boolean;
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setOpen: (open: boolean) => void;
 	animate: boolean;
+	setAnimate: (animate: boolean) => void;
 }

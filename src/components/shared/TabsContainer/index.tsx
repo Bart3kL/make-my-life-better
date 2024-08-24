@@ -2,16 +2,17 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-
-import { cn } from "@/lib/utils";
-import { FadeInBox } from "@/components/blogPage/FadeInBox";
-import { createSections } from "./constants";
 import Link from "next/link";
 
-export function TabsContainer() {
-	const tabs = createSections(moveSelectedTabToTop);
+import { FadeInBox } from "./FadeInBox";
 
-	const [active, setActive] = useState(tabs[0]);
+import { cn } from "@/lib/utils";
+import { TabsContainerProps } from "./types";
+
+export function TabsContainer({ sections, currentTab }: TabsContainerProps) {
+	const tabs = sections;
+
+	const [active, setActive] = useState(tabs[currentTab]);
 	const [hovering, setHovering] = useState(false);
 
 	function moveSelectedTabToTop(idx: number) {
@@ -31,6 +32,7 @@ export function TabsContainer() {
 						<Link
 							key={tab.title}
 							href={tab.value}
+							onClick={() => moveSelectedTabToTop(idx)}
 							onMouseEnter={() => setHovering(true)}
 							onMouseLeave={() => setHovering(false)}
 							className={"relative rounded-full px-4 py-2"}

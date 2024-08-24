@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
+import { UseCanvasDrawProps } from "./types";
+
 export const usePlaceholderAnimation = (placeholders: string[]) => {
 	const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
 
@@ -33,12 +35,7 @@ export const usePlaceholderAnimation = (placeholders: string[]) => {
 	return { currentPlaceholder };
 };
 
-export const useCanvasDraw = (
-	value: string,
-	setValue: (val: string) => void,
-	setAnimating: (val: boolean) => void,
-	inputRef: React.RefObject<HTMLInputElement>,
-) => {
+export const useCanvasDraw = ({ value, setValue, setAnimating, inputRef }: UseCanvasDrawProps) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const newDataRef = useRef<any[]>([]);
 
@@ -125,7 +122,7 @@ export const useCanvasDraw = (
 					setValue("");
 					setAnimating(false);
 					if (callback) {
-						callback(); // Call the callback once the animation is complete
+						callback();
 					}
 				}
 			});

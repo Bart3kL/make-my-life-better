@@ -10,7 +10,6 @@ export const TypewriterEffectSmooth = ({
 	className,
 	cursorClassName,
 }: TypewriterEffectSmoothProps) => {
-	// split text inside of words into array of characters
 	const wordsArray = words.map((word) => {
 		return {
 			...word,

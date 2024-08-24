@@ -87,11 +87,11 @@ export function useBlogReducer() {
 				if (state.files.length > 0) {
 					const fileContents = await Promise.all(state.files.map(readFileContent));
 
-					processedData["fileEmbeddings"] = fileContents;
+					processedData["files"] = fileContents;
 				}
 
 				if (state.knowledgeText) {
-					processedData["textEmbeddings"] = state.knowledgeText;
+					processedData["text"] = state.knowledgeText;
 				}
 
 				const responseStructure = await fetch("/api/blog/generateBlogPostStructure", {
@@ -102,6 +102,7 @@ export function useBlogReducer() {
 					cache: "no-cache",
 					body: JSON.stringify({ titleBlogPost: state.titleBlogPost, processedData }),
 				});
+
 				const resultStructure = await responseStructure.json();
 
 				const responseNewPost = await fetch("/api/blog/addBlogPostStructure", {
@@ -150,8 +151,6 @@ export function useBlogReducer() {
 			reader.readAsText(file);
 		});
 	};
-
-	console.log({ loading, state });
 
 	return {
 		state,

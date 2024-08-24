@@ -20,12 +20,10 @@ export async function POST(request: NextRequest) {
 			try {
 				await page.goto(url, { waitUntil: "domcontentloaded" });
 
-				// Extract meaningful text
 				const content = await page.evaluate(() => {
 					const body = document.body;
 					if (!body) return "";
 
-					// Simple way to retrieve textContent without unwanted text
 					function getTextWithoutScriptsAndStyles(element: HTMLElement): string {
 						return Array.from(element.childNodes)
 							.filter(
