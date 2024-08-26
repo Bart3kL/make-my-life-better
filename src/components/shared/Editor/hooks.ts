@@ -1,14 +1,11 @@
 import { useReducer, useRef, useEffect, useCallback } from "react";
-import { useParams, useRouter } from "next/navigation";
 import type EditorJS from "@editorjs/editorjs";
 
 import { blogReducer, initialState } from "./actions";
 import { parseStructure } from "@/lib/parsteBlogPostStructure";
+import { UseFormHandlerProps } from "./types";
 
-export const useFormHandler = ({ post }: { post: any }) => {
-	const router = useRouter();
-	const params = useParams();
-
+export const useFormHandler = ({ post, token }: UseFormHandlerProps) => {
 	const [state, dispatch] = useReducer(blogReducer, {
 		...initialState,
 		title: post?.title || "",
@@ -23,37 +20,25 @@ export const useFormHandler = ({ post }: { post: any }) => {
 
 		try {
 			const blocks = await ref.current?.save();
-			console.log(blocks, parseStructure(post?.structure!));
-			if (params.postId) {
-				// await axios.patch(`/api/posts/${post?.url}`, {
-				//   title: state.title,
-				//   content: blocks,
-				//   image: state.imageFile !== null ? state.imageFile : post?.image,
-				//   type: state.postType,
-				//   postId: post?.id,
-				//   userId: post?.author.id,
-				//   category: category,
-				//   url: state.url,
-				// });
-				// router.push(`/blog/post/${post?.url}`);
-			} else {
-				// await axios.post("/api/posts", {
-				//   title: state.title,
-				//   content: blocks,
-				//   image: state.imageFile,
-				//   type: state.postType,
-				//   category: category,
-				//   url: state.url,
-				// });
-			}
 
-			// Clear the form and editor content
-			// dispatch({ type: "RESET_FORM" });
-			// ref.current?.clear();
+			await fetch("/api/blog/updateBlogPostStructure", {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				cache: "no-cache",
+				body: JSON.stringify({
+					structure: JSON.stringify(blocks),
+				}),
+			});
+
+			dispatch({ type: "RESET_FORM" });
+			ref.current?.clear();
 		} catch (error: any) {
 			console.error(error);
 		} finally {
-			// dispatch({ type: "SET_IS_SUBMITTING", isSubmitting: false });
+			dispatch({ type: "SET_IS_SUBMITTING", isSubmitting: false });
 		}
 	};
 
@@ -67,7 +52,7 @@ export const useFormHandler = ({ post }: { post: any }) => {
 				placeholder: "Write your post content here...",
 				inlineToolbar: true,
 				data: {
-					blocks: parseStructure(post?.structure),
+					blocks: parseStructure(post?.structure!),
 				},
 				defaultBlock: "header",
 

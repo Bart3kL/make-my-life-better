@@ -62,6 +62,7 @@ export function PlaceholdersAndVanishInput({
 				value={value}
 				type="text"
 				id={id}
+				autoComplete="off"
 				className={cn(
 					"relative z-50 h-full w-full rounded-full border-none bg-transparent pl-4 pr-20 text-sm text-midnight focus:outline-none focus:ring-0 sm:pl-10 sm:text-base",
 					animating && "text-transparent dark:text-transparent",

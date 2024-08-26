@@ -9,11 +9,10 @@ import { FadeInBox } from "./FadeInBox";
 import { cn } from "@/lib/utils";
 import { TabsContainerProps } from "./types";
 
-export function TabsContainer({ sections, currentTab }: TabsContainerProps) {
+export function TabsContainer({ sections, currentTab, children }: TabsContainerProps) {
 	const tabs = sections;
 
 	const [active, setActive] = useState(tabs[currentTab]);
-	const [hovering, setHovering] = useState(false);
 
 	function moveSelectedTabToTop(idx: number) {
 		setActive(tabs[idx]);
@@ -33,8 +32,6 @@ export function TabsContainer({ sections, currentTab }: TabsContainerProps) {
 							key={tab.title}
 							href={tab.value}
 							onClick={() => moveSelectedTabToTop(idx)}
-							onMouseEnter={() => setHovering(true)}
-							onMouseLeave={() => setHovering(false)}
 							className={"relative rounded-full px-4 py-2"}
 							style={{
 								transformStyle: "preserve-3d",
@@ -55,7 +52,8 @@ export function TabsContainer({ sections, currentTab }: TabsContainerProps) {
 					);
 				})}
 			</div>
-			<FadeInBox tabs={tabs} active={active} key={active.value} hovering={hovering} />
+			{children}
+			{/* <FadeInBox tabs={tabs} active={active} key={active.value} hovering={hovering} /> */}
 		</div>
 	);
 }

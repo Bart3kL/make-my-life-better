@@ -1,19 +1,32 @@
 "use client";
 
 import { BlogPostTitle } from "./BlogPostTitle";
+
 import { AdditionalKnowledge } from "./AdditionalKnowledge";
+
+import { Image } from "./Image";
+
 import { MultiStepLoader as Loader } from "@/components/shared/MultiStepLoader";
 
 import { blogTitlePlaceholders, loadingStates } from "./constants";
+
 import { useBlogReducer } from "./hooks";
 
 export const BasicInformations = () => {
-	const { state, handleChange, handleSubmit, loading, handleFileUpload, handleFileDelete } =
-		useBlogReducer();
+	const {
+		state,
+		handleChange,
+		handleSubmit,
+		loading,
+		handleFileUpload,
+		handleFileDelete,
+		handleImageUpload,
+		handleImageDelete,
+	} = useBlogReducer();
 
 	return (
 		<>
-			<div className="relative mb-56 w-full overflow-hidden rounded-2xl border-2 border-paleLavender bg-gradient-to-br from-white to-white-2 p-10 font-bold text-midnight">
+			<div className="relative w-full overflow-hidden rounded-2xl border-2 border-paleLavender bg-gradient-to-br from-white to-white-2 p-10 font-bold text-midnight">
 				{state.step === 1 && (
 					<BlogPostTitle
 						placeholders={blogTitlePlaceholders}
@@ -35,7 +48,18 @@ export const BasicInformations = () => {
 						error={state.errors.knowledgeError}
 					/>
 				)}
+
+				{state.step === 3 && (
+					<Image
+						image={state.image!}
+						handleImageUpload={handleImageUpload}
+						handleImageDelete={handleImageDelete}
+						handleSubmit={handleSubmit}
+						error={state.errors.imageError}
+					/>
+				)}
 			</div>
+
 			<Loader loadingStates={loadingStates} loading={loading} duration={2000} />
 		</>
 	);

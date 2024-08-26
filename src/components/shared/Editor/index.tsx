@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 import { useFormHandler } from "./hooks";
 import { EditorProps } from "./types";
 
-export const Editor = ({ post }: EditorProps) => {
-	const { state, dispatch, onSubmitHandler } = useFormHandler({ post });
+export const Editor = ({ post, token }: EditorProps) => {
+	const { state, dispatch, onSubmitHandler } = useFormHandler({ post, token });
 	const router = useRouter();
 
 	return (
@@ -19,7 +19,7 @@ export const Editor = ({ post }: EditorProps) => {
 					<FaArrowLeft /> <p className="ml-2">back</p>
 				</Button>
 				<Button color="primary" type="submit" variant="outlined">
-					<FaArrowLeft /> <p className="ml-2">Submit</p>
+					<p className="ml-2">Submit</p> <FaArrowLeft className="rotate-180" />
 				</Button>
 			</nav>
 			<div className="h-full overflow-y-auto max-md:px-4">

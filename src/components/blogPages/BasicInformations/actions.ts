@@ -4,6 +4,7 @@ export const initialState: BlogState = {
 	step: 1,
 	titleBlogPost: "",
 	files: [],
+	image: null,
 	knowledgeText: "",
 	knowledgeUrls: "",
 	errors: {},
@@ -21,6 +22,10 @@ export const blogReducer = (state: BlogState, action: BlogAction): BlogState => 
 				...state,
 				files: state.files.filter((file: any) => file !== action.payload),
 			};
+		case "UPLOAD_IMAGE":
+			return { ...state, image: action.payload };
+		case "DELETE_IMAGE":
+			return { ...state, image: null };
 		case "SET_ERRORS":
 			return { ...state, errors: action.errors };
 		case "SET_STEP":

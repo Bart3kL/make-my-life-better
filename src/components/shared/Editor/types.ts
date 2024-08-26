@@ -5,7 +5,7 @@ export type PostProps = {
 	useremail: string;
 	structure?: string;
 	createdAt: string;
-	type: "published" | "draft" | "onlyStructure";
+	status: "published" | "draft" | "onlyStructure";
 	image: string;
 	url: string;
 };
@@ -18,8 +18,14 @@ export type TForm = {
 	url: string;
 };
 
+export interface UseFormHandlerProps {
+	post: PostProps;
+	token: string;
+}
+
 export interface EditorProps {
-	post: PostProps | null;
+	post: PostProps;
+	token: string;
 }
 
 export type BlogState = {

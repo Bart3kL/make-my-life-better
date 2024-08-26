@@ -17,7 +17,7 @@ export const SidebarLink = ({
 	const { open, animate } = useSidebar();
 	const pathname = usePathname();
 
-	const isActive = pathname === link.href;
+	const isActive = link.activeLink!.includes(pathname);
 	const activeClassName = isActive ? "text-blue-500" : "text-midnight";
 
 	return (

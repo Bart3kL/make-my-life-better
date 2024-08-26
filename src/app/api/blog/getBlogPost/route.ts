@@ -5,6 +5,7 @@ import { sql } from "@vercel/postgres";
 export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
 	const blogPostId = searchParams.get("blogPostId");
+	const status = searchParams.get("status");
 
 	if (!blogPostId) {
 		return NextResponse.json({ message: "Blog post ID is required" }, { status: 400 });
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
 		const userEmail = decodedToken.email;
 
 		const result = await sql`
-      SELECT * FROM blogPosts WHERE id = ${blogPostId} AND userEmail = ${userEmail}
+      SELECT * FROM blogPosts WHERE id = ${blogPostId} AND userEmail = ${userEmail} AND status = ${status}
     `;
 
 		if (result.rows.length === 0) {

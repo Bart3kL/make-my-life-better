@@ -1,9 +1,9 @@
 import { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
-
 import { BlogState, BlogAction } from "./types";
 import { initialState, blogReducer } from "./actions";
+import { convertImageToBase64 } from "@/lib/convertImageTobase64";
 
 export function useBlogReducer() {
 	const [state, dispatch] = useReducer<React.Reducer<BlogState, BlogAction>>(
@@ -34,6 +34,16 @@ export function useBlogReducer() {
 		dispatch({ type: "SET_ERRORS", errors: { knowledgeError: "" } });
 	};
 
+	const handleImageUpload = (image: File) => {
+		dispatch({ type: "UPLOAD_IMAGE", payload: image });
+		dispatch({ type: "SET_ERRORS", errors: { imageError: "" } });
+	};
+
+	const handleImageDelete = () => {
+		dispatch({ type: "DELETE_IMAGE" });
+		dispatch({ type: "SET_ERRORS", errors: { imageError: "" } });
+	};
+
 	const validate = (): Partial<BlogState["errors"]> => {
 		const errors: Partial<BlogState["errors"]> = {};
 		if (!state.titleBlogPost) {
@@ -56,6 +66,10 @@ export function useBlogReducer() {
 				"Each URL must start with 'https://' and be separated by commas without spaces.";
 		}
 
+		if (state.step === 3 && !state.image) {
+			errors.imageError = "An image is required for the blog post";
+		}
+
 		return errors;
 	};
 
@@ -69,7 +83,9 @@ export function useBlogReducer() {
 
 		if (state.step === 1) {
 			dispatch({ type: "SET_STEP", payload: 2 });
-		} else {
+		} else if (state.step === 2) {
+			dispatch({ type: "SET_STEP", payload: 3 });
+		} else if (state.step === 3) {
 			setLoading(true);
 			let processedData: any = {};
 
@@ -108,6 +124,8 @@ export function useBlogReducer() {
 
 				const resultStructure = await responseStructure.json();
 
+				const convertedImage = await convertImageToBase64(state.image);
+
 				const responseNewPost = await fetch("/api/blog/addBlogPostStructure", {
 					method: "POST",
 					headers: {
@@ -119,11 +137,10 @@ export function useBlogReducer() {
 						title: state.titleBlogPost,
 						status: "onlyStructure",
 						structure: resultStructure.blogStructure,
+						image: convertedImage,
 					}),
 				});
 				const resultNewPost = await responseNewPost.json();
-
-				console.log(resultStructure.blogStructure, resultNewPost);
 
 				router.push(`/dashboard/blog/structure?blogPostId=${resultNewPost.blogPost.id}`);
 			} catch (error) {
@@ -162,5 +179,7 @@ export function useBlogReducer() {
 		handleSubmit,
 		handleFileUpload,
 		handleFileDelete,
+		handleImageUpload,
+		handleImageDelete,
 	};
 }

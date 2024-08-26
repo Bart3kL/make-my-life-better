@@ -2,6 +2,7 @@ import { TabsContainer } from "@/components/shared/TabsContainer";
 export type Tab = {
 	title: string;
 	value: string;
+
 	content?: string | React.ReactNode | any;
 };
 
@@ -16,4 +17,5 @@ export interface AnimatedTabsProps {
 export interface TabsContainerProps {
 	sections: Tab[];
 	currentTab: number;
+	children?: React.ReactNode;
 }

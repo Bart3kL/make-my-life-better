@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { openai } from "@/ai/client";
-import { generateBlogPostStructure } from "@/ai/prompts/generateBlogPostStructure";
+import { openai } from "@/lib/ai/client";
+import { generateBlogPostStructure } from "@/lib/ai/prompts/generateBlogPostStructure";
 
 export async function POST(request: NextRequest) {
 	const { titleBlogPost, processedData } = await request.json();

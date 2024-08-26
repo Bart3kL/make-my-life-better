@@ -1,9 +1,9 @@
 import { Tabs } from "@mui/base/Tabs";
 import { TabsList as BaseTabsList } from "@mui/base/TabsList";
 
-import { FileUploadContainer } from "./FileUploadContainer";
-import { Tab } from "./Tab";
-import { Textarea } from "./Textarea";
+import { FileUploadContainer } from "../../../shared/FileUploadContainer";
+import { Tab } from "../../../shared/Tab";
+import { Textarea } from "../../../shared/Textarea";
 
 export const AdditionalKnowledge = ({
 	files,
@@ -24,7 +24,6 @@ export const AdditionalKnowledge = ({
 	handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	error?: string;
 }) => {
-	console.log(error);
 	return (
 		<>
 			<h2 className="text-center text-xl text-midnight md:text-3xl">Additional knowledge</h2>

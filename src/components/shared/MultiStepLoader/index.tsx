@@ -1,9 +1,9 @@
 "use client";
 
-import ReactDOM from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
+import { Portal } from "@mui/material";
 import { LoaderCore } from "./LoaderCore";
 
 import { MultiStepLoaderProps } from "./types";
@@ -36,30 +36,27 @@ export const MultiStepLoader = ({
 
 	if (typeof window === "undefined") return null;
 
-	const portalRoot = document.getElementById("portal-root");
+	return (
+		<Portal>
+			<AnimatePresence mode="wait">
+				{loading && (
+					<motion.div
+						initial={{
+							opacity: 0,
+						}}
+						animate={{
+							opacity: 1,
+						}}
+						className="fixed top-0 z-[100] flex h-full w-full items-center justify-center bg-blue-2"
+					>
+						<div className="relative flex h-96 items-center justify-center">
+							<LoaderCore value={currentState} loadingStates={loadingStates} />
+						</div>
 
-	if (!portalRoot) return null;
-
-	return ReactDOM.createPortal(
-		<AnimatePresence mode="wait">
-			{loading && (
-				<motion.div
-					initial={{
-						opacity: 0,
-					}}
-					animate={{
-						opacity: 1,
-					}}
-					className="fixed top-0 z-[100] flex h-full w-full items-center justify-center bg-blue-2"
-				>
-					<div className="relative flex h-96 items-center justify-center">
-						<LoaderCore value={currentState} loadingStates={loadingStates} />
-					</div>
-
-					<div className="absolute z-20 bg-black bg-gradient-to-t opacity-80" />
-				</motion.div>
-			)}
-		</AnimatePresence>,
-		portalRoot,
+						<div className="absolute z-20 bg-black bg-gradient-to-t opacity-80" />
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</Portal>
 	);
 };

@@ -1,15 +1,12 @@
 import { motion } from "framer-motion";
-
 import { File } from "./File";
 import { UploadArea } from "./UploadArea";
-
 import { useFileUpload } from "./hooks";
 import { FileUploadProps } from "./types";
 import { RejectionInfo } from "./RejectionInfo";
-
 import { secondaryVariant } from "./constants";
 
-export const FileUpload = ({ onChange, onDelete, files }: FileUploadProps) => {
+export const FileUpload = ({ onChange, onDelete, files, isImageUpload }: FileUploadProps) => {
 	const {
 		fileInputRef,
 		getRootProps,
@@ -19,7 +16,7 @@ export const FileUpload = ({ onChange, onDelete, files }: FileUploadProps) => {
 		handleDelete,
 		handleClick,
 		fileRejections,
-	} = useFileUpload({ onChange, onDelete });
+	} = useFileUpload({ onChange, onDelete, isImageUpload });
 
 	return (
 		<div className="w-full" {...getRootProps()}>
@@ -35,14 +32,16 @@ export const FileUpload = ({ onChange, onDelete, files }: FileUploadProps) => {
 					ref={fileInputRef}
 					onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
 					className="hidden"
-					multiple
+					multiple={!isImageUpload}
 				/>
 				<div className="flex flex-col items-center justify-center">
 					<p className="relative z-20 font-sans text-base font-bold text-neutral-700 dark:text-neutral-300">
-						Upload file (only .txt)
+						{isImageUpload
+							? "Upload image (only .jpeg, .png, .gif, .svg, .webp)"
+							: "Upload file (only .txt)"}
 					</p>
 					<p className="relative z-20 mt-2 font-sans text-base font-normal text-neutral-400 dark:text-neutral-400">
-						Drag or drop your files here or click to upload
+						Drag or drop your {isImageUpload ? "image" : "files"} here or click to upload
 					</p>
 					<div className="relative mx-auto mt-10 w-full max-w-xl">
 						{files.length > 0 &&

@@ -1,18 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 
+import cloudinary from "@/lib/cloudinary";
+
 export async function POST(request: NextRequest) {
-	const { userEmail, structure, status, title } = await request.json();
+	const { userEmail, structure, status, title, image } = await request.json();
 
 	if (!userEmail || !structure || !status || !title) {
 		return NextResponse.json({ message: "All fields are required" }, { status: 400 });
 	}
 
+	const uploadedImage = await cloudinary.uploader.upload(image, {
+		folder: "blog/articles",
+	});
+
 	try {
 		const result = await sql`
-      INSERT INTO blogPosts (userEmail, structure, status, title)
-      VALUES (${userEmail}, ${structure}, ${status}, ${title})
-      RETURNING id, userEmail, structure, status, title, createdAt
+      INSERT INTO blogPosts (userEmail, structure, status, title,image)
+      VALUES (${userEmail}, ${structure}, ${status}, ${title},${uploadedImage.secure_url})
+      RETURNING id, userEmail, structure, status, title, createdAt, image
     `;
 
 		const newBlogPost = result.rows[0];
