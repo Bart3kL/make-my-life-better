@@ -1,6 +1,3 @@
-import { BasicInformations } from "./BasicInformations";
-import { HeadingsStructure } from "./HeadingsStructure";
-
 export const sections = [
 	{
 		title: "Basic informations",
@@ -10,5 +7,9 @@ export const sections = [
 	{
 		title: "Blog post structure",
 		value: "/dashboard/blog/structure",
+	},
+	{
+		title: "Blog post content",
+		value: "/dashboard/blog/content",
 	},
 ];

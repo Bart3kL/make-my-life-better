@@ -3,7 +3,7 @@ import { sql } from "@vercel/postgres";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function PUT(request: NextRequest) {
-	const { structure } = await request.json();
+	const { structure, status, postId } = await request.json();
 
 	const token = request.headers.get("Authorization")?.split(" ")[1];
 	if (!token) {
@@ -25,8 +25,8 @@ export async function PUT(request: NextRequest) {
 	try {
 		const result = await sql`
 		UPDATE blogPosts
-		SET structure = ${structure}, status = 'draft'
-		WHERE userEmail = ${userEmail}
+		SET structure = ${structure}, status = ${status}
+		WHERE userEmail = ${userEmail} AND id = ${postId}
 		RETURNING id, userEmail, structure, status, title, createdAt, image
 	`;
 		if (result.rowCount === 0) {

@@ -3,7 +3,9 @@ import Link from "next/link";
 
 import { ExpandableCards } from "@/components/shared/ExpandableCards";
 
-export const SelectBlogPost = async () => {
+import { SelectBlogPostProps } from "./types";
+
+export const SelectBlogPost = async ({ isContentPage }: SelectBlogPostProps) => {
 	const url = process.env.BASE_URL || "http://localhost:3000";
 	const response = await fetch(`${url}/api/blog/getAllBlogPosts`, {
 		method: "POST",
@@ -11,7 +13,10 @@ export const SelectBlogPost = async () => {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${cookies().get("auth-token")!.value}`,
 		},
-		body: JSON.stringify({ status: "onlyStructure", fields: "id,title,createdat,structure,image" }),
+		body: JSON.stringify({
+			status: isContentPage ? "draft" : "onlyStructure",
+			fields: "id,title,createdat,structure,image",
+		}),
 	});
 
 	const { blogPosts } = await response.json();
@@ -20,7 +25,7 @@ export const SelectBlogPost = async () => {
 
 	return (
 		<>
-			<h2 className="mb-10 text-center text-xl text-midnight md:mb-20 md:text-3xl">
+			<h2 className="mb-10 overflow-auto text-center text-xl text-midnight md:mb-20 md:text-3xl">
 				{noBlogPosts ? "No blog posts found with heading structure" : "Select blog post structure"}
 			</h2>
 			<div className="mx-auto w-full max-w-xl">
@@ -36,11 +41,12 @@ export const SelectBlogPost = async () => {
 					</div>
 				) : (
 					<ExpandableCards
+						isContentPage={isContentPage}
 						cards={blogPosts.map(({ id, title, createdat, image, structure }: any) => ({
 							title: title,
 							createdat: createdat.split("T")[0],
 							src: image,
-							link: "/dashboard/blog/structure?blogPostId=" + id,
+							link: `/dashboard/blog/${isContentPage ? "content" : "structure"}?blogPostId=` + id,
 							headings: JSON.parse(structure),
 						}))}
 					/>

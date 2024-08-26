@@ -21,11 +21,15 @@ export type TForm = {
 export interface UseFormHandlerProps {
 	post: PostProps;
 	token: string;
+	isContentPage?: boolean;
 }
 
 export interface EditorProps {
 	post: PostProps;
 	token: string;
+	isContentPage?: boolean;
+	style?: string;
+	headerLength?: string;
 }
 
 export type BlogState = {
@@ -34,7 +38,8 @@ export type BlogState = {
 	postType: string;
 	imageFile: any;
 	isMounted: boolean;
-	isSubmitting: boolean;
+
+	loading: boolean;
 };
 
 export type BlogAction =
@@ -43,5 +48,5 @@ export type BlogAction =
 	| { type: "DELETE_FILE"; payload: any }
 	| { type: "SET_ERRORS"; errors: Record<string, string> }
 	| { type: "SET_STEP"; payload: number }
-	| { type: "SET_IS_SUBMITTING"; isSubmitting: boolean }
-	| { type: "RESET_FORM" };
+	| { type: "RESET_FORM" }
+	| { type: "SET_LOADING"; loading: boolean };

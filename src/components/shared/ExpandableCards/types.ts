@@ -4,9 +4,10 @@ export type Card = {
 	createdat: string;
 	link: string;
 	src: string;
-	headings: string[];
+	headings: any;
 };
 
 export interface ExpandableCardsProps {
 	cards: Card[];
+	isContentPage?: boolean;
 }

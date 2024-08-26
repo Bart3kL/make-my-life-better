@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { ItemProps } from "./types";
 
-export const Item = ({ card, id, setActive }: ItemProps) => {
+export const Item = ({ card, id, setActive, isContentPage }: ItemProps) => {
 	return (
 		<motion.div
 			layoutId={`card-${card.title}-${id}`}
@@ -39,7 +39,7 @@ export const Item = ({ card, id, setActive }: ItemProps) => {
 				layoutId={`button-${card.title}-${id}`}
 				className="mt-4 rounded-full bg-gray-100 px-4 py-2 text-sm font-bold text-black hover:bg-green-500 hover:text-white md:mt-0"
 			>
-				Check structure
+				{isContentPage ? "Add  content" : "Check structure"}
 			</motion.button>
 		</motion.div>
 	);

@@ -6,7 +6,7 @@ export const initialState: BlogState = {
 	postType: "",
 	imageFile: null,
 	isMounted: false,
-	isSubmitting: false,
+	loading: false,
 };
 
 export const blogReducer = (state: BlogState, action: BlogAction): BlogState => {
@@ -20,10 +20,11 @@ export const blogReducer = (state: BlogState, action: BlogAction): BlogState => 
 				...state,
 				imageFile: null,
 			};
-		case "SET_IS_SUBMITTING":
-			return { ...state, isSubmitting: action.isSubmitting };
+
 		case "RESET_FORM":
 			return initialState;
+		case "SET_LOADING":
+			return { ...state, loading: action.loading };
 		default:
 			return state;
 	}

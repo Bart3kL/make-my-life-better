@@ -9,10 +9,12 @@ import { ExpandableCardsProps } from "./types";
 import { useOutsideClick } from "./hooks";
 import { Item } from "@/components/shared/ExpandableCards/Item";
 
-export function ExpandableCards({ cards }: ExpandableCardsProps) {
+export function ExpandableCards({ cards, isContentPage }: ExpandableCardsProps) {
 	const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(null);
 	const ref = useRef<HTMLDivElement>(null);
 	const id = useId();
+
+	console.log({ cards });
 
 	useEffect(() => {
 		function onKeyDown(event: KeyboardEvent) {
@@ -107,7 +109,7 @@ export function ExpandableCards({ cards }: ExpandableCardsProps) {
 											href={active.link}
 											className="rounded-full bg-green-500 px-4 py-3 text-sm font-bold text-white"
 										>
-											Check structure
+											{isContentPage ? "Add  content" : "Check structure"}
 										</motion.a>
 									</div>
 									<div className="relative px-4 pt-4">
@@ -118,9 +120,11 @@ export function ExpandableCards({ cards }: ExpandableCardsProps) {
 											exit={{ opacity: 0 }}
 											className="flex h-40 flex-col items-start gap-4 overflow-auto pb-10 text-xs text-neutral-600 [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] md:h-fit md:text-sm lg:text-base dark:text-neutral-400"
 										>
-											{active.headings.map((heading: any) => (
-												<p key={heading}>{heading}</p>
-											))}
+											{isContentPage
+												? active.headings.blocks.map((heading: { data: { text: string } }) => (
+														<p>{heading.data.text}</p>
+													))
+												: active.headings.map((heading: string) => <p key={heading}>{heading}</p>)}
 										</motion.div>
 									</div>
 								</div>
@@ -131,7 +135,13 @@ export function ExpandableCards({ cards }: ExpandableCardsProps) {
 			</Portal>
 			<ul className="mx-auto w-full max-w-2xl gap-4">
 				{cards.map((card, index) => (
-					<Item card={card} key={card.title} id={id} setActive={setActive} />
+					<Item
+						card={card}
+						key={card.title}
+						id={id}
+						setActive={setActive}
+						isContentPage={isContentPage}
+					/>
 				))}
 			</ul>
 		</>

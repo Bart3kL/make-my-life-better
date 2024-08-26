@@ -10,9 +10,9 @@ export const links = [
 		icon: <MdOutlineSpaceDashboard className="h-8 w-8 flex-shrink-0" />,
 	},
 	{
-		label: "Blog",
+		label: "Create blog post",
 		href: "/dashboard/blog",
-		activeLink: ["/dashboard/blog", "/dashboard/blog/structure"],
+		activeLink: ["/dashboard/blog", "/dashboard/blog/structure", "/dashboard/blog/content"],
 		icon: <IoNewspaperOutline className="h-8 w-8 flex-shrink-0" />,
 	},
 	{

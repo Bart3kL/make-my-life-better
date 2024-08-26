@@ -19,10 +19,10 @@ export function TabsContainer({ sections, currentTab, children }: TabsContainerP
 	}
 
 	return (
-		<div className="relative mx-auto flex h-full w-full max-w-5xl flex-col items-start justify-start [perspective:1000px]">
+		<div className="relative mx-auto mb-14 flex h-full w-full max-w-5xl flex-col items-start justify-start [perspective:1000px]">
 			<div
 				className={cn(
-					"no-visible-scrollbar relative flex min-h-28 w-full max-w-full flex-row flex-wrap items-center justify-center overflow-auto [perspective:1000px] sm:mt-5 sm:flex-nowrap sm:overflow-visible",
+					"no-visible-scrollbar relative flex min-h-32 w-full max-w-full flex-row flex-wrap items-center justify-center overflow-auto [perspective:1000px] sm:mt-5 sm:flex-nowrap sm:overflow-visible",
 				)}
 			>
 				{tabs.map((tab, idx) => {
