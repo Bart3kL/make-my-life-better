@@ -1,9 +1,9 @@
 "use client";
-import { Editor } from "@/components/shared/Editor";
 import { CountWords } from "./CountWords";
 import { StyleSelector } from "./StyleSelector";
 
 import { useStepsReducer } from "./hooks";
+import { Editor } from "@/components/shared/Editor";
 
 export const Steps = ({ token, blogPost }: any) => {
 	const { state, handleChange, handleNextStep } = useStepsReducer();

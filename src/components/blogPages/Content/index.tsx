@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
 
-import { Steps } from "./Steps";
 import { SelectBlogPost } from "../../shared/SelectBlogPost";
+import { Steps } from "./Steps";
 
-import { HeadingsStructureProps } from "./types";
+import { type HeadingsStructureProps } from "./types";
 
 export const Content = async ({ blogPostId }: HeadingsStructureProps) => {
 	const token = cookies().get("auth-token")!.value;

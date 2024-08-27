@@ -1,4 +1,4 @@
-import { GenerateBlogPostStructureProps } from "./types";
+import { type GenerateBlogPostStructureProps } from "./types";
 
 export const generateBlogPostStructure = ({
 	titleBlogPost,

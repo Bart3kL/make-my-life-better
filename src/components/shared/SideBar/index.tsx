@@ -1,7 +1,7 @@
 "use client";
+
 import React, { useState } from "react";
 import { TbUserCircle } from "react-icons/tb";
-import Skeleton from "@mui/material/Skeleton";
 
 import { SidebarProvider } from "./SidebarProvider";
 import { SidebarBody } from "./SidebarBody";
@@ -10,11 +10,13 @@ import { Logo } from "./SidebarBody/Logo";
 import { LogoIcon } from "./SidebarBody/LogoIcon";
 
 import { links } from "./constants";
-import { useAppSelector } from "@/redux/store";
+import { useAppSelector, type RootState } from "@/redux/store";
+import { type UserProps } from "@/components/shared/GetCurrentUser/types";
 
 export function Sidebar({ children }: { children: React.ReactNode }) {
 	const [open, setOpen] = useState(false);
-	const { user } = useAppSelector((state: any) => state.auth);
+
+	const user = useAppSelector((state: RootState) => state.auth.user) as { user: UserProps } | null;
 
 	const me = user?.user;
 
@@ -42,7 +44,6 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 								activeLink: ["/dashboard/profile"],
 								label: `${me?.firstname} ${me?.lastname}`,
 								href: "/dashboard/profile",
-
 								icon: <TbUserCircle className="h-8 w-8 flex-shrink-0 text-midnight" />,
 							}}
 						/>

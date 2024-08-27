@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { sql } from "@vercel/postgres";
 import sgMail from "@sendgrid/mail";

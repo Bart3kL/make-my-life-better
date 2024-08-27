@@ -4,10 +4,10 @@ import { Button } from "@mui/material";
 import TextareaAutosize from "react-textarea-autosize";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
-import { MultiStepLoader as Loader } from "@/components/shared/MultiStepLoader";
 
 import { useFormHandler } from "./hooks";
-import { EditorProps } from "./types";
+import { type EditorProps } from "./types";
+import { MultiStepLoader as Loader } from "@/components/shared/MultiStepLoader";
 
 export const Editor = ({ post, token, isContentPage, style, headerLength }: EditorProps) => {
 	const { state, dispatch, onSubmitHandler } = useFormHandler({

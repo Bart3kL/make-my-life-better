@@ -3,19 +3,19 @@
 import * as React from "react";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 
+import { type InputProps } from "./types";
 import { cn } from "@/lib/utils";
-import { InputProps } from "./types";
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 	({ className, type, error, ...props }, ref) => {
 		const radius = 100;
 		const [visible, setVisible] = React.useState(false);
 
-		let mouseX = useMotionValue(0);
-		let mouseY = useMotionValue(0);
+		const mouseX = useMotionValue(0);
+		const mouseY = useMotionValue(0);
 
 		function handleMouseMove({ currentTarget, clientX, clientY }: any) {
-			let { left, top } = currentTarget.getBoundingClientRect();
+			const { left, top } = currentTarget.getBoundingClientRect();
 
 			mouseX.set(clientX - left);
 			mouseY.set(clientY - top);

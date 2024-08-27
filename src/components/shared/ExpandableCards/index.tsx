@@ -1,11 +1,12 @@
 "use client";
+
 import Image from "next/image";
-import React, { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IoClose } from "react-icons/io5";
 import { Portal } from "@mui/material";
 
-import { ExpandableCardsProps } from "./types";
+import { type ExpandableCardsProps } from "./types";
 import { useOutsideClick } from "./hooks";
 import { Item } from "@/components/shared/ExpandableCards/Item";
 
@@ -13,8 +14,6 @@ export function ExpandableCards({ cards, isContentPage }: ExpandableCardsProps) 
 	const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(null);
 	const ref = useRef<HTMLDivElement>(null);
 	const id = useId();
-
-	console.log({ cards });
 
 	useEffect(() => {
 		function onKeyDown(event: KeyboardEvent) {
@@ -97,7 +96,7 @@ export function ExpandableCards({ cards, isContentPage }: ExpandableCardsProps) 
 												{active.title}
 											</motion.h3>
 											<motion.p
-												layoutId={`createdat-${active.createdat}-${id}`}
+												layoutId={`createdat-${active.createdat}-${active.title}-${id}`}
 												className="text-neutral-600 dark:text-neutral-400"
 											>
 												{active.createdat}
@@ -121,10 +120,14 @@ export function ExpandableCards({ cards, isContentPage }: ExpandableCardsProps) 
 											className="flex h-40 flex-col items-start gap-4 overflow-auto pb-10 text-xs text-neutral-600 [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] md:h-fit md:text-sm lg:text-base dark:text-neutral-400"
 										>
 											{isContentPage
-												? active.headings.blocks.map((heading: { data: { text: string } }) => (
-														<p>{heading.data.text}</p>
-													))
-												: active.headings.map((heading: string) => <p key={heading}>{heading}</p>)}
+												? Array.isArray(active.headings)
+													? active.headings.map((heading: string) => <p key={heading}>{heading}</p>)
+													: active.headings.blocks.map((heading: { data: { text: string } }) => (
+															<p key={heading.data.text}>{heading.data.text}</p>
+														))
+												: Array.isArray(active.headings)
+													? active.headings.map((heading: string) => <p key={heading}>{heading}</p>)
+													: null}
 										</motion.div>
 									</div>
 								</div>
@@ -134,7 +137,7 @@ export function ExpandableCards({ cards, isContentPage }: ExpandableCardsProps) 
 				</AnimatePresence>
 			</Portal>
 			<ul className="mx-auto w-full max-w-2xl gap-4">
-				{cards.map((card, index) => (
+				{cards.map((card) => (
 					<Item
 						card={card}
 						key={card.title}

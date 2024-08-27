@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 
-import cloudinary from "@/lib/cloudinary";
+import { cloudinary } from "@/lib/cloudinary";
 
 export async function POST(request: NextRequest) {
 	const { userEmail, structure, status, title, image } = await request.json();

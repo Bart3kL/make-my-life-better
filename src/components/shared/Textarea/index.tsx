@@ -1,18 +1,8 @@
 import { TabPanel, TextareaAutosize } from "@mui/base";
 
-export const Textarea = ({
-	value,
-	placeholder,
-	id,
-	onChange,
-	valueInput,
-}: {
-	value: number;
-	placeholder: string;
-	id: string;
-	onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-	valueInput: string;
-}) => {
+import { type TextareaProps } from "./types";
+
+export const Textarea = ({ value, placeholder, id, onChange, valueInput }: TextareaProps) => {
 	return (
 		<TabPanel value={value}>
 			<div className="mx-auto flex w-full max-w-xl flex-col justify-items-center">

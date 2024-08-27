@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ItemProps } from "./types";
+
+import { type ItemProps } from "./types";
 
 export const Item = ({ card, id, setActive, isContentPage }: ItemProps) => {
 	return (
@@ -28,7 +29,7 @@ export const Item = ({ card, id, setActive, isContentPage }: ItemProps) => {
 						{card.title}
 					</motion.h3>
 					<motion.p
-						layoutId={`createdat-${card.createdat}-${id}`}
+						layoutId={`createdat-${card.createdat}-${card.title}-${id}`}
 						className="text-center text-midnight group-hover:text-white md:text-left"
 					>
 						{card.createdat}

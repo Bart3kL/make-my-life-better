@@ -12,8 +12,8 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 
+import { type LinkPreviewProps } from "./types";
 import { cn } from "@/lib/utils";
-import { LinkPreviewProps } from "./types";
 
 export const LinkPreview = ({
   children,

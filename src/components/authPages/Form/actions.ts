@@ -1,4 +1,4 @@
-import { FormAction, FormState } from "./types";
+import { type FormAction, type FormState } from "./types";
 
 export const initialState: FormState = {
 	firstname: "",

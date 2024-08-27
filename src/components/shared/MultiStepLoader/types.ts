@@ -1,4 +1,4 @@
-import { LoadingState } from "./LoaderCore/types";
+import { type LoadingState } from "./LoaderCore/types";
 
 export interface MultiStepLoaderProps {
 	loadingStates: LoadingState[];

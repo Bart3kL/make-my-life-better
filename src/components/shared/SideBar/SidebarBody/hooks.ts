@@ -1,13 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { SidebarContextProps } from "./types";
-
-const defaultValues = {
-	open: true,
-	setOpen: () => {},
-	animate: true,
-	setAnimate: () => {},
-};
+import { type SidebarContextProps } from "./types";
 
 export const SidebarContext = createContext<SidebarContextProps | undefined>(undefined);
 

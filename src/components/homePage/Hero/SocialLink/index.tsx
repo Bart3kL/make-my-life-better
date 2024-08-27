@@ -1,6 +1,6 @@
+import { type SocialLinkProps } from "./types";
 import { LinkPreview } from "@/components/shared/LinkPreview";
 
-import { SocialLinkProps } from "./types";
 
 export const SocialLink = ({
 	title,

@@ -6,11 +6,11 @@ import { AdditionalKnowledge } from "./AdditionalKnowledge";
 
 import { Image } from "./Image";
 
-import { MultiStepLoader as Loader } from "@/components/shared/MultiStepLoader";
 
 import { blogTitlePlaceholders, loadingStates } from "./constants";
 
 import { useBlogReducer } from "./hooks";
+import { MultiStepLoader as Loader } from "@/components/shared/MultiStepLoader";
 
 export const BasicInformations = () => {
 	const {
@@ -51,7 +51,7 @@ export const BasicInformations = () => {
 
 				{state.step === 3 && (
 					<Image
-						image={state.image!}
+						image={state.image}
 						handleImageUpload={handleImageUpload}
 						handleImageDelete={handleImageDelete}
 						handleSubmit={handleSubmit}

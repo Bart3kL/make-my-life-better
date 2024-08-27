@@ -1,15 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { type NextRequest, NextResponse } from "next/server";
+import { jwtVerify, type JWTPayload } from "jose";
 
 export interface NextRequestWithUser extends NextRequest {
-	user?: any;
+	user?: JWTPayload;
 }
 
 const PUBLIC_FILE = /\.(.*)$/;
 
 export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
-	console.log(`Incoming request for path: ${path}`);
 
 	const authPages = ["/signin", "/signup"];
 	const publicPages = ["/", "/reset", "/reset-password"];
@@ -47,15 +46,22 @@ export async function middleware(request: NextRequest) {
 		}
 
 		return NextResponse.next();
-	} catch (error) {
-		if (error.name === "JWTExpired") {
-			console.log("Token expired, removing auth-token cookie and redirecting to /signin");
-			// Create a new response to modify headers for removing the cookie
-			const response = NextResponse.redirect(new URL("/signin", request.url));
-			response.cookies.delete("auth-token");
-			return response;
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			if (error.name === "JWTExpired") {
+				console.log("Token expired, removing auth-token cookie and redirecting to /signin");
+				// Create a new response to modify headers for removing the cookie
+				const response = NextResponse.redirect(new URL("/signin", request.url));
+				response.cookies.delete("auth-token");
+				return response;
+			} else {
+				console.error("Token verification failed:", error);
+				const response = NextResponse.redirect(new URL("/signin", request.url));
+				response.cookies.delete("auth-token");
+				return response;
+			}
 		} else {
-			console.error("Token verification failed:", error);
+			console.error("Unknown error occurred", error);
 			const response = NextResponse.redirect(new URL("/signin", request.url));
 			response.cookies.delete("auth-token");
 			return response;

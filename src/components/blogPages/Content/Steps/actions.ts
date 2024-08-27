@@ -1,4 +1,4 @@
-import { StepsState, FormAction } from "./types";
+import { type StepsState, type FormAction } from "./types";
 
 export const initialState: StepsState = {
 	headerLength: "",

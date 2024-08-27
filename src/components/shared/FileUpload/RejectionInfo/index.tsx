@@ -1,4 +1,4 @@
-import { RejectionInfoProps } from "./types";
+import { type RejectionInfoProps } from "./types";
 
 export const RejectionInfo = ({ file, errors }: RejectionInfoProps) => {
 	return (

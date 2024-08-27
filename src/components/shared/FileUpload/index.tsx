@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { File } from "./File";
 import { UploadArea } from "./UploadArea";
 import { useFileUpload } from "./hooks";
-import { FileUploadProps } from "./types";
+import { type FileUploadProps } from "./types";
 import { RejectionInfo } from "./RejectionInfo";
 import { secondaryVariant } from "./constants";
 

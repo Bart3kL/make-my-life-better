@@ -1,8 +1,8 @@
 import { useReducer, useRef, useEffect, useCallback } from "react";
 import type EditorJS from "@editorjs/editorjs";
+import { headers } from "next/headers";
 import { blogReducer, initialState } from "./actions";
 import { parseStructure } from "@/lib/parsteBlogPostStructure";
-import { headers } from "next/headers";
 
 export const useFormHandler = ({ post, token, isContentPage, style, headerLength }: any) => {
 	const [state, dispatch] = useReducer(blogReducer, {
@@ -135,7 +135,7 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 				data: {
 					blocks: isContentPage
 						? JSON.parse(post.structure).blocks
-						: parseStructure(post?.structure!),
+						: parseStructure(post?.structure),
 				},
 				defaultBlock: "header",
 				tools: isContentPage

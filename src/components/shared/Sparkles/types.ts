@@ -1,4 +1,4 @@
-import { IParticlesProps } from "@tsparticles/react";
+import { type IParticlesProps } from "@tsparticles/react";
 
 export interface SparklesProps {
   className?: string;

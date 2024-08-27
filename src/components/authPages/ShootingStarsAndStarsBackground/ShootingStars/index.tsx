@@ -1,9 +1,9 @@
 "use client";
-import { cn } from "@/lib/utils";
 import React, { useEffect, useState, useRef } from "react";
 
-import { ShootingStarsProps, ShootingStar } from "./types";
+import { type ShootingStarsProps, type ShootingStar } from "./types";
 import { getRandomStartPoint } from "./utils";
+import { cn } from "@/lib/utils";
 
 export const ShootingStars: React.FC<ShootingStarsProps> = ({
 	minSpeed = 10,

@@ -1,4 +1,4 @@
-import { Card } from "../types";
+import { type Card } from "../types";
 
 export interface ItemProps {
 	setActive: (card: Card) => void;

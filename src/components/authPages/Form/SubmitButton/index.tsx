@@ -1,6 +1,6 @@
 import React from "react";
+import { type SubmitButtonProps } from "./types";
 import { Spinner } from "@/components/shared/Spinner";
-import { SubmitButtonProps } from "./types";
 
 export const SubmitButton: React.FC<SubmitButtonProps> = ({ state, config }) => {
 	const { isSignInPage, isResetPasswordPage, isEnterNewPasswordPage } = config;

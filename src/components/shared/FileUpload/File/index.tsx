@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { AiOutlineDelete } from "react-icons/ai";
 
+import { type FileProps } from "./types";
 import { cn } from "@/lib/utils";
-import { FileProps } from "./types";
 
 export const File = ({ idx, file, handleDelete }: FileProps) => {
 	return (

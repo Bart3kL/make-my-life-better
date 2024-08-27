@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 
+import jwt from "jsonwebtoken";
 import { Providers } from "../components/shared/Providers";
 import GetCurrentUser from "@/components/shared/GetCurrentUser";
-import jwt from "jsonwebtoken";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });

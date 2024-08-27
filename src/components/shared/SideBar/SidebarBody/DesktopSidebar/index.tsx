@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
+
 import { useSidebar } from "../hooks";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
 
 export const DesktopSidebar = ({
 	className,

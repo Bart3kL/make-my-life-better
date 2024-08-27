@@ -1,7 +1,7 @@
 import { IoIosCheckmarkCircle, IoIosCheckmarkCircleOutline } from "react-icons/io";
 
-import { LoaderCoreProps } from "./types";
 import { motion } from "framer-motion";
+import { type LoaderCoreProps } from "./types";
 import { cn } from "@/lib/utils";
 
 export const LoaderCore = ({ loadingStates, value = 0 }: LoaderCoreProps) => {

@@ -1,8 +1,8 @@
+import { type PasswordResetFieldsProps } from "./types";
 import { AuthInput } from "@/components/shared/Input";
 import { AuthLabel } from "@/components/shared/Label";
 import { LabelInputContainer } from "@/components/shared/LabelInputContainer";
 
-import { PasswordResetFieldsProps } from "./types";
 
 export const PasswordResetFields = ({ state, handleChange }: PasswordResetFieldsProps) => (
 	<>

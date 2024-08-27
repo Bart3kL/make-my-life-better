@@ -1,8 +1,8 @@
 "use client";
-import { cn } from "@/lib/utils";
-import React, { useState, useEffect, useRef, RefObject, useCallback } from "react";
+import React, { useState, useEffect, useRef, type RefObject, useCallback } from "react";
 
-import { StarsBackgroundProps, StarProps } from "./types";
+import { type StarsBackgroundProps, type StarProps } from "./types";
+import { cn } from "@/lib/utils";
 
 export const StarsBackground = ({
 	starDensity = 0.00015,

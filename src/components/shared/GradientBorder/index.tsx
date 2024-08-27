@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
+import { type GradientBorderProps } from "./types";
 import { cn } from "@/lib/utils";
-import { GradientBorderProps } from "./types";
 
 export const GradientBorder = ({
 	children,

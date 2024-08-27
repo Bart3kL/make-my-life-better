@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { SidebarContext } from "../SidebarBody/hooks";
 
-import { SidebarProviderProps } from "./types";
+import { type SidebarProviderProps } from "./types";
 
 export const SidebarProvider = ({
 	children,

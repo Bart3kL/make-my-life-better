@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { AiOutlineUpload } from "react-icons/ai";
 
-import { UploadAreaProps } from "./types";
+import { type UploadAreaProps } from "./types";
 import { mainVariant } from "./constans";
+import { cn } from "@/lib/utils";
 
 export const UploadArea = ({ isDragActive }: UploadAreaProps) => {
 	return (

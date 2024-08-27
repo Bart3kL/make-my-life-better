@@ -1,8 +1,8 @@
 import { useReducer, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useSearchParams , useRouter } from "next/navigation";
 
-import { FormState, FormProps } from "./types";
+
+import { type FormState, type FormProps } from "./types";
 import { initialState, formReducer } from "./actions";
 
 export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage }: FormProps) {

@@ -2,7 +2,7 @@ import { PasswordResetFields } from "./PasswordResetFields";
 import { AuthInputs } from "./AuthInputs";
 import { SubmitButton } from "./SubmitButton";
 
-import { FormProps } from "./types";
+import { type FormProps } from "./types";
 import { useForm } from "./hooks";
 import { Links } from "@/components/authPages/Form/Links";
 

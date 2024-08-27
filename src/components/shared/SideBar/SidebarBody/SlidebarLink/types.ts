@@ -1,4 +1,4 @@
-import { LinkProps } from "next/link";
+import { type LinkProps } from "next/link";
 
 type Links = {
 	label: string;
@@ -11,4 +11,5 @@ export interface SidebarLinkProps {
 	link: Links;
 	className?: string;
 	props?: LinkProps;
+	loading?: boolean;
 }

@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useRef, useState } from "react";
+import React, { type ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { Button } from "./Button";
 
-import { cn } from "@/lib/utils";
 import { useCanvasDraw, usePlaceholderAnimation } from "./hooks";
-import { PlaceholdersAndVanishInputProps } from "./types";
+import { type PlaceholdersAndVanishInputProps } from "./types";
+import { cn } from "@/lib/utils";
 
 export function PlaceholdersAndVanishInput({
 	placeholders,
@@ -29,11 +29,10 @@ export function PlaceholdersAndVanishInput({
 		draw();
 	}, [value, draw]);
 
-	const handleSubmit = (e: any) => {
-		e.preventDefault();
+	const handleSubmit = () => {
 		vanishAndSubmit(() => {
 			if (onSubmit) {
-				onSubmit(e);
+				onSubmit();
 			}
 		});
 	};
@@ -52,10 +51,10 @@ export function PlaceholdersAndVanishInput({
 				ref={canvasRef}
 			/>
 			<input
-				onChange={(e) => {
+				onChange={(e: ChangeEvent<HTMLInputElement>) => {
 					if (!animating) {
 						setValue(e.target.value);
-						onChange && onChange(e);
+						onChange?.(e);
 					}
 				}}
 				ref={inputRef}

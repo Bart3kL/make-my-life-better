@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-import { ButtonProps } from "./types";
+import { type ButtonProps } from "./types";
 
 export const Button = ({ value, handleSubmit }: ButtonProps) => {
 	return (

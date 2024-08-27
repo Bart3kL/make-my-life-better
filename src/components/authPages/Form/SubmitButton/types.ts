@@ -1,4 +1,4 @@
-import { FormState, FormProps } from "../types";
+import { type FormState, type FormProps } from "../types";
 
 export interface SubmitButtonProps {
 	state: FormState;

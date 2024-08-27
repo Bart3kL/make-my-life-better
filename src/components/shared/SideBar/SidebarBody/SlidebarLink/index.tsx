@@ -3,19 +3,15 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import Skeleton from "@mui/material/Skeleton";
 
-import { SidebarLinkProps } from "./types";
 import { useSidebar } from "../hooks";
+import { type SidebarLinkProps } from "./types";
+import { useLogout } from "./hooks";
 import { cn } from "@/lib/utils";
-import { logout } from "./actions";
 
-export const SidebarLink = ({
-	link,
-	className,
-	loading = false,
-	...props
-}: SidebarLinkProps & { loading?: boolean }) => {
+export const SidebarLink = ({ link, className, loading = false, ...props }: SidebarLinkProps) => {
 	const { open, animate } = useSidebar();
 	const pathname = usePathname();
+	const { handleLogout } = useLogout();
 
 	const isActive = link.activeLink!.includes(pathname);
 	const activeClassName = isActive ? "text-blue-500" : "text-midnight";
@@ -29,7 +25,7 @@ export const SidebarLink = ({
 				activeClassName,
 			)}
 			{...props}
-			onClick={() => (link.label === "Logout" ? logout() : null)}
+			onClick={() => (link.label === "Logout" ? handleLogout() : null)}
 		>
 			{loading ? (
 				<>

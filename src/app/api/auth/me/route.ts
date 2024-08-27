@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
+import { type NextRequest, NextResponse } from "next/server";
 import { getDataFromToken } from "@/lib/getDataFromToken";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
 	try {

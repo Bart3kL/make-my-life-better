@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { Portal } from "@mui/material";
 import { LoaderCore } from "./LoaderCore";
 
-import { MultiStepLoaderProps } from "./types";
+import { type MultiStepLoaderProps } from "./types";
 
 export const MultiStepLoader = ({
 	loadingStates,

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { type NextRequest, NextResponse } from "next/server";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 import { sql } from "@vercel/postgres";
 
 export async function POST(request: NextRequest) {
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		let allFields = [
+		const allFields = [
 			"id",
 			"useremail",
 			"content",

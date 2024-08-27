@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 import { useDropzone } from "react-dropzone";
 
-import { UseFileUploadProps } from "./types";
+import { type UseFileUploadProps } from "./types";
 
 export const useFileUpload = ({ onChange, onDelete, isImageUpload }: UseFileUploadProps) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);

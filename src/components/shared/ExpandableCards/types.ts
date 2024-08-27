@@ -1,10 +1,9 @@
 export type Card = {
 	title: string;
-	content: string;
 	createdat: string;
 	link: string;
 	src: string;
-	headings: any;
+	headings: string[] | { blocks: { data: { text: string } }[] };
 };
 
 export interface ExpandableCardsProps {

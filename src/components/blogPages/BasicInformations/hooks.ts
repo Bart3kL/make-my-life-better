@@ -1,8 +1,8 @@
 import { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/redux/store";
-import { BlogState, BlogAction } from "./types";
+import { type BlogState, type BlogAction } from "./types";
 import { initialState, blogReducer } from "./actions";
+import { useAppSelector } from "@/redux/store";
 import { convertImageToBase64 } from "@/lib/convertImageTobase64";
 
 export function useBlogReducer() {
@@ -87,7 +87,7 @@ export function useBlogReducer() {
 			dispatch({ type: "SET_STEP", payload: 3 });
 		} else if (state.step === 3) {
 			setLoading(true);
-			let processedData: any = {};
+			const processedData: any = {};
 
 			try {
 				if (state.knowledgeUrls) {

@@ -1,10 +1,16 @@
-export const parseStructure = (structureString: string) => {
-	const structureArray = JSON.parse(structureString);
+import { type ParsedHeader } from "./types";
 
-	return structureArray.map((item: string) => {
+export const parseStructure = (structureString: string): ParsedHeader[] => {
+	const structureArray: string[] = JSON.parse(structureString) as string[];
+
+	return structureArray.map<ParsedHeader>((item) => {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(item, "text/html");
-		const header: any = doc.body.firstChild;
+		const header = doc.body.firstChild;
+
+		if (!(header instanceof HTMLElement)) {
+			throw new Error("Invalid header element");
+		}
 
 		return {
 			id: Math.random().toString(36).substring(7),

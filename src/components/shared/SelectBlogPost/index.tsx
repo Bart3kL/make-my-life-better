@@ -1,27 +1,18 @@
-import { cookies } from "next/headers";
 import Link from "next/link";
 
+import { type StructureBlogPosts, type SelectBlogPostProps } from "./types";
 import { ExpandableCards } from "@/components/shared/ExpandableCards";
 
-import { SelectBlogPostProps } from "./types";
+import { useFetch } from "@/hooks/useFetch";
 
 export const SelectBlogPost = async ({ isContentPage }: SelectBlogPostProps) => {
-	const url = process.env.BASE_URL || "http://localhost:3000";
-	const response = await fetch(`${url}/api/blog/getAllBlogPosts`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${cookies().get("auth-token")!.value}`,
-		},
-		body: JSON.stringify({
-			status: isContentPage ? "draft" : "onlyStructure",
-			fields: "id,title,createdat,structure,image",
-		}),
+	const data = await useFetch<StructureBlogPosts>({
+		endpoint: "/blog/getAllBlogPosts",
+		status: isContentPage ? "draft" : "onlyStructure",
+		fields: "id,title,createdat,structure,image",
 	});
 
-	const { blogPosts } = await response.json();
-
-	const noBlogPosts = !blogPosts;
+	const noBlogPosts = !data.blogPosts;
 
 	return (
 		<>
@@ -42,12 +33,15 @@ export const SelectBlogPost = async ({ isContentPage }: SelectBlogPostProps) => 
 				) : (
 					<ExpandableCards
 						isContentPage={isContentPage}
-						cards={blogPosts.map(({ id, title, createdat, image, structure }: any) => ({
+						cards={data.blogPosts.map(({ id, title, createdat, image, structure }) => ({
 							title: title,
 							createdat: createdat.split("T")[0],
 							src: image,
 							link: `/dashboard/blog/${isContentPage ? "content" : "structure"}?blogPostId=` + id,
-							headings: JSON.parse(structure),
+
+							headings: JSON.parse(structure) as
+								| string[]
+								| { blocks: { data: { text: string } }[] },
 						}))}
 					/>
 				)}

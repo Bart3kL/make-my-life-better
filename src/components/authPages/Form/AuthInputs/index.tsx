@@ -1,8 +1,8 @@
+import { type AuthInputsProps } from "./types";
 import { Input } from "@/components/shared/Input";
 import { Label } from "@/components/shared/Label";
 import { LabelInputContainer } from "@/components/shared/LabelInputContainer";
 
-import { AuthInputsProps } from "./types";
 
 export const AuthInputs = ({ state, handleChange, config }: AuthInputsProps) => {
 	const { isSignInPage, isResetPasswordPage, isEnterNewPasswordPage } = config;

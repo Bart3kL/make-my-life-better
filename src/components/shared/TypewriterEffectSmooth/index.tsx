@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-import { TypewriterEffectSmoothProps } from "@/components/shared/TypewriterEffectSmooth/types";
+import { type TypewriterEffectSmoothProps } from "@/components/shared/TypewriterEffectSmooth/types";
 import { cn } from "@/lib/utils";
 
 export const TypewriterEffectSmooth = ({

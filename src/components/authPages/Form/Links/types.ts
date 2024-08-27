@@ -1,4 +1,4 @@
-import { FormProps } from "../types";
+import { type FormProps } from "../types";
 
 export type LinksProps = FormProps & {
 	passwordResetLinkMessage: string | null;

@@ -1,4 +1,4 @@
-import { ImageProps } from "./types";
+import { type ImageProps } from "./types";
 
 import { FileUpload } from "@/components/shared/FileUpload";
 

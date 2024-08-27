@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 import { SocialLink } from "./SocialLink";
+import { links, headingWords } from "./constants";
 import { TypewriterEffectSmooth } from "@/components/shared/TypewriterEffectSmooth";
 import { Sparkles } from "@/components/shared/Sparkles";
 
-import { links, headingWords } from "./constants";
 
 export function Hero() {
 	return (

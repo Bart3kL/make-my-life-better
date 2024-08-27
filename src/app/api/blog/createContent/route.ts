@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { openai } from "@/lib/ai/client";
 
 export async function POST(request: NextRequest) {

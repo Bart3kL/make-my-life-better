@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-import { LinksProps } from "./types";
+import { type LinksProps } from "./types";
 
 export const Links = ({
 	isSignInPage,

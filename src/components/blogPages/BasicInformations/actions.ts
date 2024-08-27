@@ -1,4 +1,4 @@
-import { BlogState, BlogAction } from "./types";
+import { type BlogState, type BlogAction } from "./types";
 
 export const initialState: BlogState = {
 	step: 1,

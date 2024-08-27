@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import puppeteer from "puppeteer";
 
 export async function POST(request: NextRequest) {

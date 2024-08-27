@@ -2,7 +2,7 @@ export interface PlaceholdersAndVanishInputProps {
 	id?: string;
 	placeholders: string[];
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+	onSubmit: () => void;
 }
 
 export interface UseCanvasDrawProps {
@@ -10,4 +10,10 @@ export interface UseCanvasDrawProps {
 	setValue: (val: string) => void;
 	setAnimating: (val: boolean) => void;
 	inputRef: React.RefObject<HTMLInputElement>;
+}
+export interface PixelData {
+	x: number;
+	y: number;
+	color: string;
+	r: number;
 }

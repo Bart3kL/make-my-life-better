@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ShootingStars } from "./ShootingStars";
 import { StarsBackground } from "./StarsBackground";
 
-import { ShootingStarsAndStarsBackgroundProps } from "./types";
+import { type ShootingStarsAndStarsBackgroundProps } from "./types";
 import { cn } from "@/lib/utils";
 
 export function ShootingStarsAndStarsBackground({
