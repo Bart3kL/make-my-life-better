@@ -2,9 +2,10 @@ import { type NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { sql } from "@vercel/postgres";
+import { type SignUpRequest } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
-	const { firstname, lastname, email, password } = await request.json();
+	const { firstname, lastname, email, password } = (await request.json()) as SignUpRequest;
 
 	if (!firstname || !lastname || !email || !password) {
 		return NextResponse.json({ message: "All fields are required" }, { status: 400 });

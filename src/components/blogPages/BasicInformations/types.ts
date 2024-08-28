@@ -25,3 +25,10 @@ export type BlogAction =
 	| { type: "UPLOAD_IMAGE"; payload: File }
 	| { type: "DELETE_IMAGE" }
 	| { type: "SET_STEP"; payload: number };
+
+export interface BasicInformationsProps {
+	token: string;
+}
+export interface UseBlogReducerProps {
+	token: string;
+}

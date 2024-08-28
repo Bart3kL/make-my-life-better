@@ -1,6 +1,8 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, MenuItem, Select } from "@mui/material";
 
-export const StyleSelector = ({ style, handleChange, handleSubmit }: any = {}) => {
+import { type StyleSelectorProps } from "./types";
+
+export const StyleSelector = ({ style, handleChange, handleSubmit }: StyleSelectorProps) => {
 	return (
 		<div className="mx-auto w-full max-w-xl">
 			<h2 className="mb-10 text-center text-xl text-midnight md:mb-20 md:text-3xl">
@@ -10,7 +12,7 @@ export const StyleSelector = ({ style, handleChange, handleSubmit }: any = {}) =
 				<Select
 					labelId="style-select-label"
 					value={style}
-					onChange={(e) => handleChange(e)}
+					onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
 					name="style"
 				>
 					<MenuItem value="formal" id="style">

@@ -3,11 +3,12 @@ import jwt from "jsonwebtoken";
 import { sql } from "@vercel/postgres";
 import sgMail from "@sendgrid/mail";
 
-// Ustawienie klucza API SendGrid
+import { type RequestResetRequest } from "@/lib/types";
+
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 export async function POST(request: NextRequest) {
-	const { email } = await request.json();
+	const { email } = (await request.json()) as RequestResetRequest;
 
 	if (!email) {
 		return NextResponse.json({ message: "Email is required" }, { status: 400 });
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
 
 	const msg = {
 		to: email,
-		from: "bartosz.lewandowski@asttero.dev", // Zastąp "yourdomain.com" własną domeną
+		from: "bartosz.lewandowski@asttero.dev",
 		subject: "Password Reset - Make Your Life Better",
 		text: `You requested a password reset. Click the link to reset your password: ${process.env.NEXT_PUBLIC_FRONTEND_URL}/reset-password?token=${resetToken}`,
 		html: `<strong>You requested a password reset. Click the link to reset your password:</strong> <a href="${process.env.NEXT_PUBLIC_FRONTEND_URL}/reset-password?token=${resetToken}">Reset Password</a>`,
@@ -39,11 +40,8 @@ export async function POST(request: NextRequest) {
 		response.cookies.set("auth-token", "", { httpOnly: true, secure: true, expires: new Date(0) });
 
 		return response;
-	} catch (error: any) {
-		console.error("Error sending email:", error.message);
-		return NextResponse.json(
-			{ message: "Error sending email", error: error.message },
-			{ status: 500 },
-		);
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : "Unknown error";
+		return NextResponse.json({ error: errorMessage }, { status: 500 });
 	}
 }

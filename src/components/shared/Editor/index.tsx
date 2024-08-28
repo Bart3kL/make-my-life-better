@@ -6,7 +6,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 
 import { useFormHandler } from "./hooks";
-import { type EditorProps } from "./types";
+import { type BlockProps, type EditorProps } from "./types";
 import { MultiStepLoader as Loader } from "@/components/shared/MultiStepLoader";
 
 export const Editor = ({ post, token, isContentPage, style, headerLength }: EditorProps) => {
@@ -54,9 +54,11 @@ export const Editor = ({ post, token, isContentPage, style, headerLength }: Edit
 			</form>
 			{isContentPage && (
 				<Loader
-					loadingStates={JSON.parse(post.structure!).blocks.map((b: any) => ({
-						text: b.data.text,
-					}))}
+					loadingStates={(JSON.parse(post.structure) as { blocks: BlockProps[] }).blocks.map(
+						(b) => ({
+							text: b.data.text,
+						}),
+					)}
 					loading={state.loading}
 					duration={2000}
 				/>

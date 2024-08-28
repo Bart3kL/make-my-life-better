@@ -1,6 +1,13 @@
+import { type BlogPostTitleProps } from "./types";
+
 import { PlaceholdersAndVanishInput } from "@/components/shared/AnimatedInput";
 
-export const BlogPostTitle = ({ placeholders, handleChange, handleSubmit, error }: any) => {
+export const BlogPostTitle = ({
+	placeholders,
+	handleChange,
+	handleSubmit,
+	error,
+}: BlogPostTitleProps) => {
 	return (
 		<>
 			<h2 className="mb-10 text-center text-xl text-midnight md:mb-20 md:text-3xl">

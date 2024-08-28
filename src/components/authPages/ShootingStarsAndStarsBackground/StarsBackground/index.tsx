@@ -58,6 +58,7 @@ export const StarsBackground = ({
 
 		return () => {
 			if (canvasRef.current) {
+				// eslint-disable-next-line react-hooks/exhaustive-deps
 				resizeObserver.unobserve(canvasRef.current);
 			}
 		};

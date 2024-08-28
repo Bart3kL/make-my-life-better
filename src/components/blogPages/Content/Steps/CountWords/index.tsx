@@ -1,6 +1,7 @@
+import { type CoutWordsProps } from "./types";
 import { PlaceholdersAndVanishInput } from "@/components/shared/AnimatedInput";
 
-export const CountWords = ({ placeholders, handleChange, handleSubmit, error }: any) => {
+export const CountWords = ({ handleChange, handleSubmit }: CoutWordsProps) => {
 	return (
 		<>
 			<h2 className="mb-10 text-center text-xl text-midnight md:mb-20 md:text-3xl">
@@ -13,7 +14,6 @@ export const CountWords = ({ placeholders, handleChange, handleSubmit, error }: 
 					id="headerLength"
 					onSubmit={handleSubmit}
 				/>
-				{error && <p className="mt-2 text-red-500">{error}</p>}
 			</div>
 		</>
 	);

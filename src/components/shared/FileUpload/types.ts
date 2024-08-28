@@ -6,7 +6,7 @@ export interface FileUploadProps {
 }
 
 export interface UseFileUploadProps {
-	onChange?: (files: File[] | File) => void;
-	onDelete?: (fileToDelete: File) => void;
+	onChange: (files: File[] | File) => void;
+	onDelete: (fileToDelete: File) => void;
 	isImageUpload?: boolean;
 }

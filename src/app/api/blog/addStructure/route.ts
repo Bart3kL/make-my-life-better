@@ -1,10 +1,26 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import jwt from "jsonwebtoken";
 
 import { cloudinary } from "@/lib/cloudinary";
+import { type AddStructureRequest } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
-	const { userEmail, structure, status, title, image } = await request.json();
+	const { userEmail, structure, status, title, image } =
+		(await request.json()) as AddStructureRequest;
+
+	const authHeader = request.headers.get("Authorization");
+	const token = authHeader ? authHeader.split(" ")[1] : null;
+
+	if (!token) {
+		return NextResponse.json({ message: "Authorization header is missing" }, { status: 401 });
+	}
+
+	try {
+		jwt.verify(token, process.env.JWT_SECRET!);
+	} catch {
+		return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+	}
 
 	if (!userEmail || !structure || !status || !title) {
 		return NextResponse.json({ message: "All fields are required" }, { status: 400 });
@@ -26,11 +42,8 @@ export async function POST(request: NextRequest) {
 			{ message: "Blog post created", blogPost: newBlogPost },
 			{ status: 201 },
 		);
-	} catch (error: any) {
-		console.error("Error creating blog post:", error);
-		return NextResponse.json(
-			{ message: "Error creating blog post", error: error.message },
-			{ status: 500 },
-		);
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : "Unknown error";
+		return NextResponse.json({ error: errorMessage }, { status: 500 });
 	}
 }

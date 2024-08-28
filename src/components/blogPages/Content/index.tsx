@@ -1,28 +1,25 @@
 import { cookies } from "next/headers";
 
 import { SelectBlogPost } from "../../shared/SelectBlogPost";
+import { type BlogPostData } from "../HeadingsStructure/types";
 import { Steps } from "./Steps";
 
 import { type HeadingsStructureProps } from "./types";
+import { useFetch } from "@/hooks/useFetch";
 
 export const Content = async ({ blogPostId }: HeadingsStructureProps) => {
 	const token = cookies().get("auth-token")!.value;
 
-	let data;
+	let data: BlogPostData = {};
 
 	if (blogPostId) {
-		const url = process.env.BASE_URL || "http://localhost:3000";
-		const response = await fetch(
-			`${url}/api/blog/getBlogPost?blogPostId=${blogPostId}&status=draft`,
-			{
-				method: "GET",
-				cache: "no-store",
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			},
-		);
-		data = await response.json();
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		const response = await useFetch<BlogPostData>({
+			endpoint: `/blog/getBlogPost?blogPostId=${blogPostId}&status=draft`,
+			method: "GET",
+			requestBody: "",
+		});
+		data = response;
 	}
 
 	return (

@@ -1,16 +1,13 @@
 import { TabPanel } from "@mui/base";
 
+import { type FileUploadContainerProps } from "./types";
 import { FileUpload } from "@/components/shared/FileUpload";
 
 export const FileUploadContainer = ({
 	files,
 	handleFileUpload,
 	handleFileDelete,
-}: {
-	files: File[];
-	handleFileUpload: (newFiles: File[]) => void;
-	handleFileDelete: (fileToDelete: File) => void;
-}) => {
+}: FileUploadContainerProps) => {
 	return (
 		<TabPanel value={0}>
 			<div className="mx-auto flex w-full max-w-xl flex-col justify-items-center">

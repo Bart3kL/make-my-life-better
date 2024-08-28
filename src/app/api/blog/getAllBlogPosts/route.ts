@@ -2,17 +2,33 @@ import { type NextRequest, NextResponse } from "next/server";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import { sql } from "@vercel/postgres";
 
+import { type GetAllBlogPostsRequest } from "@/lib/types";
+
 export async function POST(request: NextRequest) {
 	try {
-		const { status, fields } = await request.json();
+		const { status, fields } = (await request.json()) as GetAllBlogPostsRequest;
 
-		// Validate status
 		const validStatuses = ["published", "draft", "onlyStructure"];
 		if (!validStatuses.includes(status)) {
 			return NextResponse.json(
 				{ message: "Please enter correct blog post status" },
 				{ status: 400 },
 			);
+		}
+
+		const token = request.headers.get("Authorization")?.split(" ")[1];
+		if (!token) {
+			return NextResponse.json({ message: "Authorization header is missing" }, { status: 401 });
+		}
+
+		let userEmail: string;
+		try {
+			const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload & {
+				email: string;
+			};
+			userEmail = decodedToken.email;
+		} catch {
+			return NextResponse.json({ message: "Invalid token" }, { status: 401 });
 		}
 
 		const allFields = [
@@ -35,16 +51,6 @@ export async function POST(request: NextRequest) {
 			}
 		}
 
-		const token = request.headers.get("Authorization")?.split(" ")[1];
-		if (!token) {
-			return NextResponse.json({ message: "Authorization header is missing" }, { status: 401 });
-		}
-
-		const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload & {
-			email: string;
-		};
-		const userEmail = decodedToken.email;
-
 		const query = `
 			SELECT ${selectedFields.join(", ")} FROM blogPosts
 			WHERE status = $1 AND userEmail = $2
@@ -61,11 +67,8 @@ export async function POST(request: NextRequest) {
 
 		const blogPosts = result.rows;
 		return NextResponse.json({ message: "Blog posts fetched", blogPosts }, { status: 200 });
-	} catch (error: any) {
-		console.error("Error fetching blog posts:", error);
-		return NextResponse.json(
-			{ message: "Error fetching blog posts", error: error.message },
-			{ status: 500 },
-		);
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : "Unknown error";
+		return NextResponse.json({ error: errorMessage }, { status: 500 });
 	}
 }

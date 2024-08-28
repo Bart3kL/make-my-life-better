@@ -9,16 +9,18 @@ export const useFileUpload = ({ onChange, onDelete, isImageUpload }: UseFileUplo
 
 	const handleFileChange = (newFiles: File[]) => {
 		if (isImageUpload) {
-			onChange && newFiles.length > 0 && onChange(newFiles[0]);
+			if (newFiles.length > 0) {
+				onChange(newFiles[0]);
+			}
 		} else {
-			onChange && onChange(newFiles);
+			onChange(newFiles);
 		}
 	};
 
 	const handleDelete = (e: React.MouseEvent, fileToDelete: File) => {
 		e.stopPropagation();
 
-		onDelete && onDelete(fileToDelete);
+		onDelete(fileToDelete);
 	};
 
 	const handleClick = () => {
@@ -27,13 +29,9 @@ export const useFileUpload = ({ onChange, onDelete, isImageUpload }: UseFileUplo
 
 	const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
 		multiple: !isImageUpload,
-
 		noClick: true,
-
 		onDrop: handleFileChange,
-
-		onDropRejected: (fileRejections) => {},
-
+		onDropRejected: () => {},
 		accept: isImageUpload
 			? {
 					"image/jpeg": [".jpeg", ".jpg"],

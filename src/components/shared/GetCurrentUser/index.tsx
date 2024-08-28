@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
+import { type UserProps } from "./types";
 import { useAppDispatch } from "@/redux/store";
 import { setAuthStatus, setUser } from "@/redux/auth";
 
-const GetCurrentUser = () => {
+export const GetCurrentUser = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		const fetchCurrentUser = async () => {
 			try {
 				const response = await fetch("/api/auth/me");
-				const data = await response.json();
+				const data = (await response.json()) as UserProps;
+
+				console.log({ data });
 				if (response.ok) {
 					dispatch(setUser(data));
 					dispatch(setAuthStatus(true));
@@ -23,10 +26,8 @@ const GetCurrentUser = () => {
 			}
 		};
 
-		fetchCurrentUser();
+		void fetchCurrentUser();
 	}, [dispatch]);
 
 	return null;
 };
-
-export default GetCurrentUser;

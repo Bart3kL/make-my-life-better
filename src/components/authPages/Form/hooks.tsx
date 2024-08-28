@@ -1,6 +1,5 @@
 import { useReducer, useEffect, useState } from "react";
-import { useSearchParams , useRouter } from "next/navigation";
-
+import { useSearchParams, useRouter } from "next/navigation";
 
 import { type FormState, type FormProps } from "./types";
 import { initialState, formReducer } from "./actions";
@@ -126,7 +125,7 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 					}
 			}
 
-			const data = await response.json();
+			const data = (await response.json()) as { message: string };
 
 			if (!response.ok) {
 				dispatch({ type: "SET_ERRORS", errors: { form: data.message } });

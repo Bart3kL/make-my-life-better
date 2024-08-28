@@ -1,11 +1,13 @@
 import { useReducer, useState } from "react";
 import { useRouter } from "next/navigation";
-import { type BlogState, type BlogAction } from "./types";
-import { initialState, blogReducer } from "./actions";
-import { useAppSelector } from "@/redux/store";
-import { convertImageToBase64 } from "@/lib/convertImageTobase64";
 
-export function useBlogReducer() {
+import { type BlogState, type BlogAction, type UseBlogReducerProps } from "./types";
+import { initialState, blogReducer } from "./actions";
+import { type RootState, useAppSelector } from "@/redux/store";
+import { convertImageToBase64 } from "@/lib/convertImageTobase64";
+import { type UserProps } from "@/components/shared/GetCurrentUser/types";
+
+export function useBlogReducer({ token }: UseBlogReducerProps) {
 	const [state, dispatch] = useReducer<React.Reducer<BlogState, BlogAction>>(
 		blogReducer,
 		initialState,
@@ -13,7 +15,7 @@ export function useBlogReducer() {
 	const router = useRouter();
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const { user } = useAppSelector((state: any) => state.auth);
+	const user = useAppSelector((state: RootState) => state.auth.user) as { user: UserProps } | null;
 
 	const me = user?.user;
 
@@ -87,19 +89,21 @@ export function useBlogReducer() {
 			dispatch({ type: "SET_STEP", payload: 3 });
 		} else if (state.step === 3) {
 			setLoading(true);
-			const processedData: any = {};
+			const processedData: { files?: string[]; text?: string; urlsContent?: string[] } = {};
 
 			try {
 				if (state.knowledgeUrls) {
 					const urls = state.knowledgeUrls.split(",").map((url) => url.trim());
-					const urlContents = await fetch("/api/blog/getContentFromUrls", {
+					const urlContents = (await fetch("/api/blog/getContentFromUrls", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
+							Authorization: `Bearer ${token}`,
 						},
 						cache: "no-cache",
 						body: JSON.stringify({ urls }),
-					}).then((res) => res.json());
+					}).then((res) => res.json())) as { contents: string[] };
+
 					processedData["urlsContent"] = urlContents.contents;
 				}
 
@@ -112,35 +116,36 @@ export function useBlogReducer() {
 				if (state.knowledgeText) {
 					processedData["text"] = state.knowledgeText;
 				}
-
-				const responseStructure = await fetch("/api/blog/generateBlogPostStructure", {
+				const responseStructure = await fetch("/api/blog/generateStructure", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
 					},
 					cache: "no-cache",
 					body: JSON.stringify({ titleBlogPost: state.titleBlogPost, processedData }),
 				});
 
-				const resultStructure = await responseStructure.json();
+				const resultStructure = (await responseStructure.json()) as { blogStructure: string };
 
-				const convertedImage = await convertImageToBase64(state.image);
+				const convertedImage = await convertImageToBase64(state.image!);
 
-				const responseNewPost = await fetch("/api/blog/addBlogPostStructure", {
+				const responseNewPost = await fetch("/api/blog/addStructure", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
 					},
 					cache: "no-cache",
 					body: JSON.stringify({
-						userEmail: me.email,
+						userEmail: me!.email,
 						title: state.titleBlogPost,
 						status: "onlyStructure",
 						structure: resultStructure.blogStructure,
 						image: convertedImage,
 					}),
 				});
-				const resultNewPost = await responseNewPost.json();
+				const resultNewPost = (await responseNewPost.json()) as { blogPost: { id: string } };
 
 				router.push(`/dashboard/blog/structure?blogPostId=${resultNewPost.blogPost.id}`);
 			} catch (error) {
@@ -164,10 +169,21 @@ export function useBlogReducer() {
 					const text = reader.result as string;
 					resolve(text);
 				} catch (error) {
-					reject(error);
+					if (error instanceof Error) {
+						reject(new Error(`Failed to read file content: ${error.message}`));
+					} else {
+						reject(new Error("An unknown error occurred while reading the file content."));
+					}
 				}
 			};
-			reader.onerror = (error) => reject(error);
+
+			reader.onerror = (error) => {
+				if (error instanceof Error) {
+					reject(new Error(`File read error: ${error.message}`));
+				} else {
+					reject(new Error("An unknown file read error occurred."));
+				}
+			};
 			reader.readAsText(file);
 		});
 	};

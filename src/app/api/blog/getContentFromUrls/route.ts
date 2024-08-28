@@ -1,8 +1,26 @@
 import { type NextRequest, NextResponse } from "next/server";
 import puppeteer from "puppeteer";
+import jwt, { type JwtPayload } from "jsonwebtoken";
+
+import { type GetContentFromUrlReequest } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
-	const { urls } = await request.json();
+	const { urls } = (await request.json()) as GetContentFromUrlReequest;
+
+	const authHeader = request.headers.get("Authorization");
+	const token = authHeader ? authHeader.split(" ")[1] : null;
+
+	if (!token) {
+		return NextResponse.json({ message: "Authorization header is missing" }, { status: 401 });
+	}
+
+	try {
+		jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload & {
+			email: string;
+		};
+	} catch {
+		return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+	}
 
 	if (!urls || !Array.isArray(urls)) {
 		return NextResponse.json({ error: "Invalid URLs" }, { status: 400 });
@@ -53,7 +71,8 @@ export async function POST(request: NextRequest) {
 
 		await browser.close();
 		return NextResponse.json({ contents: contentArray }, { status: 200 });
-	} catch (error: any) {
-		return NextResponse.json({ error: error.message }, { status: 500 });
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : "Unknown error";
+		return NextResponse.json({ error: errorMessage }, { status: 500 });
 	}
 }

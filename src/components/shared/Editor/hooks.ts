@@ -1,10 +1,18 @@
-import { useReducer, useRef, useEffect, useCallback } from "react";
-import type EditorJS from "@editorjs/editorjs";
-import { headers } from "next/headers";
+import { useReducer, useRef, useEffect, useCallback, type FormEvent } from "react";
+import EditorJS, { type ToolConstructable } from "@editorjs/editorjs";
+import { useRouter } from "next/navigation";
+
 import { blogReducer, initialState } from "./actions";
+import { type BlockProps, type UseFormHandlerProps } from "./types";
 import { parseStructure } from "@/lib/parsteBlogPostStructure";
 
-export const useFormHandler = ({ post, token, isContentPage, style, headerLength }: any) => {
+export const useFormHandler = ({
+	post,
+	token,
+	isContentPage,
+	style,
+	headerLength,
+}: UseFormHandlerProps) => {
 	const [state, dispatch] = useReducer(blogReducer, {
 		...initialState,
 		title: post?.title || "",
@@ -12,8 +20,9 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 		loading: false,
 	});
 	const ref = useRef<EditorJS | undefined>(undefined);
+	const router = useRouter();
 
-	const fetchStreamedData = async (headerObj: any) => {
+	const fetchStreamedData = async (headerObj: { id: string; data: { text: string } }) => {
 		const response = await fetch("/api/blog/createContent", {
 			method: "POST",
 			headers: {
@@ -24,7 +33,7 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 			body: JSON.stringify({
 				title: post.title,
 				header: headerObj.data.text,
-				headers: JSON.parse(post.structure).blocks,
+				headers: (JSON.parse(post.structure) as { blocks: BlockProps[] }).blocks,
 				style,
 				headerLength,
 			}),
@@ -46,23 +55,23 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 			data: { text: partialContent },
 		};
 
-		const updatedBlocks = JSON.parse(post.structure).blocks;
-		const headerIndex = updatedBlocks.findIndex((b: any) => b.id === headerObj.id);
+		const updatedBlocks = (JSON.parse(post.structure) as { blocks: BlockProps[] }).blocks;
+		const headerIndex = updatedBlocks.findIndex((b) => b.id === headerObj.id);
 		if (headerIndex !== -1) {
 			updatedBlocks.splice(headerIndex + 1, 0, newContent);
 		}
 		post.structure = JSON.stringify({ ...JSON.parse(post.structure), blocks: updatedBlocks });
 
-		ref.current?.render({ blocks: updatedBlocks });
+		void ref.current?.render({ blocks: updatedBlocks });
 	};
 
-	const processHeadersSequentially = async (headers: any) => {
-		for (let i = 0; i < headers.length; i++) {
-			await fetchStreamedData(headers[i]);
+	const processHeadersSequentially = async (headers: { id: string; data: { text: string } }[]) => {
+		for (const header of headers) {
+			await fetchStreamedData(header);
 		}
 	};
 
-	const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+	const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		dispatch({ type: "SET_LOADING", loading: true });
@@ -71,8 +80,7 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 			const savedBlocks = await ref.current?.save();
 
 			if (!isContentPage) {
-				console.log(post);
-				await fetch("/api/blog/updateBlogPostStructure", {
+				await fetch("/api/blog/updateStructure", {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
@@ -85,13 +93,15 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 						postId: post.id,
 					}),
 				});
+
+				router.push(`/dashboard/blog/content?blogPostId=${post.id}`);
 			} else {
-				const headers = JSON.parse(post.structure).blocks.filter(
-					(block: any) => block.type === "header",
+				const headers = (JSON.parse(post.structure) as { blocks: BlockProps[] }).blocks.filter(
+					(block: { type: string }) => block.type === "header",
 				);
 				await processHeadersSequentially(headers);
 				const updatedBlocks = await ref.current?.save();
-				const response = await fetch("/api/blog/updateBlogPostStructure", {
+				const response = await fetch("/api/blog/updateStructure", {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
@@ -107,7 +117,7 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 
 				console.log(1, await response.json());
 			}
-		} catch (error: any) {
+		} catch (error) {
 			console.error(error);
 		} finally {
 			dispatch({ type: "SET_LOADING", loading: false });
@@ -115,17 +125,36 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 	};
 
 	const initEditor = useCallback(async () => {
-		const EditorJS = (await import("@editorjs/editorjs")).default;
-		const Header = (await import("@editorjs/header")).default;
-		const Table = (await import("@editorjs/table")).default;
-		const Embed = (await import("@editorjs/embed")).default;
-		const List = (await import("@editorjs/list")).default;
-		const Code = (await import("@editorjs/code")).default;
-		const LinkTool = (await import("@editorjs/link")).default;
-		const InlineCode = (await import("@editorjs/inline-code")).default;
-		const Quote = (await import("@editorjs/quote")).default;
-		const Raw = (await import("@editorjs/raw")).default;
-		const CheckList = (await import("@editorjs/checklist")).default;
+		const { default: Header } = (await import("@editorjs/header")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: Table } = (await import("@editorjs/table")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: Embed } = (await import("@editorjs/embed")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: List } = (await import("@editorjs/list")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: Code } = (await import("@editorjs/code")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: LinkTool } = (await import("@editorjs/link")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: InlineCode } = (await import("@editorjs/inline-code")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: Quote } = (await import("@editorjs/quote")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: Raw } = (await import("@editorjs/raw")) as unknown as {
+			default: ToolConstructable;
+		};
+		const { default: CheckList } = (await import("@editorjs/checklist")) as unknown as {
+			default: ToolConstructable;
+		};
 
 		if (!ref.current) {
 			const editor = new EditorJS({
@@ -134,8 +163,8 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 				inlineToolbar: true,
 				data: {
 					blocks: isContentPage
-						? JSON.parse(post.structure).blocks
-						: parseStructure(post?.structure),
+						? (JSON.parse(post.structure) as { blocks: BlockProps[] }).blocks
+						: parseStructure(post.structure),
 				},
 				defaultBlock: "header",
 				tools: isContentPage
@@ -175,7 +204,7 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 				},
 			});
 		}
-	}, [post]);
+	}, [isContentPage, post.structure]);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -183,24 +212,37 @@ export const useFormHandler = ({ post, token, isContentPage, style, headerLength
 		}
 	}, []);
 
-	const initializeSpinners = () => {
-		return JSON.parse(post.structure).blocks.filter((block: any) => block.type === "header");
-	};
+	const initializeSpinners = useCallback(() => {
+		return (JSON.parse(post.structure) as { blocks: BlockProps[] }).blocks.filter(
+			(block: { type: string }) => block.type === "header",
+		);
+	}, [post.structure]);
 
 	useEffect(() => {
-		if (state.isMounted) {
-			initEditor().then(() => {
-				isContentPage && initializeSpinners();
-			});
+		const initialize = async () => {
+			if (state.isMounted) {
+				try {
+					await initEditor();
 
-			return () => {
-				if (ref.current) {
-					ref.current.destroy();
-					ref.current = undefined;
+					if (isContentPage) {
+						initializeSpinners();
+					}
+				} catch (error) {
+					console.error("Failed to initialize editor:", error);
 				}
-			};
-		}
-	}, [state.isMounted, initEditor]);
+			}
+		};
+
+		void initialize();
+
+		return () => {
+			if (ref.current) {
+				ref.current.destroy();
+
+				ref.current = undefined;
+			}
+		};
+	}, [state.isMounted, initEditor, isContentPage, initializeSpinners]);
 
 	return {
 		state,

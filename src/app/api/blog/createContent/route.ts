@@ -1,19 +1,29 @@
 import { type NextRequest, NextResponse } from "next/server";
+import jwt, { type JwtPayload } from "jsonwebtoken";
+
+import { type CreateContentRequest } from "@/lib/types";
 import { openai } from "@/lib/ai/client";
 
 export async function POST(request: NextRequest) {
 	try {
-		const body = await request.json();
+		const body = (await request.json()) as CreateContentRequest;
 		const { title, header, headers, style, headerLength } = body;
-		console.log(body);
-
-		if (!title || !header || !headers) {
-			return NextResponse.json({ message: "Missing required parameters" }, { status: 400 });
-		}
 
 		const token = request.headers.get("Authorization")?.split(" ")[1];
 		if (!token) {
 			return NextResponse.json({ message: "Authorization header is missing" }, { status: 401 });
+		}
+
+		try {
+			jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload & {
+				email: string;
+			};
+		} catch {
+			return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+		}
+
+		if (!title || !header || !headers) {
+			return NextResponse.json({ message: "Missing required parameters" }, { status: 400 });
 		}
 
 		const stream = await openai.chat.completions.create({
@@ -25,7 +35,7 @@ export async function POST(request: NextRequest) {
 					content: `
                     Title of blog post: ${title}
                     Write extensive content for the header provided by the user.
-                    Headers: ${JSON.stringify(headers.map((h: any) => h.data.text))}
+                    Headers: ${JSON.stringify(headers.map((h) => h.data.text))}
                     Każdy nagłówek ma mieć około ${headerLength} słów
 					
 					
@@ -54,11 +64,8 @@ export async function POST(request: NextRequest) {
 			headers: { "Content-Type": "text/plain; charset=UTF-8" },
 			status: 200,
 		});
-	} catch (error: any) {
-		console.error("Error processing request:", error);
-		return NextResponse.json(
-			{ message: "Error processing request", error: error.message },
-			{ status: 500 },
-		);
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : "Unknown error";
+		return NextResponse.json({ error: errorMessage }, { status: 500 });
 	}
 }

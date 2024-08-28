@@ -8,8 +8,11 @@ import { useFetch } from "@/hooks/useFetch";
 export const SelectBlogPost = async ({ isContentPage }: SelectBlogPostProps) => {
 	const data = await useFetch<StructureBlogPosts>({
 		endpoint: "/blog/getAllBlogPosts",
-		status: isContentPage ? "draft" : "onlyStructure",
-		fields: "id,title,createdat,structure,image",
+		method: "POST",
+		requestBody: JSON.stringify({
+			status: isContentPage ? "draft" : "onlyStructure",
+			fields: "id,title,createdat,structure,image",
+		}),
 	});
 
 	const noBlogPosts = !data.blogPosts;

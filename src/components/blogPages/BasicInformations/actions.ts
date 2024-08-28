@@ -20,7 +20,7 @@ export const blogReducer = (state: BlogState, action: BlogAction): BlogState => 
 		case "DELETE_FILE":
 			return {
 				...state,
-				files: state.files.filter((file: any) => file !== action.payload),
+				files: state.files.filter((file: File) => file !== action.payload),
 			};
 		case "UPLOAD_IMAGE":
 			return { ...state, image: action.payload };

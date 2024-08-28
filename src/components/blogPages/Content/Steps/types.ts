@@ -1,3 +1,5 @@
+import { type PostProps } from "@/components/shared/Editor/types";
+
 export interface StepsState {
 	headerLength: string;
 	style: string;
@@ -20,3 +22,8 @@ export type FormAction =
 			type: "SET_STEP";
 			payload: number;
 	  };
+
+export interface StepsProps {
+	token: string;
+	blogPost: PostProps;
+}

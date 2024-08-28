@@ -5,6 +5,8 @@ import { FileUploadContainer } from "../../../shared/FileUploadContainer";
 import { Tab } from "../../../shared/Tab";
 import { Textarea } from "../../../shared/Textarea";
 
+import { type AdditionalKnowledgeProps } from "./types";
+
 export const AdditionalKnowledge = ({
 	files,
 	knowledgeText,
@@ -14,16 +16,7 @@ export const AdditionalKnowledge = ({
 	handleSubmit,
 	handleChange,
 	error,
-}: {
-	files: File[];
-	knowledgeText: string;
-	knowledgeUrls: string;
-	handleFileUpload: (newFiles: File[]) => void;
-	handleFileDelete: (fileToDelete: File) => void;
-	handleSubmit: () => void;
-	handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-	error?: string;
-}) => {
+}: AdditionalKnowledgeProps) => {
 	return (
 		<>
 			<h2 className="text-center text-xl text-midnight md:text-3xl">Additional knowledge</h2>

@@ -1,9 +1,10 @@
 export type PostProps = {
 	id: string;
 	title: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	content: any;
 	useremail: string;
-	structure?: string;
+	structure: string;
 	createdAt: string;
 	status: "published" | "draft" | "onlyStructure";
 	image: string;
@@ -22,6 +23,8 @@ export interface UseFormHandlerProps {
 	post: PostProps;
 	token: string;
 	isContentPage?: boolean;
+	style?: string;
+	headerLength?: string;
 }
 
 export interface EditorProps {
@@ -36,16 +39,23 @@ export type BlogState = {
 	title: string;
 	url: string;
 	postType: string;
-	imageFile: any;
+	imageFile: File | null | File[];
 	isMounted: boolean;
 
 	loading: boolean;
 };
 
+export interface BlockProps {
+	id: string;
+	type: string;
+	data: {
+		text: string;
+	};
+}
 export type BlogAction =
-	| { type: "SET_FIELD"; field: keyof BlogState; value: any }
-	| { type: "UPLOAD_FILES"; payload: any[] }
-	| { type: "DELETE_FILE"; payload: any }
+	| { type: "SET_FIELD"; field: keyof BlogState; value: string | boolean }
+	| { type: "UPLOAD_FILES"; payload: File[] | File }
+	| { type: "DELETE_FILE"; payload: File }
 	| { type: "SET_ERRORS"; errors: Record<string, string> }
 	| { type: "SET_STEP"; payload: number }
 	| { type: "RESET_FORM" }

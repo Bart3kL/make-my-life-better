@@ -1,18 +1,16 @@
 "use client";
 
 import { BlogPostTitle } from "./BlogPostTitle";
-
 import { AdditionalKnowledge } from "./AdditionalKnowledge";
-
 import { Image } from "./Image";
-
 
 import { blogTitlePlaceholders, loadingStates } from "./constants";
 
 import { useBlogReducer } from "./hooks";
+import { type BasicInformationsProps } from "./types";
 import { MultiStepLoader as Loader } from "@/components/shared/MultiStepLoader";
 
-export const BasicInformations = () => {
+export const BasicInformations = ({ token }: BasicInformationsProps) => {
 	const {
 		state,
 		handleChange,
@@ -22,7 +20,7 @@ export const BasicInformations = () => {
 		handleFileDelete,
 		handleImageUpload,
 		handleImageDelete,
-	} = useBlogReducer();
+	} = useBlogReducer({ token });
 
 	return (
 		<>
@@ -50,6 +48,7 @@ export const BasicInformations = () => {
 				)}
 
 				{state.step === 3 && (
+					// eslint-disable-next-line jsx-a11y/alt-text
 					<Image
 						image={state.image}
 						handleImageUpload={handleImageUpload}

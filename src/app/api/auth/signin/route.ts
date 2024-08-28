@@ -3,8 +3,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { sql } from "@vercel/postgres";
 
+import { type SignInRequest } from "@/lib/types";
+
 export async function POST(request: NextRequest) {
-	const { email, password } = await request.json();
+	const { email, password } = (await request.json()) as SignInRequest;
 
 	if (!email || !password) {
 		return NextResponse.json({ message: "Email and password are required" }, { status: 400 });
@@ -16,7 +18,7 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
 	}
 
-	const user = userResult.rows[0];
+	const user = userResult.rows[0] as { email: string; password: string };
 
 	const isMatch = await bcrypt.compare(password, user.password);
 
