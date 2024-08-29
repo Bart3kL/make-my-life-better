@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 	try {
 		const { status, fields } = (await request.json()) as GetAllBlogPostsRequest;
 
-		const validStatuses = ["published", "draft", "onlyStructure"];
+		const validStatuses = ["published", "draft", "onlyStructure", "prepared"];
 		if (!validStatuses.includes(status)) {
 			return NextResponse.json(
 				{ message: "Please enter correct blog post status" },
