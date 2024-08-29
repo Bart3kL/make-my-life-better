@@ -20,10 +20,6 @@ export const useFetch = async <T>({ endpoint, method, requestBody }: UseFetchPro
 
 		const response: Response = await fetch(`${url}/api${endpoint}`, options);
 
-		if (!response.ok) {
-			throw new Error(`Fetch error: ${response.statusText}`);
-		}
-
 		const data: T = (await response.json()) as T;
 		return data;
 	} catch (error) {

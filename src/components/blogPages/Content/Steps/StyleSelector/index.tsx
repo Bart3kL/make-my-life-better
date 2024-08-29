@@ -16,16 +16,16 @@ export const StyleSelector = ({ style, handleChange, handleSubmit }: StyleSelect
 					name="style"
 				>
 					<MenuItem value="formal" id="style">
-						Formalny
+						Formal
 					</MenuItem>
 					<MenuItem value="informal" id="style">
-						Nieformalny
+						Informal
 					</MenuItem>
 					<MenuItem value="technical" id="style">
-						Techniczny
+						Technical
 					</MenuItem>
 					<MenuItem value="literary" id="style">
-						Literacki
+						Literary
 					</MenuItem>
 				</Select>
 			</FormControl>

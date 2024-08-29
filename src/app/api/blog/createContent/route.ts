@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
+import { languaesType } from "@/lib/ai/prompts/languagesType";
 import { type CreateContentRequest } from "@/lib/types";
 import { openai } from "@/lib/ai/client";
 
@@ -25,6 +26,7 @@ export async function POST(request: NextRequest) {
 		if (!title || !header || !headers) {
 			return NextResponse.json({ message: "Missing required parameters" }, { status: 400 });
 		}
+		const selectedStyle = languaesType[style as keyof typeof languaesType];
 
 		const stream = await openai.chat.completions.create({
 			model: "gpt-4",
@@ -33,14 +35,14 @@ export async function POST(request: NextRequest) {
 				{
 					role: "system",
 					content: `
-                    Title of blog post: ${title}
-                    Write extensive content for the header provided by the user.
-                    Headers: ${JSON.stringify(headers.map((h) => h.data.text))}
-                    Każdy nagłówek ma mieć około ${headerLength} słów
+					Title of blog post: ${title}
+					Write extensive content for the header provided by the user.
+					Headers: ${JSON.stringify(headers.map((h) => h.data.text))}
+					Każdy nagłówek ma mieć około ${headerLength} słów
 					
 					
 					Pisz w takim stylu wypowiedzi:
-					${style}
+					${selectedStyle}
 					`,
 				},
 				{ role: "user", content: `Current header: ${header}` },

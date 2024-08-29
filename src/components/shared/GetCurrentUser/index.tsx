@@ -14,7 +14,6 @@ export const GetCurrentUser = () => {
 				const response = await fetch("/api/auth/me");
 				const data = (await response.json()) as UserProps;
 
-				console.log({ data });
 				if (response.ok) {
 					dispatch(setUser(data));
 					dispatch(setAuthStatus(true));

@@ -9,7 +9,6 @@ import { Editor } from "@/components/shared/Editor";
 export const Steps = ({ token, blogPost }: StepsProps) => {
 	const { state, handleChange, handleNextStep } = useStepsReducer();
 
-	console.log(state);
 	return (
 		<div>
 			{state.currentStep === 1 && (

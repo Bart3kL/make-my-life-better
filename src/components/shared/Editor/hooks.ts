@@ -101,7 +101,7 @@ export const useFormHandler = ({
 				);
 				await processHeadersSequentially(headers);
 				const updatedBlocks = await ref.current?.save();
-				const response = await fetch("/api/blog/updateStructure", {
+				await fetch("/api/blog/updateStructure", {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
@@ -114,8 +114,6 @@ export const useFormHandler = ({
 						postId: post.id,
 					}),
 				});
-
-				console.log(1, await response.json());
 			}
 		} catch (error) {
 			console.error(error);
