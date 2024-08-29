@@ -1,14 +1,13 @@
 import { type PasswordResetFieldsProps } from "./types";
-import { AuthInput } from "@/components/shared/Input";
-import { AuthLabel } from "@/components/shared/Label";
+import { Input } from "@/components/shared/Input";
+import { Label } from "@/components/shared/Label";
 import { LabelInputContainer } from "@/components/shared/LabelInputContainer";
-
 
 export const PasswordResetFields = ({ state, handleChange }: PasswordResetFieldsProps) => (
 	<>
 		<LabelInputContainer className="mb-4">
-			<AuthLabel htmlFor="newPassword">Enter new password</AuthLabel>
-			<AuthInput
+			<Label htmlFor="newPassword">Enter new password</Label>
+			<Input
 				id="newPassword"
 				placeholder="••••••••"
 				type="password"
@@ -18,8 +17,8 @@ export const PasswordResetFields = ({ state, handleChange }: PasswordResetFields
 			/>
 		</LabelInputContainer>
 		<LabelInputContainer className="mb-4">
-			<AuthLabel htmlFor="repeatNewPassword">Repeat new password</AuthLabel>
-			<AuthInput
+			<Label htmlFor="repeatNewPassword">Repeat new password</Label>
+			<Input
 				id="repeatNewPassword"
 				placeholder="••••••••"
 				type="password"
