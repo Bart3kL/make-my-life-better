@@ -1,5 +1,7 @@
+/* eslint-disable import/no-default-export */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import type { Config } from "tailwindcss";
-
+import { nextui } from "@nextui-org/react";
 const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
 
 const config: Config = {
@@ -25,13 +27,13 @@ const config: Config = {
 			},
 		},
 	},
-	plugins: [addVariablesForColors, require("@tailwindcss/typography")],
+	plugins: [nextui(), addVariablesForColors, require("@tailwindcss/typography")],
 };
 export default config;
 
 function addVariablesForColors({ addBase, theme }: any) {
-	let allColors = flattenColorPalette(theme("colors"));
-	let newVars = Object.fromEntries(
+	const allColors = flattenColorPalette(theme("colors"));
+	const newVars = Object.fromEntries(
 		Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
 	);
 

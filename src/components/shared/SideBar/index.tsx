@@ -41,9 +41,9 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 							loading={!me}
 							className="[&>span]:text-lg"
 							link={{
-								activeLink: ["/dashboard/profile"],
+								activeLink: ["/profile"],
 								label: `${me?.firstname} ${me?.lastname}`,
-								href: "/dashboard/profile",
+								href: "/profile",
 								icon: <TbUserCircle className="h-8 w-8 flex-shrink-0 text-midnight" />,
 							}}
 						/>

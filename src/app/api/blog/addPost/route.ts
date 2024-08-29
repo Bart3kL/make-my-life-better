@@ -3,11 +3,10 @@ import { sql } from "@vercel/postgres";
 import jwt from "jsonwebtoken";
 
 import { cloudinary } from "@/lib/cloudinary";
-import { type AddStructureRequest } from "@/lib/types";
+import { type AddPostRequest } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
-	const { userEmail, structure, status, title, image } =
-		(await request.json()) as AddStructureRequest;
+	const { userEmail, structure, status, title, image } = (await request.json()) as AddPostRequest;
 
 	const authHeader = request.headers.get("Authorization");
 	const token = authHeader ? authHeader.split(" ")[1] : null;

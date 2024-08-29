@@ -22,10 +22,11 @@ export interface UseFetchProps {
 export interface GetContentFromUrlReequest {
 	urls: string[];
 }
-export interface UpdateStructureRequest {
+export interface UpdatePostRequest {
 	structure: string;
 	status: string;
 	postId: string;
+	title?: string;
 }
 
 export interface GetAllBlogPostsRequest {
@@ -40,7 +41,7 @@ export interface CreateContentRequest {
 	headerLength: number;
 }
 
-export interface AddStructureRequest {
+export interface AddPostRequest {
 	userEmail: string;
 	structure: string;
 	status: string;

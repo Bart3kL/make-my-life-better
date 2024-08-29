@@ -2,10 +2,10 @@ import { type NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
-import { type UpdateStructureRequest } from "@/lib/types";
+import { type UpdatePostRequest } from "@/lib/types";
 
 export async function PUT(request: NextRequest) {
-	const { structure, status, postId } = (await request.json()) as UpdateStructureRequest;
+	const { structure, status, postId, title } = (await request.json()) as UpdatePostRequest;
 
 	const authHeader = request.headers.get("Authorization");
 	const token = authHeader ? authHeader.split(" ")[1] : null;
@@ -32,12 +32,23 @@ export async function PUT(request: NextRequest) {
 	}
 
 	try {
-		const result = await sql`
-			UPDATE blogPosts
-			SET structure = ${structure}, status = ${status}
-			WHERE userEmail = ${userEmail} AND id = ${postId}
-			RETURNING id, userEmail, structure, status, title, createdAt, image
-		`;
+		let result;
+		if (title) {
+			result = await sql`
+                UPDATE blogPosts
+                SET structure = ${structure}, status = ${status}, title = ${title}
+                WHERE userEmail = ${userEmail} AND id = ${postId}
+                RETURNING id, userEmail, structure, status, title, createdAt, image
+            `;
+		} else {
+			result = await sql`
+                UPDATE blogPosts
+                SET structure = ${structure}, status = ${status}
+                WHERE userEmail = ${userEmail} AND id = ${postId}
+                RETURNING id, userEmail, structure, status, title, createdAt, image
+            `;
+		}
+
 		if (result.rowCount === 0) {
 			return NextResponse.json({ message: "Blog post not found" }, { status: 404 });
 		}

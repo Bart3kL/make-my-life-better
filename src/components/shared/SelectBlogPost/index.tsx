@@ -28,7 +28,7 @@ export const SelectBlogPost = async ({ isContentPage }: SelectBlogPostProps) => 
 						<Link
 							type="submit"
 							className="mt-6 rounded-md bg-midnight px-8 py-3 text-white"
-							href="/dashboard/blog"
+							href="/blog"
 						>
 							Create your first blog post
 						</Link>
@@ -40,7 +40,7 @@ export const SelectBlogPost = async ({ isContentPage }: SelectBlogPostProps) => 
 							title: title,
 							createdat: createdat.split("T")[0],
 							src: image,
-							link: `/dashboard/blog/${isContentPage ? "content" : "structure"}?blogPostId=` + id,
+							link: `/blog/${isContentPage ? "content" : "structure"}?blogPostId=` + id,
 
 							headings: JSON.parse(structure) as
 								| string[]

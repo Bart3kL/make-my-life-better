@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { SelectBlogPost } from "../../shared/SelectBlogPost";
-import { type BlogPostData } from "../HeadingsStructure/types";
+import { type BlogPostData } from "../Structure/types";
 import { Steps } from "./Steps";
 
 import { type HeadingsStructureProps } from "./types";

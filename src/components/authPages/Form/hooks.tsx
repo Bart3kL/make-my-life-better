@@ -130,7 +130,6 @@ export function useForm({ isSignInPage, isResetPasswordPage, isEnterNewPasswordP
 			if (!response.ok) {
 				dispatch({ type: "SET_ERRORS", errors: { form: data.message } });
 			} else {
-				console.log("Form submission successful", data);
 				dispatch({ type: "RESET_FORM" });
 			}
 		} catch (error) {

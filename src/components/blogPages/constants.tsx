@@ -1,15 +1,15 @@
 export const sections = [
 	{
 		title: "Basic informations",
-		value: "/dashboard/blog",
+		value: "/blog",
 	},
 
 	{
 		title: "Blog post structure",
-		value: "/dashboard/blog/structure",
+		value: "/blog/structure",
 	},
 	{
 		title: "Blog post content",
-		value: "/dashboard/blog/content",
+		value: "/blog/content",
 	},
 ];

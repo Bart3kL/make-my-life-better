@@ -130,7 +130,7 @@ export function useBlogReducer({ token }: UseBlogReducerProps) {
 
 				const convertedImage = await convertImageToBase64(state.image!);
 
-				const responseNewPost = await fetch("/api/blog/addStructure", {
+				const responseNewPost = await fetch("/api/blog/addPost", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -147,7 +147,7 @@ export function useBlogReducer({ token }: UseBlogReducerProps) {
 				});
 				const resultNewPost = (await responseNewPost.json()) as { blogPost: { id: string } };
 
-				router.push(`/dashboard/blog/structure?blogPostId=${resultNewPost.blogPost.id}`);
+				router.push(`/blog/structure?blogPostId=${resultNewPost.blogPost.id}`);
 			} catch (error) {
 				console.error("Error during data processing:", error);
 				setLoading(false);

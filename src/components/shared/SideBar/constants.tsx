@@ -11,14 +11,14 @@ export const links = [
 	},
 	{
 		label: "Create blog post",
-		href: "/dashboard/blog",
-		activeLink: ["/dashboard/blog", "/dashboard/blog/structure", "/dashboard/blog/content"],
+		href: "/blog",
+		activeLink: ["/blog", "/blog/structure", "/blog/content"],
 		icon: <IoNewspaperOutline className="h-8 w-8 flex-shrink-0" />,
 	},
 	{
 		label: "Linkedin",
-		href: "/dashboard/linkedin",
-		activeLink: ["/dashboard/linkedin"],
+		href: "/linkedin",
+		activeLink: ["/linkedin"],
 		icon: <CiLinkedin className="h-8 w-8 flex-shrink-0" />,
 	},
 	{

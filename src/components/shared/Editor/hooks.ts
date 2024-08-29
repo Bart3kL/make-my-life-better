@@ -80,7 +80,7 @@ export const useFormHandler = ({
 			const savedBlocks = await ref.current?.save();
 
 			if (!isContentPage) {
-				await fetch("/api/blog/updateStructure", {
+				await fetch("/api/blog/updatePost", {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
@@ -94,14 +94,14 @@ export const useFormHandler = ({
 					}),
 				});
 
-				router.push(`/dashboard/blog/content?blogPostId=${post.id}`);
+				router.push(`/blog/content?blogPostId=${post.id}`);
 			} else {
 				const headers = (JSON.parse(post.structure) as { blocks: BlockProps[] }).blocks.filter(
 					(block: { type: string }) => block.type === "header",
 				);
 				await processHeadersSequentially(headers);
 				const updatedBlocks = await ref.current?.save();
-				await fetch("/api/blog/updateStructure", {
+				const response = await fetch("/api/blog/updatePost", {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
@@ -114,6 +114,10 @@ export const useFormHandler = ({
 						postId: post.id,
 					}),
 				});
+
+				if (response.ok) {
+					router.push(`/blog/post/${post.id}`);
+				}
 			}
 		} catch (error) {
 			console.error(error);
