@@ -24,7 +24,9 @@ export const HeadingsStructure = async ({ blogPostId }: HeadingsStructureProps) 
 	return (
 		<>
 			<div className="relative w-full rounded-2xl border-2 border-paleLavender bg-gradient-to-br from-white to-white-2 p-10 font-bold text-midnight">
-				{(!blogPostId || data.message) && !data?.blogPost && <SelectBlogPost />}
+				{(!blogPostId || data.message) && !data?.blogPost && (
+					<SelectBlogPost text="No blog posts found with heading structure" />
+				)}
 				{data?.blogPost && <Editor post={data.blogPost} token={token} />}
 			</div>
 		</>

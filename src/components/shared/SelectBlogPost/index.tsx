@@ -5,7 +5,7 @@ import { ExpandableCards } from "@/components/shared/ExpandableCards";
 
 import { useFetch } from "@/hooks/useFetch";
 
-export const SelectBlogPost = async ({ isContentPage }: SelectBlogPostProps) => {
+export const SelectBlogPost = async ({ isContentPage, text }: SelectBlogPostProps) => {
 	const data = await useFetch<StructureBlogPosts>({
 		endpoint: "/blog/getAllBlogPosts",
 		method: "POST",
@@ -20,7 +20,7 @@ export const SelectBlogPost = async ({ isContentPage }: SelectBlogPostProps) => 
 	return (
 		<>
 			<h2 className="mb-10 overflow-auto text-center text-xl text-midnight md:mb-20 md:text-3xl">
-				{noBlogPosts ? "No blog posts found with heading structure" : "Select blog post structure"}
+				{noBlogPosts ? text : "Select blog post structure"}
 			</h2>
 			<div className="mx-auto w-full max-w-xl">
 				{noBlogPosts ? (

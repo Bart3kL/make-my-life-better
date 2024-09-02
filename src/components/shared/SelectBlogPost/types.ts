@@ -1,5 +1,6 @@
 export interface SelectBlogPostProps {
 	isContentPage?: boolean;
+	text: string;
 }
 
 export type StructureBlogPosts = {
