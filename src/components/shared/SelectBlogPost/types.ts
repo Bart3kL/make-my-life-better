@@ -9,5 +9,6 @@ export type StructureBlogPosts = {
 		createdat: string;
 		image: string;
 		structure: string;
+		status: string;
 	}[];
 };

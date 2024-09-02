@@ -17,7 +17,7 @@ export const links = [
 	},
 	{
 		label: "Linkedin",
-		href: "/linkedin",
+		href: "/dashboard",
 		activeLink: ["/linkedin"],
 		icon: <CiLinkedin className="h-8 w-8 flex-shrink-0" />,
 	},

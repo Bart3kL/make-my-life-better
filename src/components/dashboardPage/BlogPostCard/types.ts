@@ -1,5 +1,5 @@
-export type MeteorCardProps = {
-	title: string;
-	image: string;
-	id: string;
-};
+import { type CardType } from "./Card/types";
+
+export interface BlogPostCardsProps {
+	posts: CardType[];
+}

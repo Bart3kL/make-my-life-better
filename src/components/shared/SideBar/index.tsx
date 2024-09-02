@@ -43,7 +43,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 							link={{
 								activeLink: ["/profile"],
 								label: `${me?.firstname} ${me?.lastname}`,
-								href: "/profile",
+								href: "/dashboard",
 								icon: <TbUserCircle className="h-8 w-8 flex-shrink-0 text-midnight" />,
 							}}
 						/>
