@@ -2,7 +2,7 @@ import { FormControl, MenuItem, Select } from "@mui/material";
 
 import { type StyleSelectorProps } from "./types";
 
-export const StyleSelector = ({ style, handleChange, handleSubmit }: StyleSelectorProps) => {
+export const StyleSelector = ({ style, handleChange, onSubmitHandler }: StyleSelectorProps) => {
 	return (
 		<div className="mx-auto w-full max-w-xl">
 			<h2 className="mb-10 text-center text-xl text-midnight md:mb-20 md:text-3xl">
@@ -33,7 +33,7 @@ export const StyleSelector = ({ style, handleChange, handleSubmit }: StyleSelect
 				<button
 					type="submit"
 					className="mt-6 rounded-md bg-midnight px-8 py-3 text-white"
-					onClick={handleSubmit}
+					onClick={onSubmitHandler}
 				>
 					Submit
 				</button>

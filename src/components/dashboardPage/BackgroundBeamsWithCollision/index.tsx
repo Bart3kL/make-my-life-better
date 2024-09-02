@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 
 import { beams } from "./constants";
+import { type BackgroundBeamsWithCollisionProps } from "./types";
 import { CollisionMechanism } from "@/components/dashboardPage/BackgroundBeamsWithCollision/CollisionMechanism";
 
 import { cn } from "@/lib/utils";
@@ -10,10 +11,7 @@ import { cn } from "@/lib/utils";
 export const BackgroundBeamsWithCollision = ({
 	children,
 	className,
-}: {
-	children: React.ReactNode;
-	className?: string;
-}) => {
+}: BackgroundBeamsWithCollisionProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const parentRef = useRef<HTMLDivElement>(null);
 

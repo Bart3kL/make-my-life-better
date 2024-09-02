@@ -4,6 +4,7 @@ export interface StepsState {
 	headerLength: string;
 	style: string;
 	currentStep: number;
+	loading: boolean;
 }
 
 export interface FormProps {
@@ -21,9 +22,14 @@ export type FormAction =
 	| {
 			type: "SET_STEP";
 			payload: number;
-	  };
+	  }
+	| { type: "SET_LOADING"; loading: boolean };
 
 export interface StepsProps {
 	token: string;
 	blogPost: PostProps;
+}
+export interface UseStepsReducerProps {
+	token: string;
+	post: PostProps;
 }

@@ -22,17 +22,11 @@ export type TForm = {
 export interface UseFormHandlerProps {
 	post: PostProps;
 	token: string;
-	isContentPage?: boolean;
-	style?: string;
-	headerLength?: string;
 }
 
 export interface EditorProps {
 	post: PostProps;
 	token: string;
-	isContentPage?: boolean;
-	style?: string;
-	headerLength?: string;
 }
 
 export type BlogState = {

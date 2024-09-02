@@ -34,15 +34,6 @@ export const Editor = ({ post, token }: EditorProps) => {
 					>
 						<p className="ml-2">Preview</p>
 					</Button>
-					{/* <Button color="primary" variant="outlined" onClick={() => router.back()}>
-						<FaArrowLeft /> <p className="ml-2">back</p>
-					</Button> */}
-					{/* {isContentPage ? (
-					) : (
-						<Button color="primary" type="submit" variant="outlined">
-							<p className="ml-2">Submit</p> <FaArrowLeft className="rotate-180" />
-						</Button>
-					)} */}
 				</nav>
 				<div className="h-full max-md:px-4">
 					<div className="m-auto max-w-[850px]">
