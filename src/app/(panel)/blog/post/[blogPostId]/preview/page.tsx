@@ -10,7 +10,6 @@ interface SearchParams {
 }
 
 export default async function PreviewBlogPost({ params }: { params: SearchParams }) {
-	console.log(params);
 	const response = await useFetch<BlogPostData>({
 		endpoint: `/blog/getBlogPost?blogPostId=${params.blogPostId}&status=prepared`,
 		method: "GET",
