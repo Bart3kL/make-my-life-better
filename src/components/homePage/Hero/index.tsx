@@ -5,7 +5,6 @@ import { links, headingWords } from "./constants";
 import { TypewriterEffectSmooth } from "@/components/shared/TypewriterEffectSmooth";
 import { Sparkles } from "@/components/shared/Sparkles";
 
-
 export function Hero() {
 	return (
 		<div className="relative h-screen w-screen overflow-hidden p-5">
@@ -13,8 +12,8 @@ export function Hero() {
 				<div className="flex flex-col items-center justify-center">
 					<TypewriterEffectSmooth words={headingWords} />
 					<p className="mb-10 text-center text-xs text-neutral-600 sm:text-base dark:text-neutral-200">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. consectetur adipisicing elit.
-						consectetur adipisicing elit.
+						Your ideas, our technology: We create unforgettable content. Let AI transform your
+						concepts into inspiring texts.
 					</p>
 					<div className="flex flex-col space-x-0 space-y-4 md:flex-row md:space-x-4 md:space-y-0">
 						<button className="h-10 w-40 rounded-xl border border-transparent bg-black text-sm text-white dark:border-white">

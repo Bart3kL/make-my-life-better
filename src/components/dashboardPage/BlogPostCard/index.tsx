@@ -6,7 +6,7 @@ import { Card } from "./Card";
 
 import { type BlogPostCardsProps } from "@/components/dashboardPage/BlogPostCard/types";
 
-export const BlogPosts = ({ posts }: BlogPostCardsProps) => {
+export const BlogPosts = ({ posts, token }: BlogPostCardsProps) => {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
 	return (
@@ -18,6 +18,7 @@ export const BlogPosts = ({ posts }: BlogPostCardsProps) => {
 					{...item}
 					setHoveredIndex={setHoveredIndex}
 					hoveredIndex={hoveredIndex}
+					token={token}
 				/>
 			))}
 		</div>

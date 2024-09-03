@@ -5,6 +5,8 @@ export const initialState: BlogState = {
 	url: "",
 	postType: "",
 	imageFile: null,
+	isTitleChanged: false,
+	isContentChanged: false,
 	isMounted: false,
 	loading: false,
 };
@@ -20,7 +22,16 @@ export const blogReducer = (state: BlogState, action: BlogAction): BlogState => 
 				...state,
 				imageFile: null,
 			};
-
+		case "SET_IS_TITLE_CHANGED":
+			return {
+				...state,
+				isTitleChanged: action.isTitleChanged,
+			};
+		case "SET_IS_CONTENT_CHANGED":
+			return {
+				...state,
+				isContentChanged: action.isContentChanged,
+			};
 		case "RESET_FORM":
 			return initialState;
 		case "SET_LOADING":

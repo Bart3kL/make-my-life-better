@@ -31,7 +31,7 @@ export const useStepsReducer = ({ post, token }: UseStepsReducerProps) => {
 				(block: { type: string }) => block.type === "header",
 			);
 			const updatedBlocks = await processHeadersSequentially(headers);
-			console.log(updatedBlocks);
+
 			const response = await fetch("/api/blog/updatePost", {
 				method: "PUT",
 				headers: {

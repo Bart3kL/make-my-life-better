@@ -45,6 +45,7 @@
 		"jose": "^5.7.0",
 		"jsonwebtoken": "^9.0.2",
 		"langchain": "^0.2.17",
+		"lodash.debounce": "^4.0.8",
 		"next": "14.2.5",
 		"nodemailer": "^6.9.14",
 		"openai": "^4.56.0",
@@ -64,6 +65,7 @@
 	"devDependencies": {
 		"@types/bcryptjs": "^2.4.6",
 		"@types/jsonwebtoken": "^9.0.6",
+		"@types/lodash.debounce": "^4.0.9",
 		"@types/mailgun-js": "^0.22.18",
 		"@types/node": "^20",
 		"@types/react": "^18",

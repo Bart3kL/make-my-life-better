@@ -8,7 +8,7 @@ export const BackButton = ({ id }: { id: string }) => {
 	const router = useRouter();
 	return (
 		<Button color="primary" variant="outlined" onClick={() => router.push(`/blog/post/${id}`)}>
-			<FaArrowLeft /> <p className="ml-2">back</p>
+			<FaArrowLeft /> <p className="ml-2">back to edit</p>
 		</Button>
 	);
 };

@@ -1,5 +1,6 @@
 export type CardProps = CardType & {
 	idx: number;
+	token: string;
 	hoveredIndex: number | null;
 	setHoveredIndex: (idx: number | null) => void;
 };

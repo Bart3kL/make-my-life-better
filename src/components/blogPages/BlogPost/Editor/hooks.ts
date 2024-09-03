@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useReducer, useRef, useEffect, useCallback, type FormEvent } from "react";
 import EditorJS, { type ToolConstructable } from "@editorjs/editorjs";
 import { useRouter } from "next/navigation";
@@ -37,6 +40,7 @@ export const useFormHandler = ({ post, token }: UseFormHandlerProps) => {
 			});
 			if (response.ok) {
 				router.push(`/blog/post/${post.id}/preview`);
+				router.refresh();
 			}
 		} catch (error) {
 			console.error(error);
@@ -108,6 +112,17 @@ export const useFormHandler = ({ post, token }: UseFormHandlerProps) => {
 				onReady: () => {
 					ref.current = editor;
 				},
+
+				onChange: async () => {
+					const currentBlocks = await ref.current?.save();
+					const originalBlocks = JSON.parse(post.structure);
+
+					const isContentSame =
+						currentBlocks &&
+						JSON.stringify(currentBlocks.blocks) === JSON.stringify(originalBlocks.blocks);
+
+					dispatch({ type: "SET_IS_CONTENT_CHANGED", isContentChanged: !isContentSame });
+				},
 			});
 		}
 	}, [post.structure]);
@@ -140,9 +155,18 @@ export const useFormHandler = ({ post, token }: UseFormHandlerProps) => {
 		};
 	}, [state.isMounted, initEditor]);
 
+	const onTitleChangeHandler = (e: any) => {
+		const newTitle = e.target.value;
+		const isTitleSame = newTitle === post.title;
+
+		dispatch({ type: "SET_FIELD", field: "title", value: newTitle });
+		dispatch({ type: "SET_IS_TITLE_CHANGED", isTitleChanged: !isTitleSame });
+	};
+
 	return {
 		state,
 		dispatch,
+		onTitleChangeHandler,
 		onSubmitHandler,
 	};
 };

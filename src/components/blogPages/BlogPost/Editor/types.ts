@@ -35,6 +35,8 @@ export type BlogState = {
 	postType: string;
 	imageFile: File | null | File[];
 	isMounted: boolean;
+	isTitleChanged: boolean;
+	isContentChanged: boolean;
 
 	loading: boolean;
 };
@@ -53,4 +55,6 @@ export type BlogAction =
 	| { type: "SET_ERRORS"; errors: Record<string, string> }
 	| { type: "SET_STEP"; payload: number }
 	| { type: "RESET_FORM" }
-	| { type: "SET_LOADING"; loading: boolean };
+	| { type: "SET_LOADING"; loading: boolean }
+	| { type: "SET_IS_CONTENT_CHANGED"; isContentChanged: boolean }
+	| { type: "SET_IS_TITLE_CHANGED"; isTitleChanged: boolean };

@@ -24,7 +24,7 @@ export const BasicInformations = ({ token }: BasicInformationsProps) => {
 
 	return (
 		<>
-			<div className="relative w-full overflow-hidden rounded-2xl border-2 border-paleLavender bg-gradient-to-br from-white to-white-2 p-10 font-bold text-midnight">
+			<div className="relative mt-5 w-full overflow-hidden rounded-2xl border-2 border-paleLavender bg-gradient-to-br from-white to-white-2 p-10 font-bold text-midnight">
 				{state.step === 1 && (
 					<BlogPostTitle
 						placeholders={blogTitlePlaceholders}
