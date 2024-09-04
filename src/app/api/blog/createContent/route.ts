@@ -30,18 +30,22 @@ export async function POST(request: NextRequest) {
 
 		const stream = await openai.chat.completions.create({
 			model: "gpt-4",
-			max_tokens: 50,
+			max_tokens: 1000,
 			messages: [
 				{
 					role: "system",
 					content: `
 					Title of blog post: ${title}
 					Write extensive content for the header provided by the user.
+
+					###
 					Headers: ${JSON.stringify(headers.map((h) => h.data.text))}
-					Każdy nagłówek ma mieć około ${headerLength} słów
+
+					###
+					Each header should be approximately ${headerLength} words long
 					
-					
-					Pisz w takim stylu wypowiedzi:
+					###
+					Write in this style and in Polish:
 					${selectedStyle}
 					`,
 				},
