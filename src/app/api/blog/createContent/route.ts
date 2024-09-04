@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
 					Each header should be approximately ${headerLength} words long
 					
 					###
+					The heading should have content in the form of paragraphs (paragraphs) without additional headings, lists, etc. There should be only paragraphs.
 					Write in this style:
 					${selectedStyle}
 					`,
