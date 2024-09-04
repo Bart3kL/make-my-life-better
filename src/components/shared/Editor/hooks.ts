@@ -32,6 +32,7 @@ export const useFormHandler = ({ post, token }: UseFormHandlerProps) => {
 				},
 				cache: "no-cache",
 				body: JSON.stringify({
+					title: state.title,
 					structure: JSON.stringify(savedBlocks),
 					status: "draft",
 					postId: post.id,

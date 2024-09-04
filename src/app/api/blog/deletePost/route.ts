@@ -48,7 +48,6 @@ export async function DELETE(request: NextRequest) {
 			);
 		}
 
-		// Usuwanie wpisu
 		await sql`
             DELETE FROM blogPosts 
             WHERE id = ${postId}
