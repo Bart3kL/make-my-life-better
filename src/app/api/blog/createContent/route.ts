@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
 		const selectedStyle = languaesType[style as keyof typeof languaesType];
 
 		const stream = await openai.chat.completions.create({
-			model: "gpt-4",
+			model: "gpt-4o",
 			max_tokens: 1000,
 			messages: [
 				{
