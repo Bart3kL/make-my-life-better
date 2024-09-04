@@ -28,5 +28,5 @@ export const generateBlogPostStructure = ({
   - Adding format specifiers such as "json", "html", or "javascript"
   - Returning anything other than a plain array of strings
 
-  Ensure the response is in Polish and strictly adheres to the correct format.
+  Ensure strictly adheres to the correct format.
 `;

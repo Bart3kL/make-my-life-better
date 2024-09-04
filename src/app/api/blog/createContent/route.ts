@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 					Each header should be approximately ${headerLength} words long
 					
 					###
-					Write in this style and in Polish:
+					Write in this style:
 					${selectedStyle}
 					`,
 				},
