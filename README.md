@@ -70,6 +70,7 @@ Technologies used in the project:
 *   Vercel
 *   Tailwind
 *   openAi
+*   typScript
 
 <h2>Project Screenshots:</h2>
 
