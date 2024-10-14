@@ -10,7 +10,7 @@ export const File = ({ idx, file, handleDelete }: FileProps) => {
 			key={"file" + idx}
 			layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
 			className={cn(
-				"relative z-40 mx-auto mt-4 flex w-full flex-col items-start justify-start overflow-hidden rounded-md bg-white p-4 dark:bg-neutral-900",
+				"relative z-40 mx-auto mt-4 flex w-full flex-col items-start justify-start overflow-hidden rounded-md bg-neutral-900",
 				"shadow-sm",
 			)}
 		>
@@ -19,7 +19,7 @@ export const File = ({ idx, file, handleDelete }: FileProps) => {
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					layout
-					className="max-w-xs truncate text-base text-neutral-700 dark:text-neutral-300"
+					className="max-w-xs truncate text-base text-neutral-300"
 				>
 					{file.name}
 				</motion.p>
@@ -27,18 +27,18 @@ export const File = ({ idx, file, handleDelete }: FileProps) => {
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					layout
-					className="w-fit flex-shrink-0 rounded-lg px-2 py-1 text-sm text-neutral-600 shadow-input dark:bg-neutral-800 dark:text-white"
+					className="w-fit flex-shrink-0 rounded-lg bg-neutral-800 px-2 py-1 text-sm text-white shadow-input"
 				>
 					{(file.size / (1024 * 1024)).toFixed(2)} MB
 				</motion.p>
 			</div>
 
-			<div className="mt-2 flex w-full flex-col items-start justify-between text-sm text-neutral-600 md:flex-row md:items-center dark:text-neutral-400">
+			<div className="mt-2 flex w-full flex-col items-start justify-between text-sm text-neutral-400 md:flex-row md:items-center">
 				<motion.p
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					layout
-					className="rounded-md bg-gray-100 px-1 py-0.5 dark:bg-neutral-800"
+					className="rounded-md bg-neutral-800 px-1 py-0.5"
 				>
 					{file.type}
 				</motion.p>
@@ -48,7 +48,7 @@ export const File = ({ idx, file, handleDelete }: FileProps) => {
 				</motion.p>
 			</div>
 			<button
-				className="mt-2 rounded bg-red-500 p-1 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-500"
+				className="mt-2 rounded bg-red-700 text-white hover:bg-red-500"
 				onClick={(e) => handleDelete(e, file)}
 			>
 				<AiOutlineDelete />

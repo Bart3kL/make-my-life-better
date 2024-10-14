@@ -54,14 +54,12 @@ export const Links = ({
 	return (
 		<div className="mt-5 flex flex-col space-y-4">
 			{passwordResetLinkMessage && (
-				<div className="mt-2 text-center text-green-600 dark:text-green-400">
-					{passwordResetLinkMessage}
-				</div>
+				<div className="mt-2 text-center text-green-400">{passwordResetLinkMessage}</div>
 			)}
 			{getLinkDetails().map(({ message, linkText, href }) => (
-				<p key={href}>
+				<p key={href} className="text-neutral-300">
 					{message}{" "}
-					<Link href={href} className="text-neutral-700 underline dark:text-neutral-300">
+					<Link href={href} className="text-neutral-300 underline">
 						{linkText}
 					</Link>
 				</p>

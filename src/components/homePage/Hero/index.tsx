@@ -11,12 +11,12 @@ export function Hero() {
 			<div className="relative top-[13%] z-20 mx-auto max-w-2xl">
 				<div className="flex flex-col items-center justify-center">
 					<TypewriterEffectSmooth words={headingWords} />
-					<p className="mb-10 text-center text-xs text-neutral-600 sm:text-base dark:text-neutral-200">
+					<p className="mb-10 text-center text-xs text-neutral-200 sm:text-base">
 						Your ideas, our technology: We create unforgettable content. Let AI transform your
 						concepts into inspiring texts.
 					</p>
 					<div className="flex flex-col space-x-0 space-y-4 md:flex-row md:space-x-4 md:space-y-0">
-						<button className="h-10 w-40 rounded-xl border border-transparent bg-black text-sm text-white dark:border-white">
+						<button className="h-10 w-40 rounded-xl border border-transparent border-white bg-black text-sm text-white">
 							<Link href="/signup" className="flex h-full w-full items-center justify-center">
 								Join now
 							</Link>

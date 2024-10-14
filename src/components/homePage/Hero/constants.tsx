@@ -33,6 +33,6 @@ export const headingWords = [
 	},
 	{
 		text: "Better.",
-		className: "text-blue-500 dark:text-blue-500",
+		className: "text-blue-500",
 	},
 ];

@@ -45,7 +45,7 @@ export function PlaceholdersAndVanishInput({
 		>
 			<canvas
 				className={cn(
-					"pointer-events-none absolute left-2 top-[20%] origin-top-left scale-50 transform pr-20 text-base invert filter sm:left-8 dark:invert-0",
+					"pointer-events-none absolute left-2 top-[20%] origin-top-left scale-50 transform pr-20 text-base invert-0 filter sm:left-8",
 					!animating ? "opacity-0" : "opacity-100",
 				)}
 				ref={canvasRef}
@@ -64,7 +64,7 @@ export function PlaceholdersAndVanishInput({
 				autoComplete="off"
 				className={cn(
 					"relative z-50 h-full w-full rounded-full border-none bg-transparent pl-4 pr-20 text-sm text-midnight focus:outline-none focus:ring-0 sm:pl-10 sm:text-base",
-					animating && "text-transparent dark:text-transparent",
+					animating && "text-transparent",
 				)}
 			/>
 			<Button value={value} handleSubmit={handleSubmit} />

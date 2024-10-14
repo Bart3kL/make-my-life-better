@@ -35,12 +35,12 @@ export const FileUpload = ({ onChange, onDelete, files, isImageUpload }: FileUpl
 					multiple={!isImageUpload}
 				/>
 				<div className="flex flex-col items-center justify-center">
-					<p className="relative z-20 font-sans text-base font-bold text-neutral-700 dark:text-neutral-300">
+					<p className="relative z-20 font-sans text-base font-bold text-neutral-300">
 						{isImageUpload
 							? "Upload image (only .jpeg, .png, .gif, .svg, .webp)"
 							: "Upload file (only .txt)"}
 					</p>
-					<p className="relative z-20 mt-2 font-sans text-base font-normal text-neutral-400 dark:text-neutral-400">
+					<p className="relative z-20 mt-2 font-sans text-base font-normal text-neutral-400">
 						Drag or drop your {isImageUpload ? "image" : "files"} here or click to upload
 					</p>
 					<div className="relative mx-auto mt-10 w-full max-w-xl">

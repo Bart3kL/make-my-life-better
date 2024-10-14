@@ -73,7 +73,7 @@ export function ExpandableCards({ cards, isContentPage }: ExpandableCardsProps) 
 							<motion.div
 								layoutId={`card-${active.title}-${id}`}
 								ref={ref}
-								className="flex h-full w-full max-w-[500px] flex-col overflow-hidden bg-white sm:rounded-3xl md:h-fit md:max-h-[90%] dark:bg-neutral-900"
+								className="flex h-full w-full max-w-[500px] flex-col overflow-hidden bg-neutral-900 sm:rounded-3xl md:h-fit md:max-h-[90%]"
 							>
 								<motion.div layoutId={`image-${active.title}-${id}`}>
 									<Image
@@ -91,13 +91,13 @@ export function ExpandableCards({ cards, isContentPage }: ExpandableCardsProps) 
 										<div className="">
 											<motion.h3
 												layoutId={`title-${active.title}-${id}`}
-												className="font-bold text-neutral-700 dark:text-neutral-200"
+												className="font-bold text-neutral-200"
 											>
 												{active.title}
 											</motion.h3>
 											<motion.p
 												layoutId={`createdat-${active.createdat}-${active.title}-${id}`}
-												className="text-neutral-600 dark:text-neutral-400"
+												className="text-neutral-400"
 											>
 												{active.createdat}
 											</motion.p>
@@ -117,7 +117,7 @@ export function ExpandableCards({ cards, isContentPage }: ExpandableCardsProps) 
 											initial={{ opacity: 0 }}
 											animate={{ opacity: 1 }}
 											exit={{ opacity: 0 }}
-											className="flex h-40 flex-col items-start gap-4 overflow-auto pb-10 text-xs text-neutral-600 [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] md:h-fit md:text-sm lg:text-base dark:text-neutral-400"
+											className="flex h-40 flex-col items-start gap-4 overflow-auto pb-10 text-xs text-neutral-400 [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] md:h-fit md:text-sm lg:text-base"
 										>
 											{isContentPage
 												? Array.isArray(active.headings)

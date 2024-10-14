@@ -20,24 +20,17 @@ export const LoaderCore = ({ loadingStates, value = 0 }: LoaderCoreProps) => {
 						transition={{ duration: 0.2 }}
 					>
 						<div>
-							{index > value && (
-								<IoIosCheckmarkCircleOutline className="h-6 w-6 text-black dark:text-white" />
-							)}
+							{index > value && <IoIosCheckmarkCircleOutline className="h-6 w-6 text-white" />}
 							{index <= value && (
 								<IoIosCheckmarkCircle
 									className={cn(
-										"h-6 w-6 text-black dark:text-white",
-										value === index && "text-black opacity-100 dark:text-lime-500",
+										"h-6 w-6 text-white",
+										value === index && "text-lime-500 opacity-100",
 									)}
 								/>
 							)}
 						</div>
-						<span
-							className={cn(
-								"text-black dark:text-white",
-								value === index && "text-black opacity-100 dark:text-lime-500",
-							)}
-						>
+						<span className={cn("text-white", value === index && "text-lime-500 opacity-100")}>
 							{loadingState.text}
 						</span>
 					</motion.div>

@@ -27,10 +27,10 @@ export const UploadArea = ({ isDragActive }: UploadAreaProps) => {
 					className="flex flex-col items-center text-neutral-600"
 				>
 					Drop it
-					<AiOutlineUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
+					<AiOutlineUpload className="h-4 w-4 text-neutral-400" />
 				</motion.p>
 			) : (
-				<AiOutlineUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-300" />
+				<AiOutlineUpload className="h-4 w-4 text-neutral-300" />
 			)}
 		</motion.div>
 	);

@@ -14,7 +14,7 @@ export function Form({ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage
 	});
 
 	return (
-		<div className="mx-auto w-full max-w-md rounded-2xl bg-white p-4 shadow-input md:p-8 dark:bg-black">
+		<div className="mx-auto w-full max-w-md rounded-2xl bg-black p-4 shadow-input md:p-8">
 			<form className="my-8" onSubmit={handleSubmit}>
 				{isEnterNewPasswordPage ? (
 					<PasswordResetFields state={state} handleChange={handleChange} />
@@ -31,9 +31,7 @@ export function Form({ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage
 					config={{ isSignInPage, isResetPasswordPage, isEnterNewPasswordPage }}
 				/>
 				{state.errors.form && (
-					<p className="mb-4 mt-5 text-center text-red-600 dark:text-red-500">
-						{state.errors.form}
-					</p>
+					<p className="mb-4 mt-5 text-center text-red-500">{state.errors.form}</p>
 				)}
 				<Links
 					isSignInPage={isSignInPage}
