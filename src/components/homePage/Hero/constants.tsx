@@ -1,4 +1,4 @@
-import { FaGithub, FaLinkedin, FaPenAlt } from "react-icons/fa";
+import { FaGithub, FaPenAlt } from "react-icons/fa";
 
 export const links = [
 	{
@@ -6,11 +6,11 @@ export const links = [
 		title: "GitHub",
 		url: "https://github.com/Bart3kL",
 	},
-	{
-		icon: <FaLinkedin className="h-7 w-7" />,
-		title: "Linkedin",
-		url: "https://www.linkedin.com/in/bartosz-lewandowski-458130266/",
-	},
+	// {
+	// 	icon: <FaLinkedin className="h-7 w-7" />,
+	// 	title: "Linkedin",
+	// 	url: "https://www.linkedin.com/in/bartosz-lewandowski-458130266/",
+	// },
 	{
 		icon: <FaPenAlt className="h-7 w-7" />,
 		title: "Blog",

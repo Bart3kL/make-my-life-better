@@ -1,6 +1,6 @@
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { IoNewspaperOutline } from "react-icons/io5";
-import { CiLinkedin, CiLogout } from "react-icons/ci";
+import { CiLogout } from "react-icons/ci";
 
 export const links = [
 	{
@@ -15,12 +15,12 @@ export const links = [
 		activeLink: ["/blog", "/blog/structure", "/blog/content"],
 		icon: <IoNewspaperOutline className="h-8 w-8 flex-shrink-0" />,
 	},
-	{
-		label: "Linkedin",
-		href: "/dashboard",
-		activeLink: ["/linkedin"],
-		icon: <CiLinkedin className="h-8 w-8 flex-shrink-0" />,
-	},
+	// {
+	// 	label: "Linkedin",
+	// 	href: "/dashboard",
+	// 	activeLink: ["/linkedin"],
+	// 	icon: <CiLinkedin className="h-8 w-8 flex-shrink-0" />,
+	// },
 	{
 		label: "Logout",
 		href: "/",
